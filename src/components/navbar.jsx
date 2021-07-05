@@ -1,14 +1,38 @@
-import React, { Component } from "react";
-import { Button } from "@material-ui/core";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 
-class Navbar extends Component {
-  render() {
-    return (
-      <div>
-        <Button color="secondary">The nav bar </Button>
-      </div>
-    );
-  }
+const useStyles = makeStyles(() => ({
+  root: {
+    flexGrow: 1,
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
+
+export default function NavBar() {
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <AppBar position="fixed" style={{ margin: 0 }}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          ></IconButton>
+          <Typography variant="h6" className={classes.title}>
+            SoteriaX
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
-
-export default Navbar;
