@@ -7,6 +7,11 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles(() => ({
+  palette: {
+    secondary: {
+      main: '#ff6d33'
+    }
+  },
   root: {
     flexGrow: 1,
   },
@@ -19,7 +24,7 @@ export default function NavBar() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" style={{ margin: 0 }}>
+      <AppBar position="fixed" style={{ margin: 0 , opacity:1}} color="primary">
         <Toolbar>
           <IconButton
             edge="start"
@@ -30,7 +35,7 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
             SoteriaX
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="primary" variant="contained">Login</Button>
         </Toolbar>
       </AppBar>
     </div>
