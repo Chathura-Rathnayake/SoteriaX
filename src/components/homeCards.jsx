@@ -1,6 +1,5 @@
 import React from "react";
 import "../assets/css/homeCards.css";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -8,8 +7,6 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-
-import { BottomNavigationAction } from "@material-ui/core";
 
 //card images
 import card1 from "../assets/images/card1.jpg";
@@ -20,21 +17,9 @@ import card4 from "../assets/images/card4.jpg";
 //The animations for cards
 import AOS from "aos";
 import "aos/dist/aos.css";
-AOS.init();
 
-const theme = createMuiTheme({
-  palette: {
-    Typography: {
-      fontSize: 36,
-    },
-    primary: {
-      main: "#2196f3",
-    },
-    secondary: {
-      main: "#e65100",
-    },
-  },
-});
+
+AOS.init();
 
 const useStyles = makeStyles({
   root: {
@@ -49,20 +34,10 @@ export default function HomeCards() {
   const classes = useStyles();
 
   return (
-    <div>
-      <ThemeProvider theme={theme}>
+    <div className="cardSpace">
         <br></br>
         <br></br>
-        <Typography variant="h2" color="secondary" align="center">
-          This is SoteriaX
-        </Typography>
-        <Typography variant="h5" color="inherit" align="center">
-          An IoT based application which provides the lifeguard rescue
-          assistance via drones.
-        </Typography>
-        <br></br>
-        <br></br>
-        <br></br>
+        <Typography variant="h4" color="initial" align="center">Our Services</Typography><br></br>
         <Grid container spacing={2} justify="center">
           <Grid item>
             <div data-aos="fade-up">
@@ -173,7 +148,6 @@ export default function HomeCards() {
             </div>
           </Grid>
         </Grid>
-      </ThemeProvider>
     </div>
   );
 }

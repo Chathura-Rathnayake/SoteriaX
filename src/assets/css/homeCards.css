@@ -1,3 +1,7 @@
-.body{
-    /* background-color: aqua; */
+.body,html{
+    background-color: #F6F6F6;
+}
+
+.cardSpace{
+    background-color: #F5F7FD;
 }
