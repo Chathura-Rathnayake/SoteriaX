@@ -7,14 +7,19 @@ import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 
+import { BottomNavigationAction } from "@material-ui/core";
+
+//card images
+import card1 from "../assets/images/card1.jpg";
+import card2 from "../assets/images/card2.jpg";
+import card3 from "../assets/images/card3.jpg";
+import card4 from "../assets/images/card4.jpg";
+
+//The animations for cards
 import AOS from "aos";
 import "aos/dist/aos.css";
-
-
 AOS.init();
 
 const theme = createMuiTheme({
@@ -33,7 +38,7 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: 320, //345
   },
   media: {
     height: 140,
@@ -46,126 +51,127 @@ export default function HomeCards() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-          <Typography variant="h2" color="initial" align="center">
-              Who are we?
-          </Typography>
-        <Grid container spacing={3}>
-          <div data-aos="fade-up">
-            <Grid item spacing={1}>
-              <Paper>
-                <Card className={classes.root}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image="/static/images/cards/contemplative-reptile.jpg"
-                      title="drone assistance1"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Drone Assistance
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        Providing a resuce tube quickly and efficiently for the
-                        drowning victim via a drone.
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Paper>
-            </Grid>
-          </div>
+        <br></br>
+        <br></br>
+        <Typography variant="h2" color="secondary" align="center">
+          This is SoteriaX
+        </Typography>
+        <Typography variant="h5" color="inherit" align="center">
+          An IoT based application which provides the lifeguard rescue
+          assistance via drones.
+        </Typography>
+        <br></br>
+        <br></br>
+        <br></br>
+        <Grid container spacing={2} justify="center">
+          <Grid item>
+            <div data-aos="fade-up">
+              <Card className={classes.root}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={card1}
+                    title="drone assistance1"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Drone Assistance
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Providing a resuce tube quickly and efficiently for the
+                      drowning victim via a drone.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </div>
+          </Grid>
 
-          <div data-aos="fade-up">
-            <Grid item spacing={1}>
-              <Paper>
-                <Card className={classes.root}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image="/static/images/cards/contemplative-reptile.jpg"
-                      title="drone assistance2"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Situational Awareness
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        Overseeing the whole operation using the realtime video
-                        feed from the drone.
-                        {/* And guiding the lifeguard in action via the speaker mounted to the drone. */}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Paper>
-            </Grid>
-          </div>
+          <Grid item>
+            <div data-aos="fade-up">
+              <Card className={classes.root}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={card2}
+                    title="drone assistance2"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Situational Awareness
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Overseeing the whole operation using the realtime video
+                      feed from the drone.
+                      {/* And guiding the lifeguard in action via the speaker mounted to the drone. */}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </div>
+          </Grid>
 
-          <div data-aos="fade-up">
-            <Grid item spacing={1}>
-              <Paper>
-                <Card className={classes.root}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image="/static/images/cards/contemplative-reptile.jpg"
-                      title="drone assistance3"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Lifeguard Training
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        Training lifeguards with the help of the features
-                        provided by the mobile application
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Paper>
-            </Grid>
-          </div>
+          <Grid item>
+            <div data-aos="fade-up">
+              <Card className={classes.root}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={card3}
+                    title="drone assistance3"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Lifeguard Training
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Training lifeguards with the help of the features provided
+                      by the mobile application
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </div>
+          </Grid>
 
-          <div data-aos="fade-up">
-            <Grid item spacing={1}>
-              <Paper>
-                <Card className={classes.root}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image="/static/images/cards/contemplative-reptile.jpg"
-                      title="drone assistance3"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Quick Reaction
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        Quickly reacting and informing relevant parties such as
-                        hospitals and police stations.
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Paper>
-            </Grid>
-          </div>
+          <Grid item>
+            <div data-aos="fade-up">
+              <Card className={classes.root}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={card4}
+                    title="drone assistance4"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Quick Reaction
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Quickly reacting and informing relevant parties such as
+                      hospitals and police stations.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </div>
+          </Grid>
         </Grid>
       </ThemeProvider>
     </div>
