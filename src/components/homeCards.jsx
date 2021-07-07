@@ -18,7 +18,6 @@ import card4 from "../assets/images/card4.jpg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-
 AOS.init();
 
 const useStyles = makeStyles({
@@ -35,119 +34,128 @@ export default function HomeCards() {
 
   return (
     <div className="cardSpace">
-        <br></br>
-        <br></br>
-        <Typography variant="h4" color="initial" align="center">Our Services</Typography><br></br>
-        <Grid container spacing={2} justify="center">
-          <Grid item>
-            <div data-aos="fade-up">
-              <Card className={classes.root}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={card1}
-                    title="drone assistance1"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Drone Assistance
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      Providing a resuce tube quickly and efficiently for the
-                      drowning victim via a drone.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </div>
-          </Grid>
-
-          <Grid item>
-            <div data-aos="fade-up">
-              <Card className={classes.root}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={card2}
-                    title="drone assistance2"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Situational Awareness
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      Overseeing the whole operation using the realtime video
-                      feed from the drone.
-                      {/* And guiding the lifeguard in action via the speaker mounted to the drone. */}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </div>
-          </Grid>
-
-          <Grid item>
-            <div data-aos="fade-up">
-              <Card className={classes.root}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={card3}
-                    title="drone assistance3"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Lifeguard Training
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      Training lifeguards with the help of the features provided
-                      by the mobile application
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </div>
-          </Grid>
-
-          <Grid item>
-            <div data-aos="fade-up">
-              <Card className={classes.root}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={card4}
-                    title="drone assistance4"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Quick Reaction
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      Quickly reacting and informing relevant parties such as
-                      hospitals and police stations.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </div>
-          </Grid>
+      <br></br>
+      <br></br>
+      <Typography variant="h4" color="initial" align="center">
+        Our Services
+      </Typography>
+      <br></br>
+      <Grid container spacing={2} justify="center">
+        <Grid item>
+          <div data-aos="fade-up">
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image={card1}
+                  title="drone assistance1"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Drone Assistance
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Providing a resuce tube quickly and efficiently for the
+                    drowning victim via a drone.
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>
         </Grid>
+
+        <Grid item>
+          <div data-aos="fade-up">
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image={card2}
+                  title="drone assistance2"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Situational Awareness
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Overseeing the whole operation using the realtime video feed
+                    from the drone.
+                    {/* And guiding the lifeguard in action via the speaker mounted to the drone. */}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>
+        </Grid>
+
+        <Grid item>
+          <div data-aos="fade-up">
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image={card3}
+                  title="drone assistance3"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Lifeguard Training
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Training lifeguards with the help of the features provided
+                    by the mobile application
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>
+        </Grid>
+
+        <Grid item>
+          <div data-aos="fade-up">
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image={card4}
+                  title="drone assistance4"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Quick Reaction
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Quickly reacting and informing relevant parties such as
+                    hospitals and police stations.
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>
+        </Grid>
+      </Grid>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 }

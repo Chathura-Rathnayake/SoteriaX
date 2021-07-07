@@ -1,0 +1,11 @@
+.footerSpace {
+  padding: 20px;
+  background-color: #3f3f3f;
+  height: 60px;
+  color: rgb(226, 226, 226);
+}
+
+.parent > .child {
+  display: inline-block;
+}
+

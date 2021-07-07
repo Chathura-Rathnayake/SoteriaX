@@ -1,22 +1,38 @@
 import React from "react";
-import { List } from '@material-ui/core';
-import { ListItem } from '@material-ui/core';
+import Typography from "@material-ui/core/Typography";
+import "../assets/css/footer.css";
 
-const flexContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 0,
-  };
- 
-  export default function Footer() {
+import CopyrightRoundedIcon from "@material-ui/icons/CopyrightRounded";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import Grid from "@material-ui/core/Grid";
+
+export default function Footer() {
   return (
-    <List style={flexContainer}>
-      <ListItem
-        primaryText="foo1"
-        secondaryText="bar1"/>
-      <ListItem
-        primaryText="foo2"
-        secondaryText="bar2"/>
-    </List>
+    <div className="footerSpace">
+      {" "}
+      <center>
+        <div className="parent">
+          <div className="child">
+            {" "}
+            <FacebookIcon />
+          </div>
+          <div className="child">
+            <InstagramIcon />
+          </div>
+          <div className="child">
+            <LinkedInIcon />
+          </div>
+        </div>
+        <div className="parent">
+          <div className="child">
+            <Typography variant="subtitle1" color="initial">
+              2021 SoteriaX. All Rights Reserved.
+            </Typography>
+          </div>
+        </div>
+      </center>
+    </div>
   );
-  }
+}
