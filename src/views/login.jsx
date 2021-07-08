@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         left: 0,
         top: 0,
         width: "100%",
-        height: '100%',
+        height: "auto",
     },
     mainDiv:{
         position:"relative",
@@ -67,7 +67,12 @@ const useStyles = makeStyles((theme) => ({
       IconButton:{
           height:"30px",
           width:"30px",
-      }
+      },
+      logo:{
+          height:"40%",
+          width:"40%",
+
+      },
 
 }));
 
@@ -91,7 +96,7 @@ const Login = () => {
         {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar> */}
-        <img src={image} height={100} width={100} />
+        <img src={image} className={classes.logo} />
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
