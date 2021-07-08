@@ -46,7 +46,7 @@ export default function NavBar() {
           <Button variant="text" style={{ marginRight: 50 ,fontWeight:"bold",color:"white" }}>
             About Us
           </Button>
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" href="/login">
             Login
           </Button>
         </Toolbar>
