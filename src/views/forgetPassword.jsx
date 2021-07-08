@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const Login = () => {
+const ForgetPassword = () => {
     const classes = useStyles();
 
     return (
@@ -94,7 +94,7 @@ const Login = () => {
         </Avatar> */}
         <img src={image} className={classes.logo} />
         <Typography component="h1" variant="h5">
-          Sign in
+          Forgot Password? 
         </Typography>
 
         
@@ -116,17 +116,10 @@ const Login = () => {
             autoComplete="email"
             autoFocus
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
+
+          <Typography variant="h10" color="textSecondary" align={"center"}>
+              Request link will be sent to your email. Please click the link and reset your password.
+          </Typography>
 
           <Button
             type="submit"
@@ -136,19 +129,10 @@ const Login = () => {
             //style={{backgroundColor: '#fa931d', color: '#FFFFFF'}}
             className={classes.submit}
           >
-            Sign In
-
+            Reset Password
           </Button>
-            <div style={{alignItems: 'center'}}>
-              <Link href="/forgetPassword" variant="body2">
-                Forgot password?
-              </Link>
-            </div>
         </form> 
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
 
         </div></div>
@@ -156,4 +140,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default ForgetPassword;
