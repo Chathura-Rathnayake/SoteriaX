@@ -3,12 +3,13 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import homePage from "./views/homePage";
+import aboutPage from "./views/aboutPage";
 
 ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/" component={homePage} />
-      {/* <Route exact path="/about" component={Aboutpage} /> */} 
+      <Route exact path="/aboutPage" component={aboutPage} /> 
     </Switch>
   </Router>,
   document.getElementById("root")
