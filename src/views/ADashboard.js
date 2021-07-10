@@ -9,7 +9,7 @@ import Layout from '../components/Layout';
 
 const useStyles = makeStyles({
   bot:{
-    marginBottom:35,
+    marginBottom:10,
   },
 });
 export default function ADashboard() {
@@ -19,20 +19,22 @@ export default function ADashboard() {
     <Layout>
     <Container size="sm">
       <Typography
-        variant="h3" 
+        variant="h6" 
         color="textSecondary"
-        gutterBottom
+        
       >
       Dashboard - Lifecorp(Pvt) Ltd
-      <div class={classes.bot}></div>
-      <Simplemap />
       </Typography>
+      
+      <Simplemap />
+      <div class={classes.bot}></div>
+     
       <Grid container spacing={3}>
         <Grid item xs={3}>
           <SimpleCard name='Incidents Logged' num='12' />  
         </Grid>
         <Grid item xs={3}>
-          <SimpleCard name='Members Registred' num='2' />  
+          <SimpleCard name='Members Registred' num='7' />  
         </Grid>
         <Grid item xs={3}>
           <SimpleCard name='Users Active' num='2' />  

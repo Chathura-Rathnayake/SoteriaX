@@ -34,7 +34,7 @@ export default function SimpleCard(props) {
         </Typography>
         <Typography variant="h6" align="center" color="Secondary" >{props.name}</Typography>
         <div class={classes.bot}></div>
-        <Typography variant="h4" align="center" color="textSecondary">{props.num}</Typography>
+        <Typography variant="h4"  align="center" color="textSecondary">{props.num}</Typography>
       </CardContent>
       <CardActions>
         <Button size="small"></Button>

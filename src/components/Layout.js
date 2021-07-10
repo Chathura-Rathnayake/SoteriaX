@@ -15,6 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 // import { format } from 'date-fns'
 import Avatar from '@material-ui/core/Avatar'
 import uxceo from "../assets/images/headguard.png";
+import logo from "../assets/icons/logoColor.png";
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => {
@@ -23,6 +24,9 @@ const useStyles = makeStyles((theme) => {
       background: '#f9f9f9',
       width: '100%',
       padding: theme.spacing(3),
+    },
+    bot:{
+      marginBottom:30,
     },
     root: {
       display: 'flex',
@@ -64,6 +68,7 @@ export default function Layout({ children }) {
   const location = useLocation()
 
   const menuItems = [
+
     { 
       text: 'Live Operation', 
       icon: <PlayArrow color="black" />, 
@@ -135,13 +140,20 @@ export default function Layout({ children }) {
         classes={{ paper: classes.drawerPaper }}
         anchor="left"
       >
-        <div>
-          <Typography 
-          variant="h5" align="center" fontWeight='700' className={classes.title}>
-           SoteriaX
-          </Typography>
-        </div>
-
+        <div class={classes.bot}></div>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center" 
+          >
+          <Box
+            maxHeight="12vh"
+            maxWidth="11vw"
+          >
+          <img href=" " src={logo}  alt="" />
+          </Box>
+        </Box>
+        <div class={classes.bot}></div>
         {/* links/list section */}
         <Box>
         <List>
