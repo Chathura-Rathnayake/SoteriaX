@@ -36,9 +36,31 @@ export default function HomeCards() {
     <div className="cardSpace">
       <br></br>
       <br></br>
-      <Typography variant="h4" color="initial" align="center">
-        Our Services
-      </Typography>
+      <br></br>
+      <br></br>
+      <div data-aos="fade-up">
+        {" "}
+        <Typography
+          variant="h4"
+          align="center"
+          style={{
+            fontFamily: " 'Amiko', sans-serif",
+            color: "#474747",
+          }}
+        >
+          Our Services
+        </Typography>
+        <Typography
+          variant="h6"
+          align="center"
+          style={{
+            color: "#474747",
+          }}
+        >
+          - SoteriaX offers following services -{" "}
+        </Typography>
+      </div>
+
       <br></br>
       <Grid container spacing={2} justify="center">
         <Grid item>
