@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
         boarder:"20%",
         backgroundColor: "white",
         borderRadius: "10px",
+        paddingBottom:50,
     },
     paper: {
         marginTop: theme.spacing(8),
@@ -116,11 +117,12 @@ const ForgetPassword = () => {
             autoComplete="email"
             autoFocus
           />
-
+          <br/><br/>
+        <div class={{marginBottom:100}}> 
           <Typography variant="h10" color="textSecondary" align={"center"}>
               Request link will be sent to your email. Please click the link and reset your password.
           </Typography>
-
+          <br/><br/>
           <Button
             type="submit"
             fullWidth
@@ -131,6 +133,7 @@ const ForgetPassword = () => {
           >
             Reset Password
           </Button>
+          </div>
         </form> 
       </div>
     </Container>
