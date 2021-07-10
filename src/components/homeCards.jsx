@@ -71,15 +71,28 @@ export default function HomeCards() {
                   className={classes.media}
                   image={card1}
                   title="drone assistance1"
-                />
+                />{" "}
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography
+                    gutterBottom
+                    align="center"
+                    variant="h5"
+                    component="h2"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                    }}
+                  >
                     Drone Assistance
                   </Typography>
                   <Typography
+                    align="center"
                     variant="body2"
                     color="textSecondary"
                     component="p"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: 12,
+                    }}
                   >
                     Providing a resuce tube quickly and efficiently for the
                     drowning victim via a drone.
@@ -100,10 +113,23 @@ export default function HomeCards() {
                   title="drone assistance2"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    align="center"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                    }}
+                  >
                     Situational Awareness
                   </Typography>
                   <Typography
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: 12,
+                    }}
+                    align="center"
                     variant="body2"
                     color="textSecondary"
                     component="p"
@@ -128,13 +154,26 @@ export default function HomeCards() {
                   title="drone assistance3"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    align="center"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                    }}
+                  >
                     Lifeguard Training
                   </Typography>
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     component="p"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: 12,
+                    }}
+                    align="center"
                   >
                     Training lifeguards with the help of the features provided
                     by the mobile application
@@ -155,13 +194,27 @@ export default function HomeCards() {
                   title="drone assistance4"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+           
+                    }}
+                    align="center"
+                  >
                     Quick Reaction
                   </Typography>
                   <Typography
                     variant="body2"
                     color="textSecondary"
                     component="p"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: 12,
+                    }}
+                    align="center"
                   >
                     Quickly reacting and informing relevant parties such as
                     hospitals and police stations.
