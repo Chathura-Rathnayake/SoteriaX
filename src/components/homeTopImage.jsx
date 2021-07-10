@@ -6,6 +6,7 @@ import "../assets/css/homeTopImage.css";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
+
 const theme = createMuiTheme({
   palette: {
     Typography: {
@@ -27,13 +28,37 @@ export default function HomeTopImage() {
         <div className="container">
           <img src={backgroundTop} alt="" />
           <div className="centered">
-            <Typography variant="h3">UAV Assistance for Lifeguards</Typography>
-            <Typography variant="h5">
-              SoteriaX - The goddess of salvation
-            </Typography>
+                
+          <Typography  variant="h2" style={{ fontFamily: "'Poppins', sans-serif", }}>UAV Assistance for Water Rescue Operations</Typography>          
+          <Typography
+              variant="h4"
+              // style={{ fontFamily: "'Orbitron', sans-serif" }}
+              // textShadow:"0px 0px 2px rgba(0,0,0,0.25)
+            >
+              SoteriaX - The Goddess of Salvation
+            </Typography> 
             <div>
-              <Button variant="outlined" color="secondary">
+              <Button
+                variant="outlined"
+                color="secondary"
+                style={{
+                  textTransform: "none",
+                  
+                }}
+              >
                 Register Now
+              </Button>
+
+              <Button
+              
+                variant="contained"
+                color="secondary"
+                style={{
+                  textTransform: "none",
+                  marginLeft: 10,
+                }}
+              >
+                Learn More
               </Button>
             </div>
           </div>

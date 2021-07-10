@@ -23,7 +23,7 @@ img{
     /* font-family: 'Roboto', sans-serif; */
     /* font-size: 50px; */
     position: absolute;
-    font-weight:bolder;
+    /* font-weight:bolder; */
     top:35%;
     left: 50%;
     transform: translate(-50%, -50%);

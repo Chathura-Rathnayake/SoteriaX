@@ -14,7 +14,7 @@ const ScrollHandler = props => {
       backgroundColor: trigger ? "rgb(51,51,51,0.6)" : "rgb(51,51,51,0.2)",
       transition: trigger ? "0.3s" : "0.5s",
       boxShadow: "none",
-      padding: "7px 0px",
+      padding: "1px 0px",
     }
   });
 };

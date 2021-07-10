@@ -48,8 +48,8 @@ export default function NavBar() {
           color="primary"
         >
           <Toolbar>
-            <img src={logo} alt="" style={{ width: 100, height: 60 }} />
-            <Typography variant="h6" className={classes.title}>
+            <img src={logo} alt="" style={{ width: 80, height: 48 }} />
+            <Typography variant="h1" className={classes.title} style={{ fontSize:25 }}>
               SoteriaX
             </Typography>
             <Button
