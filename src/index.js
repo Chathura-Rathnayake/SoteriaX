@@ -9,6 +9,7 @@ import login from "./views/login";
 import forgetPassword from "./views/forgetPassword";
 import ADashboard from './views/ADashboard'
 import Members from './views/Members'
+import AddUser from './views/addUser'
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -29,6 +30,7 @@ ReactDOM.render(
       <Route exact path="/login" component={login} />
       <Route exact path="/forgetPassword" component={forgetPassword} /> 
       <Route exact path="/adashboard" component={ADashboard} />
+      <Route exact path="/addUser" component={AddUser} />
       <Route exact path="/members" component={Members} />
 
     </Switch>
