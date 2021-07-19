@@ -6,6 +6,8 @@ const app = express();
 var admin = require("firebase-admin");
 var serviceAccount = require("./serviceAccountKey.json");
 
+// const functions = require("firebase-functions");
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -20,7 +22,7 @@ citiesRef.doc("SF").set({
   state: "CA",
   country: "USA",
   capital: false,
-  population: 860000,
+  population: 860010,
   regions: ["west_coast", "norcal"],
 });
 
@@ -39,6 +41,26 @@ docRef
   .catch((error) => {
     console.log("Error getting document:", error);
   });
+
+exports.helloWorld = functions.https.onRequest((req, res) => {
+  res.send("hello it works.!");
+});
+
+//testing firebase functions
+// exports.getUser = functions.https.onRequest((req, res) => {
+//   admin.
+//   firestore()
+//   .collection("cities")
+//     .get()
+//     .then((data) => {
+//       let cities = [];
+//       data.forEach((doc) => {
+//         cities.push(doc.data());
+//       });
+//       return res.json(cities);
+//     })
+//     .catch((err) => console.error(err));
+// });
 
 app.use(express.static(path.join(__dirname, "build")));
 
