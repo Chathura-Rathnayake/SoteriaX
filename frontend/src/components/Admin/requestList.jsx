@@ -10,14 +10,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import {
-  Button,
-  Container,
-  List,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 const columns = [
   { id: "firstName", label: "First\u00a0Name", minWidth: 80 },
@@ -109,7 +102,7 @@ export default function RequestList() {
   }, []);
   const deleteUserRequest = (id) => {
     firestore
-      .collection("users")
+      .collection("userRequests")
       .doc(id)
       .delete()
       .then((res) => {
@@ -118,58 +111,82 @@ export default function RequestList() {
   };
 
   return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {requests
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((request) => {
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={request.id}
+    <div>
+      <Typography variant="h5" color="initial">
+        Pending User Requests
+      </Typography>
+      <br></br>
+      <Paper className={classes.root}>
+        <TableContainer className={classes.container}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    style={{ minWidth: column.minWidth }}
                   >
-                    {columns.map((column) => {
-                      const value = request[column.id];
-                      // const value = request.firstName;
-                      return (
-                        <TableCell key={column.id}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={requests.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {requests
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((request) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={request.id}
+                    >
+                      {columns.map((column) => {
+                        const value = request[column.id];
+                        return (
+                          <TableCell key={column.id}>
+                            {column.format && typeof value === "number"
+                              ? column.format(value)
+                              : value}
+                            {column.id === "view" && (
+                              <Button variant="contained" color="primary">
+                                view
+                              </Button>
+                            )}
+                            {column.id === "approve" && (
+                              <Button variant="contained" color="primary">
+                                approve
+                              </Button>
+                            )}
+                            {column.id === "remove" && (
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => deleteUserRequest(request["id"])}
+                              >
+                                remove
+                              </Button>
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={requests.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </div>
   );
 }
