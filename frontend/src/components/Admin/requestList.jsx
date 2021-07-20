@@ -11,6 +11,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { Button } from "@material-ui/core";
+import { useAuth } from "../../contexts/AuthContext";
+import { Link, useHistory } from "react-router-dom";
 
 const columns = [
   { id: "firstName", label: "First\u00a0Name", minWidth: 80 },
@@ -67,10 +69,17 @@ const useStyles = makeStyles({
 });
 
 export default function RequestList() {
+  //front end page rendering related data
   const [requests, setRequests] = useState([]);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  //sign up related data
+  const { signup } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -95,6 +104,10 @@ export default function RequestList() {
             companyName: doc.data().companyName,
             companyEmail: doc.data().companyEmail,
             companyPhone: doc.data().companyPhone,
+            supportType: doc.data().supportType,
+            birthday: doc.data().birthday,
+            gender: doc.data().gender,
+            companyAddress: doc.data().companyAddress,
           };
         })
       );
@@ -104,6 +117,43 @@ export default function RequestList() {
     firestore
       .collection("userRequests")
       .doc(id)
+      .delete()
+      .then((res) => {
+        console.log("Deleted!", res);
+      });
+  };
+
+  async function handleSubmit(e) {}
+
+  const approveUserRequest = (request) => {
+    //storing the data in headlifeguard collection
+    firestore
+      .collection("headLifeguards")
+      .doc(request.id)
+      .set(request)
+      .then((res) => {
+        console.log("Added!", res);
+        alert("The Account Approved Successfully");
+      });
+    //creating an account for the user
+    // e.preventDefault()
+
+    try {
+      //   setError("");
+      //   setLoading(true);
+      const password = `${request.firstName.toUpperCase()}${request.userPhone}`;
+      console.log(password);
+      signup(request.userEmail, password);
+      //if success send an email with the password
+    } catch {
+      //   setError("Failed to create an account");
+    }
+
+    // setLoading(false);
+    //finally deleting the document
+    firestore
+      .collection("userRequests")
+      .doc(request.id)
       .delete()
       .then((res) => {
         console.log("Deleted!", res);
@@ -155,14 +205,18 @@ export default function RequestList() {
                               </Button>
                             )}
                             {column.id === "approve" && (
-                              <Button variant="contained" color="primary">
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => approveUserRequest(request)}
+                              >
                                 approve
                               </Button>
                             )}
                             {column.id === "remove" && (
                               <Button
                                 variant="contained"
-                                color="primary"
+                                color="secondary"
                                 onClick={() => deleteUserRequest(request["id"])}
                               >
                                 remove
