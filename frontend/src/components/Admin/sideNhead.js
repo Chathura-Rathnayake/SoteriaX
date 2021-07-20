@@ -71,28 +71,28 @@ export default function Layout({ children }) {
     { 
       text: 'Dashboard', 
       icon: <DashboardOutlined color="secondary" />, 
-    //  path: '/Adashboard' 
+      path: '/adminDashboard' 
     },
 
     { 
       text: 'Profile management', 
       icon: <GroupRounded color="secondary" />, 
-    //  path: '/members'
+      path: '/adminProfile'
     },
     { 
       text: 'Suggestion', 
       icon: <TrackChangesOutlined color="secondary" />, 
-     // path: '/training'
+      path: '/adminSuggestion'
     },
     { 
       text: 'Complaints', 
       icon: <Timeline color="secondary" />, 
-     // path: '/opstat'
+      path: '/adminComplaint'
     },
     { 
       text: 'Help request', 
       icon: <LiveHelp color="secondary" />, 
-      //path: '/support'
+      path: '/adminHelpRequest'
     },
 
   ];

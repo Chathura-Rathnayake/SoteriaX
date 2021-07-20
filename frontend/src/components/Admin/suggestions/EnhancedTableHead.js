@@ -12,7 +12,7 @@ const rows = [
     id: "id",
     numeric: true,
     disablePadding: true,
-    label: "Complain ID"
+    label: "Suggestion ID"
   },
   { id: "name", numeric: false, disablePadding: false, label: "Name" },
   { id: "email", numeric: false, disablePadding: false, label: "email" },
