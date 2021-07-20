@@ -1,16 +1,70 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "../assets/css/headlifeguardRequest.css";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Container from "@material-ui/core/Container";
+// import Container from "@material-ui/core/Container";
 import { Paper, Button } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormLabel from "@material-ui/core/FormLabel";
+import { Link, useHistory } from "react-router-dom";
+import { firestore } from "../firebase";
 
 export default function HeadlifeguardRequest() {
+  const firstnameRef = useRef();
+  const lastnameRef = useRef();
+  const userEmailRef = useRef();
+  const userPhoneRef = useRef();
+  const birthdayRef = useRef();
+  const companyNameRef = useRef();
+  const companyEmailRef = useRef();
+  const companyAddressRef = useRef();
+  const companyPhoneRef = useRef();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [gender, setGender] = useState();
+  const [supportType, setSupportType] = useState();
+
+  const history = useHistory();
+
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
+
+  const handleSupportTypeChange = (event) => {
+    setSupportType(event.target.value);
+  };
+
+  async function handleRequest(e) {
+    // e.preventDefault();
+    // console.log(firstnameRef.current.value)
+    //send a doc with a generated id.
+    firestore
+      .collection("userRequests")
+      .add({
+        firstName: firstnameRef.current.value,
+        lastName: lastnameRef.current.value,
+        userEmail: userEmailRef.current.value,
+        userPhone: userPhoneRef.current.value,
+        birthday: birthdayRef.current.value,
+        gender: gender, //the RHS one is state variable gender
+        companyName: companyNameRef.current.value,
+        companyEmail: companyEmailRef.current.value,
+        companyAddress: companyAddressRef.current.value,
+        companyPhone: companyPhoneRef.current.value,
+        supportType: supportType, //the RHS one is state variable gender
+      })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        history.push("/");
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  }
   return (
     <div className="regForm">
       <div className="regCard">
@@ -19,8 +73,8 @@ export default function HeadlifeguardRequest() {
             paddingTop: 30,
             paddingLeft: 40,
             paddingRight: 40,
-            paddingBottom:20,
-            margin: 10,
+            paddingBottom: 10,
+            margin: 6,
           }}
         >
           <Typography
@@ -60,6 +114,7 @@ export default function HeadlifeguardRequest() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField
+                inputRef={firstnameRef}
                 variant="outlined"
                 required
                 id="firstName"
@@ -72,6 +127,7 @@ export default function HeadlifeguardRequest() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                inputRef={lastnameRef}
                 variant="outlined"
                 required
                 id="lastName"
@@ -83,6 +139,7 @@ export default function HeadlifeguardRequest() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                inputRef={userEmailRef}
                 variant="outlined"
                 required
                 id="email"
@@ -94,6 +151,7 @@ export default function HeadlifeguardRequest() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                inputRef={userPhoneRef}
                 variant="outlined"
                 required
                 id="phone"
@@ -105,6 +163,7 @@ export default function HeadlifeguardRequest() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                inputRef={birthdayRef}
                 id="date"
                 label="Birthday"
                 type="date"
@@ -119,12 +178,11 @@ export default function HeadlifeguardRequest() {
             <Grid item xs={12} sm={6}>
               <FormLabel component="legend">Gender</FormLabel>
               <RadioGroup
+                onChange={handleGenderChange}
                 aria-label="gender"
-                name="gender1"
+                name="gender"
                 row
-
                 // value={value}
-                // onChange={}
               >
                 <FormControlLabel
                   value="female"
@@ -152,6 +210,7 @@ export default function HeadlifeguardRequest() {
 
             <Grid item xs={12} sm={6}>
               <TextField
+                inputRef={companyNameRef}
                 variant="outlined"
                 required
                 id="companyName"
@@ -163,6 +222,7 @@ export default function HeadlifeguardRequest() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                inputRef={companyEmailRef}
                 variant="outlined"
                 required
                 id="companyEmail"
@@ -175,6 +235,7 @@ export default function HeadlifeguardRequest() {
 
             <Grid item xs={12}>
               <TextField
+                inputRef={companyAddressRef}
                 variant="outlined"
                 required
                 id="companyAddress"
@@ -186,6 +247,7 @@ export default function HeadlifeguardRequest() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                inputRef={companyPhoneRef}
                 variant="outlined"
                 required
                 id="companyPhone"
@@ -198,6 +260,7 @@ export default function HeadlifeguardRequest() {
             <Grid item xs={12} sm={6}>
               <FormLabel component="legend">The Subscription Type</FormLabel>
               <RadioGroup
+                onChange={handleSupportTypeChange}
                 aria-label="subscription"
                 name="subscription"
                 row
@@ -218,6 +281,7 @@ export default function HeadlifeguardRequest() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Button
+                onClick={handleRequest}
                 size="large"
                 variant="contained"
                 color="primary"
