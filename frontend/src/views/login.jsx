@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import Alert from "@material-ui/lab/Alert";
 
 function Copyright() {
   return (
@@ -91,7 +92,11 @@ const Login = () => {
       setLoading(true);
 
       await login(emailRef.current.value, passwordRef.current.value);
-      if (emailRef.current.value.toUpperCase() === process.env.REACT_APP_ADMIN_EMAIL.toUpperCase()) { //TODO - validate user from his/her collection
+      if (
+        emailRef.current.value.toUpperCase() ===
+        process.env.REACT_APP_ADMIN_EMAIL.toUpperCase()
+      ) {
+        //TODO - validate user from his/her collection
         history.push("/admin"); //to the admin dashboard
       } else {
         history.push("/adashboard"); //to the headlife dashboard
@@ -119,11 +124,12 @@ const Login = () => {
           <LockOutlinedIcon />
         </Avatar> */}
             <img src={image} className={classes.logo} />
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
+            {/* <Link to="/"></Link> */}
             {/* give this as an error */}
-            {/* {error && <p>{error}</p>} */}
+
+            {error && (
+              <Alert severity="error">Login Failed.! Please try again.</Alert>
+            )}
 
             {/* <div className={classes.root}>
             <IconButton aria-label="delete">
