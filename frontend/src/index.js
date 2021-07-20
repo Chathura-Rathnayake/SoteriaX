@@ -13,6 +13,7 @@ import AddUser from "./views/addUser";
 import Admin from "./views/admin";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
+import PrivateRouteHeadlifeguard from "./components/PrivateRouteHeadlifeguard";
 
 const theme = createMuiTheme({
   palette: {
@@ -36,11 +37,15 @@ ReactDOM.render(
           <Route exact path="/login" component={login} />
           <Route exact path="/forgetPassword" component={forgetPassword} />
 
-          {/* restricted routes */}
+          {/* restricted routes  - admin*/}
           <PrivateRouteAdmin exact path="/admin" component={Admin} />
-          <Route exact path="/adashboard" component={ADashboard} />
+
+          {/* restricted routes  - headlifeguard*/}
+          <PrivateRouteHeadlifeguard exact path="/adashboard" component={ADashboard} />
+          <PrivateRouteHeadlifeguard exact path="/members" component={Members} />
+
           <Route exact path="/addUser" component={AddUser} />
-          <Route exact path="/members" component={Members} />
+
         </AuthProvider>
       </Switch>
     </Router>

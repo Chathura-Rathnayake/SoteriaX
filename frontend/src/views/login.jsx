@@ -94,7 +94,7 @@ const Login = () => {
       if (emailRef.current.value.toUpperCase() === process.env.REACT_APP_ADMIN_EMAIL.toUpperCase()) { //TODO - validate user from his/her collection
         history.push("/admin"); //to the admin dashboard
       } else {
-        history.push("/headlife"); //to the headlife dashboard
+        history.push("/adashboard"); //to the headlife dashboard
       }
     } catch {
       setError("Failed to log in");
