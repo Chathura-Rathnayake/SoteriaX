@@ -34,6 +34,9 @@ const useStyles = makeStyles(() => ({
 
 export default function NavBar() {
   const classes = useStyles();
+
+  console.log("test");
+
   return (
     <div className={classes.root}>
       <ScrollToColor>
@@ -49,7 +52,11 @@ export default function NavBar() {
         >
           <Toolbar>
             <img src={logo} alt="" style={{ width: 80, height: 48 }} />
-            <Typography variant="h1" className={classes.title} style={{ fontSize:25 }}>
+            <Typography
+              variant="h1"
+              className={classes.title}
+              style={{ fontSize: 25 }}
+            >
               SoteriaX
             </Typography>
             <Button
@@ -82,7 +89,7 @@ export default function NavBar() {
               About Us
             </Button>
             <Button
-             startIcon={<ExitToAppIcon />}
+              startIcon={<ExitToAppIcon />}
               color="primary"
               variant="contained"
               href="/login"

@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import {fire, db} from '../fire';
+// import {fire, db} from '../firebase';
 
 function Copyright() {
     return (
@@ -80,21 +80,21 @@ const AddUser = () => {
     const [password, setPassword] = useState('');
     const [userName, setUserName] = useState('');
 
-    const createUserAndSaveDetails = ()=>{
-    console.log("clicked");
-    fire.auth().createUserWithEmailAndPassword(email, password).then((res)=>{
-    db.collection("userDetails").add({
-        email : email,
-        userName : userName
-    }).then(()=>{
-        console.log("added successfully")
-    }).catch((err)=>{
-        console.log("not added")
-    })
-    }).catch((err)=>{
-    console.log(err)
-    })
-    }
+    // const createUserAndSaveDetails = ()=>{
+    // console.log("clicked");
+    // fire.auth().createUserWithEmailAndPassword(email, password).then((res)=>{
+    // db.collection("userDetails").add({
+    //     email : email,
+    //     userName : userName
+    // }).then(()=>{
+    //     console.log("added successfully")
+    // }).catch((err)=>{
+    //     console.log("not added")
+    // })
+    // }).catch((err)=>{
+    // console.log(err)
+    // })
+    // }
 
     return (
     <div>
@@ -171,7 +171,7 @@ const AddUser = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={createUserAndSaveDetails}
+            // onClick={createUserAndSaveDetails}
           >
             Sign Up
           </Button>

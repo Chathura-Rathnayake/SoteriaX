@@ -7,6 +7,8 @@ import Footer from "../components/footer";
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 export default function HomePage() {
+
+  
   return (
     <div>
       {/* <CssBaseline> */}
