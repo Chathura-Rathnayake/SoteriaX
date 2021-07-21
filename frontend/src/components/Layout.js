@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core'
 import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation,Link } from 'react-router-dom'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -16,6 +16,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Avatar from '@material-ui/core/Avatar'
 import uxceo from "../assets/images/headguard.png";
 import logo from "../assets/icons/logoColor.png";
+import { useAuth } from "../contexts/AuthContext";
+
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => {
@@ -66,6 +68,19 @@ export default function Layout({ children }) {
   const classes = useStyles()
   const history = useHistory()
   const location = useLocation()
+  const [error, setError] = useState("");
+  const { currentUser, logout } = useAuth();
+
+  async function handleLogout() {
+    setError("");
+
+    try {
+      await logout();
+      history.push("/login");
+    } catch {
+      setError("Failed to log out");
+    }
+  }
 
   const menuItems = [
 
@@ -114,25 +129,28 @@ export default function Layout({ children }) {
       >
         <Toolbar>
           <Typography className={classes.date}>
-             {/* {format(new Date(), 'do MMMM Y')} */}
+          Head-Lifeguard Dashboard{/* {format(new Date(), 'do MMMM Y')} */}
           </Typography>
-          <Typography>Head-Lifeguard
-          </Typography>
+        
 
-          <Button 
-            color="primary"
+          <Button
             margin="0"
             size="large"
+            onClick={handleLogout}
+            style={{
+              // fontWeight: "bold",
+              textTransform: "none",
+            }}
           >
             <Avatar className={classes.avatar} src={uxceo} />
-            <ArrowDropDown  size ="large"/>
+            <ArrowDropDown size="large" />
+            Log Out
           </Button>
+
         </Toolbar>
       </AppBar>
 
       {/* side drawer */}
-
-
       <Drawer
        
         className={classes.drawer}
