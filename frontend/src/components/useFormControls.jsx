@@ -125,7 +125,6 @@ export const useFormControls = () => {
 
   return {
     handleInputValue,
-    handleFormSubmit,
     formIsValid,
     errors,
   };
