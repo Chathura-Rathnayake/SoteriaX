@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import image from "./soteriax.png";
-// import Link from '@material-ui/core/Link';
+import MaterialLink from '@material-ui/core/Link';
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -175,10 +175,10 @@ const Login = () => {
                 Sign In
               </Button>
               <div style={{ alignItems: "center" }}>
-                {/* fix this (the Link vs Link conflict) */}
-                {/* <Link href="/forgetPassword" variant="body2">
+                {/* fix this (the Link vs Link conflict) */} 
+                <MaterialLink href="/forgetPassword" variant="body2">
                 Forgot password?
-              </Link> */}
+              </MaterialLink>
               </div>
             </form>
           </div>
