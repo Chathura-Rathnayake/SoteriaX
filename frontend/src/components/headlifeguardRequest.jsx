@@ -280,20 +280,39 @@ export default function HeadlifeguardRequest() {
               </RadioGroup>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button
-                onClick={handleRequest}
-                size="large"
-                variant="contained"
-                color="primary"
-                style={{
-                  marginRight: 50,
-                  fontWeight: "bold",
-                  //   color: "blue",
-                  textTransform: "none",
-                }}
-              >
-                Submit the Request
-              </Button>
+              <div display="block">
+                {" "}
+                <Button
+                  disabled={loading}
+                  size="large"
+                  href="/"
+                  style={{
+                    marginRight: 20,
+                    fontWeight: "bold",
+                    width:130,
+                  }}
+                  variant="outlined"
+                  color="primary"
+                  //style={{backgroundColor: '#fa931d', color: '#FFFFFF'}}
+                >
+                  Back
+                </Button>
+                <Button
+                  onClick={handleRequest}
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    marginRight: 50,
+                    fontWeight: "bold",
+                    //   color: "blue",
+                    textTransform: "none",
+                    width:130,
+                  }}
+                >
+                  Submit
+                </Button>
+              </div>
             </Grid>
           </Grid>
         </Paper>

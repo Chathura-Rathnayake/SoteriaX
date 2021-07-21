@@ -48,9 +48,17 @@ ReactDOM.render(
 
           {/* restricted routes  - admin*/}
           <PrivateRouteAdmin exact path="/admin" component={Admin} />
-          <Route exact path="/adminProfile" component={App} />
-          <Route exact path="/adminDashboard" component={Dashboard} />
-          <Route exact path="/adminComplaint" component={Complaints} />
+          <PrivateRouteAdmin exact path="/adminProfile" component={App} />
+          <PrivateRouteAdmin
+            exact
+            path="/adminDashboard"
+            component={Dashboard}
+          />
+          <PrivateRouteAdmin
+            exact
+            path="/adminComplaint"
+            component={Complaints}
+          />
 
           {/* restricted routes  - headlifeguard*/}
           <PrivateRouteHeadlifeguard
