@@ -33,9 +33,18 @@ export const useFormControls = () => {
     if ("lastName" in fieldValues)
       temp.lastName = fieldValues.lastName ? "" : "This field is required.";
 
-    if ("userPhone" in fieldValues)
-      //validate phone numbers - TODO
+    if ("userPhone" in fieldValues) {
       temp.userPhone = fieldValues.userPhone ? "" : "This field is required.";
+
+      if (fieldValues.userPhone) {
+        temp.userPhone =
+          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+            fieldValues.userPhone
+          )
+            ? ""
+            : "Invalid Phone Number";
+      }
+    }
 
     if ("companyName" in fieldValues)
       temp.companyName = fieldValues.companyName
@@ -47,11 +56,20 @@ export const useFormControls = () => {
         ? ""
         : "This field is required.";
 
-    if ("companyPhone" in fieldValues)
-      //validate phone numbers - TODO
+    if ("companyPhone" in fieldValues) {
       temp.companyPhone = fieldValues.companyPhone
         ? ""
         : "This field is required.";
+
+      if (fieldValues.companyPhone) {
+        temp.companyPhone =
+          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+            fieldValues.companyPhone
+          )
+            ? ""
+            : "Invalid Phone Number";
+      }
+    }
 
     if ("userEmail" in fieldValues) {
       temp.userEmail = fieldValues.userEmail ? "" : "This field is required.";
@@ -84,8 +102,7 @@ export const useFormControls = () => {
       if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
-    //   console.log(age);
-
+      //   console.log(age);
       if (fieldValues.birthday)
         temp.birthday =
           age >= 18 ? "" : "Age must be greater than or equal to 18";
