@@ -16,6 +16,7 @@
     "bootstrap": "^5.0.2",
     "date-fns": "^2.22.1",
     "firebase": "^8.7.1",
+    "material-ui-player": "^0.2.2",
     "mdbreact": "^5.0.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",

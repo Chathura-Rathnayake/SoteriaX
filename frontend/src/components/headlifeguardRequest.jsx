@@ -14,7 +14,7 @@ import Divider from "@material-ui/core/Divider";
 import { useFormControls } from "./useFormControls";
 
 export default function HeadlifeguardRequest() {
-  const { handleInputValue, handleFormSubmit, formIsValid, errors } =
+  const { handleInputValue, formIsValid, errors } =
     useFormControls();
 
   const firstnameRef = useRef();

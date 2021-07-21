@@ -6,7 +6,7 @@ import SimpleCard from "../components/SimpleCard";
 import Simplemap from "../components/Simplemap";
 import Grid from "@material-ui/core/Grid";
 import Layout from "../components/Layout";
-//add logout functionality
+
 const useStyles = makeStyles({
   bot: {
     marginBottom: 10,

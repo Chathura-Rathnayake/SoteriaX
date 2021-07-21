@@ -7,8 +7,11 @@ import homePage from "./views/homePage";
 import aboutPage from "./views/aboutPage";
 import login from "./views/login";
 import forgetPassword from "./views/forgetPassword";
-import ADashboard from "./views/ADashboard";
-import Members from "./views/Members";
+import ADashboard from "./views/headAdmin/ADashboard";
+import Members from "./views/headAdmin/Members";
+import Training from "./views/headAdmin/training-form";
+import Support from "./views/headAdmin/support";
+import Live from "./views/headAdmin/live";
 import AddUser from "./views/addUser";
 import Admin from "./views/admin";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -70,6 +73,21 @@ ReactDOM.render(
             exact
             path="/members"
             component={Members}
+          />
+          <PrivateRouteHeadlifeguard
+            exact
+            path="/training"
+            component={Training}
+          />
+          <PrivateRouteHeadlifeguard
+            exact
+            path="/support"
+            component={Support}
+          />
+          <PrivateRouteHeadlifeguard
+            exact
+            path="/live"
+            component={Live}
           />
 
           <Route exact path="/addUser" component={AddUser} />
