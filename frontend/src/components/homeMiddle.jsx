@@ -19,6 +19,7 @@ import WatchLaterRoundedIcon from "@material-ui/icons/WatchLaterRounded";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+
 AOS.init();
 
 const theme = createMuiTheme({

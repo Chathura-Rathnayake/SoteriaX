@@ -82,9 +82,9 @@ export default function Support() {
                  }}
                  >
                   
-                  <option value={1}>Help Request</option>
+                  <option value={1}>Help Requests</option>
                   <option value={2}>Complaints</option>
-                  <option value={3}>Sugguestions</option>
+                  <option value={3}>Suggestions</option>
                 </Select>
                 </Grid>
                 <Grid item xs={12}>
@@ -111,7 +111,7 @@ export default function Support() {
                     onClick={() => {
                     }}
                 >
-                    Submit Inquiry
+                    Submit
                 </Button>
           </div>
           </div>

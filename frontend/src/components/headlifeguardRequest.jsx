@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     width: "100%",
     height: "auto",
-  },  
+  },
   mainDiv: {
     position: "relative",
     //opacity:"1 !important",
@@ -33,8 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function HeadlifeguardRequest() {
-  const { handleInputValue, formIsValid, errors } =
-    useFormControls();
+  const { handleInputValue, formIsValid, errors } = useFormControls();
 
   const firstnameRef = useRef();
   const lastnameRef = useRef();
@@ -164,13 +163,13 @@ export default function HeadlifeguardRequest() {
 
   return (
     <div>
-            <img
+      <img
         className={classes.bgImage}
         src="https://images.unsplash.com/photo-1611222566295-885a2c99153a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
         alt=""
       ></img>
       <div>
-        <Container maxWidth="lg" className={classes.mainDiv} >
+        <Container maxWidth="lg" className={classes.mainDiv}>
           <Paper
             style={{
               padding: 40,
@@ -462,7 +461,7 @@ export default function HeadlifeguardRequest() {
                 </Grid>
                 <Grid item sm="6">
                   <FormLabel component="legend">
-                    The Subscription Type
+                    After-Sales Service Support
                   </FormLabel>
                   <RadioGroup
                     aria-label="subscription"

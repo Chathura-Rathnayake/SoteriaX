@@ -31,13 +31,13 @@ export default function ADashboard() {
      
       <Grid container spacing={3}>
         <Grid item xs={3}>
-          <SimpleCard name='Incidents Logged' num='12' />  
+          <SimpleCard name='Incidents Logged' num='0' />  
         </Grid>
         <Grid item xs={3}>
-          <SimpleCard name='Members Registred' num='7' />  
+          <SimpleCard name='Members Registered' num='0' />  
         </Grid>
         <Grid item xs={3}>
-          <SimpleCard name='Users Active' num='2' />  
+          <SimpleCard name='Users Active' num='0' />  
         </Grid>
       </Grid>
     </Container>

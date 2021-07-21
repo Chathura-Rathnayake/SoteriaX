@@ -68,7 +68,7 @@ export default function Training() {
                   <Grid container spacing={5} autoComplete="off">
                     <Grid item xs={2}>
                       <Typography size="12px" color="textSecondary">
-                        Summery:
+                        Summary:
                       </Typography>
                     </Grid>
                     <Grid item xs={10}>
@@ -104,7 +104,7 @@ export default function Training() {
                     </Grid>
                     <Grid item xs={4}>
                       <Typography size="12px" color="textSecondary">
-                        Package Handeler:
+                        Package Handler:
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -152,7 +152,7 @@ export default function Training() {
                     </Grid>
                     <Grid item xs={4}>
                       <Typography size="12px" color="textSecondary">
-                        drone Pilot:
+                        Drone Pilot:
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
