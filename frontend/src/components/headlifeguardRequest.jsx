@@ -11,7 +11,26 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../firebase";
 import Divider from "@material-ui/core/Divider";
+import { makeStyles } from "@material-ui/core/styles";
 import { useFormControls } from "./useFormControls";
+
+const useStyles = makeStyles((theme) => ({
+  bgImage: {
+    opacity: 0.4,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "auto",
+  },  
+  mainDiv: {
+    position: "relative",
+    //opacity:"1 !important",
+    boarder: "20%",
+    backgroundColor: "white",
+    borderRadius: "10px",
+  },
+}));
 
 export default function HeadlifeguardRequest() {
   const { handleInputValue, formIsValid, errors } =
@@ -26,6 +45,8 @@ export default function HeadlifeguardRequest() {
   const companyEmailRef = useRef();
   const companyAddressRef = useRef();
   const companyPhoneRef = useRef();
+
+  const classes = useStyles();
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -142,9 +163,14 @@ export default function HeadlifeguardRequest() {
   ];
 
   return (
-    <div className="regForm">
-      <div className="regCard">
-        <Container maxWidth="lg">
+    <div>
+            <img
+        className={classes.bgImage}
+        src="https://images.unsplash.com/photo-1611222566295-885a2c99153a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
+        alt=""
+      ></img>
+      <div>
+        <Container maxWidth="lg" className={classes.mainDiv} >
           <Paper
             style={{
               padding: 40,
