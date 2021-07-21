@@ -118,7 +118,7 @@ export const useFormControls = () => {
       fieldValues.companyPhone &&
       fieldValues.gender &&
       fieldValues.supportType &&
-      // fieldValues.birthday &&
+      fieldValues.birthday &&
       Object.values(errors).every((x) => x === "");
     return isValid;
   };

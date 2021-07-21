@@ -21,6 +21,8 @@ import HeadlifeguardRequest from "./components/headlifeguardRequest";
 import Dashboard from "./views/Admin/Dashboard";
 import App from "./views/Admin/App";
 import Complaints from "./views/Admin/Complaints";
+import Suggestions from "./views/Admin/Suggestions";
+import HelpRequest from "./views/Admin/HelpRequest";
 
 const theme = createMuiTheme({
   palette: {
@@ -61,6 +63,16 @@ ReactDOM.render(
             exact
             path="/adminComplaint"
             component={Complaints}
+          />
+  <PrivateRouteAdmin
+            exact
+            path="/adminSuggestion"
+            component={Suggestions }
+          />
+          <PrivateRouteAdmin
+            exact
+            path="/adminHelpRequest"
+            component={HelpRequest }
           />
 
           {/* restricted routes  - headlifeguard*/}

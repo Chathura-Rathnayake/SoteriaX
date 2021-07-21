@@ -290,7 +290,7 @@ export default function HeadlifeguardRequest() {
                     label="Birthday"
                     type="date"
                     size="small"
-                    defaultValue="1997-05-02"
+                    // defaultValue="1997-05-02"
                     name="birthday"
                     InputLabelProps={{
                       shrink: true,
