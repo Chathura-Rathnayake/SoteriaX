@@ -11,8 +11,12 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../firebase";
 import Divider from "@material-ui/core/Divider";
+import { useFormControls } from "./useFormControls";
 
 export default function HeadlifeguardRequest() {
+  const { handleInputValue, handleFormSubmit, formIsValid, errors } =
+    useFormControls();
+
   const firstnameRef = useRef();
   const lastnameRef = useRef();
   const userEmailRef = useRef();
@@ -32,15 +36,17 @@ export default function HeadlifeguardRequest() {
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
+    handleInputValue(event);
   };
 
   const handleSupportTypeChange = (event) => {
     setSupportType(event.target.value);
+    handleInputValue(event);
   };
 
   async function handleRequest(e) {
     e.preventDefault();
-
+    console.log(gender);
     //send a doc with a generated id.
     firestore
       .collection("userRequests")
@@ -65,6 +71,76 @@ export default function HeadlifeguardRequest() {
         console.error("Error adding document: ", error);
       });
   }
+
+  const inputFieldValue = [
+    {
+      name: "firstName",
+      label: "First Name",
+      id: "firstName",
+      index: 1,
+    },
+    {
+      name: "userEmail",
+      label: "User Email",
+      id: "userEmail",
+      index: 2,
+    },
+    {
+      name: "lastName",
+      label: "Last Name",
+      id: "lastName",
+      index: 3,
+    },
+    {
+      name: "userPhone",
+      label: "User Phone",
+      id: "userPhone",
+      index: 4,
+    },
+    {
+      name: "companyName",
+      label: "Company Name",
+      id: "companyName",
+      index: 5,
+    },
+    {
+      name: "companyEmail",
+      label: "Company Email",
+      id: "companyEmail",
+      index: 6,
+    },
+    {
+      name: "companyAddress",
+      label: "Company Address",
+      id: "companyAddress",
+      index: 7,
+    },
+    {
+      name: "companyPhone",
+      label: "Company Phone",
+      id: "companyPhone",
+      index: 8,
+    },
+    {
+      name: "gender",
+      label: "Gender",
+      id: "gender",
+      index: 9,
+    },
+    {
+      name: "supportType",
+      label: "The Subscription Type",
+      id: "supportType",
+      index: 10,
+    },
+    {
+      name: "birthday",
+      label: "Birthday",
+      id: "birthday",
+      index: 11,
+    },
+  ];
+
   return (
     <div className="regForm">
       <div className="regCard">
@@ -118,12 +194,21 @@ export default function HeadlifeguardRequest() {
                     inputRef={firstnameRef}
                     variant="outlined"
                     required
-                    id="firstName"
-                    name="firstName"
-                    label="Your First name"
                     fullWidth
-                    autoComplete="given-name"
                     size="small"
+                    key={inputFieldValue[0].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[0].name}
+                    label={inputFieldValue[0].label}
+                    error={errors[inputFieldValue[0].name]}
+                    multiline={inputFieldValue[0].multiline ?? false}
+                    rows={inputFieldValue[0].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[0].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[0].name],
+                    })}
                   />
                 </Grid>
                 <Grid item sm="6">
@@ -132,10 +217,21 @@ export default function HeadlifeguardRequest() {
                     variant="outlined"
                     required
                     id="lastName"
-                    name="lastName"
-                    label="Your Last name"
                     fullWidth
                     size="small"
+                    key={inputFieldValue[2].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[2].name}
+                    label={inputFieldValue[2].label}
+                    error={errors[inputFieldValue[2].name]}
+                    multiline={inputFieldValue[2].multiline ?? false}
+                    rows={inputFieldValue[2].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[2].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[2].name],
+                    })}
                   />
                 </Grid>
                 <Grid item sm="6">
@@ -145,10 +241,21 @@ export default function HeadlifeguardRequest() {
                     variant="outlined"
                     required
                     id="email"
-                    name="email"
-                    label="Your email"
                     fullWidth
                     size="small"
+                    key={inputFieldValue[1].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[1].name}
+                    label={inputFieldValue[1].label}
+                    error={errors[inputFieldValue[1].name]}
+                    multiline={inputFieldValue[1].multiline ?? false}
+                    rows={inputFieldValue[1].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[1].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[1].name],
+                    })}
                   />
                 </Grid>
                 <Grid item sm="6">
@@ -158,10 +265,21 @@ export default function HeadlifeguardRequest() {
                     variant="outlined"
                     required
                     id="phone"
-                    name="phone"
-                    label="Your Mobile Phone"
                     fullWidth
                     size="small"
+                    key={inputFieldValue[3].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[3].name}
+                    label={inputFieldValue[3].label}
+                    error={errors[inputFieldValue[3].name]}
+                    multiline={inputFieldValue[3].multiline ?? false}
+                    rows={inputFieldValue[3].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[3].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[3].name],
+                    })}
                   />
                 </Grid>
                 <Grid item sm="6">
@@ -172,21 +290,24 @@ export default function HeadlifeguardRequest() {
                     label="Birthday"
                     type="date"
                     size="small"
-                    defaultValue="2017-05-24"
+                    defaultValue="1997-05-02"
+                    name="birthday"
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    onChange={handleInputValue}
+                    error={errors[inputFieldValue[10].name]}
+                    helperText={errors[inputFieldValue[10].name]}
                   />
                 </Grid>
                 <Grid item sm="6">
                   {" "}
                   <FormLabel component="legend">Gender</FormLabel>
                   <RadioGroup
-                    onChange={handleGenderChange}
                     aria-label="gender"
-                    name="gender"
                     row
-                    // value={value}
+                    onChange={handleGenderChange}
+                    name="gender"
                   >
                     <FormControlLabel
                       value="female"
@@ -224,10 +345,21 @@ export default function HeadlifeguardRequest() {
                     variant="outlined"
                     required
                     id="companyName"
-                    name="companyName"
-                    label="The Company Name"
                     fullWidth
                     size="small"
+                    key={inputFieldValue[4].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[4].name}
+                    label={inputFieldValue[4].label}
+                    error={errors[inputFieldValue[4].name]}
+                    multiline={inputFieldValue[4].multiline ?? false}
+                    rows={inputFieldValue[4].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[4].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[4].name],
+                    })}
                   />
                 </Grid>
                 <Grid item sm="6">
@@ -237,10 +369,21 @@ export default function HeadlifeguardRequest() {
                     variant="outlined"
                     required
                     id="companyEmail"
-                    name="companyEmail"
-                    label="The Company email"
                     fullWidth
                     size="small"
+                    key={inputFieldValue[5].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[5].name}
+                    label={inputFieldValue[5].label}
+                    error={errors[inputFieldValue[5].name]}
+                    multiline={inputFieldValue[5].multiline ?? false}
+                    rows={inputFieldValue[5].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[5].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[5].name],
+                    })}
                   />
                 </Grid>
                 <Grid item sm="12">
@@ -250,10 +393,21 @@ export default function HeadlifeguardRequest() {
                     variant="outlined"
                     required
                     id="companyAddress"
-                    name="companyAddress"
-                    label="Company Address"
                     fullWidth
                     size="small"
+                    key={inputFieldValue[6].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[6].name}
+                    label={inputFieldValue[6].label}
+                    error={errors[inputFieldValue[6].name]}
+                    multiline={inputFieldValue[6].multiline ?? false}
+                    rows={inputFieldValue[6].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[6].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[6].name],
+                    })}
                   />
                 </Grid>
                 <Grid item sm="6">
@@ -263,10 +417,21 @@ export default function HeadlifeguardRequest() {
                     variant="outlined"
                     required
                     id="companyPhone"
-                    name="companyPhone"
-                    label="Company Phone"
                     fullWidth
                     size="small"
+                    key={inputFieldValue[7].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[7].name}
+                    label={inputFieldValue[7].label}
+                    error={errors[inputFieldValue[7].name]}
+                    multiline={inputFieldValue[7].multiline ?? false}
+                    rows={inputFieldValue[7].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[7].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[7].name],
+                    })}
                   />
                 </Grid>
                 <Grid item sm="6">
@@ -274,12 +439,11 @@ export default function HeadlifeguardRequest() {
                     The Subscription Type
                   </FormLabel>
                   <RadioGroup
-                    onChange={handleSupportTypeChange}
                     aria-label="subscription"
-                    name="subscription"
+                    name="supportType"
                     row
-                    // value={value}
-                    // onChange={}
+                    key={inputFieldValue[9].index}
+                    onChange={handleSupportTypeChange}
                   >
                     <FormControlLabel
                       value="withSupport"
@@ -321,6 +485,7 @@ export default function HeadlifeguardRequest() {
                         textTransform: "none",
                         width: 130,
                       }}
+                      disabled={!formIsValid()}
                     >
                       Submit
                     </Button>
