@@ -4,15 +4,19 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import Container from "@material-ui/core/Container";
-import { Paper, Button } from "@material-ui/core";
+import { Paper, Button, Container } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import { Link, useHistory } from "react-router-dom";
 import { firestore } from "../firebase";
+import Divider from "@material-ui/core/Divider";
+import { useFormControls } from "./useFormControls";
 
 export default function HeadlifeguardRequest() {
+  const { handleInputValue, handleFormSubmit, formIsValid, errors } =
+    useFormControls();
+
   const firstnameRef = useRef();
   const lastnameRef = useRef();
   const userEmailRef = useRef();
@@ -32,15 +36,17 @@ export default function HeadlifeguardRequest() {
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
+    handleInputValue(event);
   };
 
   const handleSupportTypeChange = (event) => {
     setSupportType(event.target.value);
+    handleInputValue(event);
   };
 
   async function handleRequest(e) {
-    // e.preventDefault();
-    // console.log(firstnameRef.current.value)
+    e.preventDefault();
+    console.log(gender);
     //send a doc with a generated id.
     firestore
       .collection("userRequests")
@@ -65,238 +71,430 @@ export default function HeadlifeguardRequest() {
         console.error("Error adding document: ", error);
       });
   }
+
+  const inputFieldValue = [
+    {
+      name: "firstName",
+      label: "First Name",
+      id: "firstName",
+      index: 1,
+    },
+    {
+      name: "userEmail",
+      label: "User Email",
+      id: "userEmail",
+      index: 2,
+    },
+    {
+      name: "lastName",
+      label: "Last Name",
+      id: "lastName",
+      index: 3,
+    },
+    {
+      name: "userPhone",
+      label: "User Phone",
+      id: "userPhone",
+      index: 4,
+    },
+    {
+      name: "companyName",
+      label: "Company Name",
+      id: "companyName",
+      index: 5,
+    },
+    {
+      name: "companyEmail",
+      label: "Company Email",
+      id: "companyEmail",
+      index: 6,
+    },
+    {
+      name: "companyAddress",
+      label: "Company Address",
+      id: "companyAddress",
+      index: 7,
+    },
+    {
+      name: "companyPhone",
+      label: "Company Phone",
+      id: "companyPhone",
+      index: 8,
+    },
+    {
+      name: "gender",
+      label: "Gender",
+      id: "gender",
+      index: 9,
+    },
+    {
+      name: "supportType",
+      label: "The Subscription Type",
+      id: "supportType",
+      index: 10,
+    },
+    {
+      name: "birthday",
+      label: "Birthday",
+      id: "birthday",
+      index: 11,
+    },
+  ];
+
   return (
     <div className="regForm">
       <div className="regCard">
-        <Paper
-          style={{
-            paddingTop: 30,
-            paddingLeft: 40,
-            paddingRight: 40,
-            paddingBottom: 10,
-            margin: 6,
-          }}
-        >
-          <Typography
-            variant="h4"
-            gutterBottom
-            align="center"
+        <Container maxWidth="lg">
+          <Paper
             style={{
-              fontWeight: "bold",
-              color: "#3b3c3d",
-              textTransform: "none",
-              fontFamily: "'Poppins', sans-serif",
+              padding: 40,
+              margin: 50,
             }}
           >
-            The Request Form
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            style={{
-              color: "#5e5e5e",
-              fontFamily: "'Poppins', sans-serif",
-            }}
-          >
-            Please fill the following form with your information. A SoteriaX
-            agent will contact you to proceed with the registration.
-          </Typography>{" "}
-          <br></br>
-          <Typography
-            variant="subtitle1"
-            style={{
-              fontWeight: "bold",
-              color: "#056f8c",
-            }}
-          >
-            Your information
-          </Typography>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={firstnameRef}
-                variant="outlined"
-                required
-                id="firstName"
-                name="firstName"
-                label="Your First name"
-                fullWidth
-                autoComplete="given-name"
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={lastnameRef}
-                variant="outlined"
-                required
-                id="lastName"
-                name="lastName"
-                label="Your Last name"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={userEmailRef}
-                variant="outlined"
-                required
-                id="email"
-                name="email"
-                label="Your email"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={userPhoneRef}
-                variant="outlined"
-                required
-                id="phone"
-                name="phone"
-                label="Your Mobile Phone"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={birthdayRef}
-                id="date"
-                label="Birthday"
-                type="date"
-                size="small"
-                defaultValue="2017-05-24"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
+            <Typography
+              variant="h5"
+              gutterBottom
+              align="center"
+              style={{
+                fontWeight: "bold",
+                color: "#3b3c3d",
+                textTransform: "none",
+                fontFamily: "'Poppins', sans-serif",
+              }}
+            >
+              SoteriaX Account Request Form
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              align="center"
+              style={{
+                color: "#5e5e5e",
+                fontFamily: "'Poppins', sans-serif",
+              }}
+            >
+              Please fill the following form with your information. A SoteriaX
+              agent will contact you to proceed with the registration.
+            </Typography>{" "}
+            <br></br>
+            <Grid container spacing={3}>
+              <Grid container item sm="6" spacing={3}>
+                <Grid item xs={12}>
+                  <Typography
+                    variant="subtitle1"
+                    style={{
+                      fontWeight: "bold",
+                      color: "#056f8c",
+                    }}
+                  >
+                    Your information
+                  </Typography>
+                </Grid>
+                <Grid item sm="6">
+                  <TextField
+                    inputRef={firstnameRef}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    size="small"
+                    key={inputFieldValue[0].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[0].name}
+                    label={inputFieldValue[0].label}
+                    error={errors[inputFieldValue[0].name]}
+                    multiline={inputFieldValue[0].multiline ?? false}
+                    rows={inputFieldValue[0].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[0].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[0].name],
+                    })}
+                  />
+                </Grid>
+                <Grid item sm="6">
+                  <TextField
+                    inputRef={lastnameRef}
+                    variant="outlined"
+                    required
+                    id="lastName"
+                    fullWidth
+                    size="small"
+                    key={inputFieldValue[2].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[2].name}
+                    label={inputFieldValue[2].label}
+                    error={errors[inputFieldValue[2].name]}
+                    multiline={inputFieldValue[2].multiline ?? false}
+                    rows={inputFieldValue[2].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[2].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[2].name],
+                    })}
+                  />
+                </Grid>
+                <Grid item sm="6">
+                  {" "}
+                  <TextField
+                    inputRef={userEmailRef}
+                    variant="outlined"
+                    required
+                    id="email"
+                    fullWidth
+                    size="small"
+                    key={inputFieldValue[1].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[1].name}
+                    label={inputFieldValue[1].label}
+                    error={errors[inputFieldValue[1].name]}
+                    multiline={inputFieldValue[1].multiline ?? false}
+                    rows={inputFieldValue[1].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[1].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[1].name],
+                    })}
+                  />
+                </Grid>
+                <Grid item sm="6">
+                  {" "}
+                  <TextField
+                    inputRef={userPhoneRef}
+                    variant="outlined"
+                    required
+                    id="phone"
+                    fullWidth
+                    size="small"
+                    key={inputFieldValue[3].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[3].name}
+                    label={inputFieldValue[3].label}
+                    error={errors[inputFieldValue[3].name]}
+                    multiline={inputFieldValue[3].multiline ?? false}
+                    rows={inputFieldValue[3].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[3].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[3].name],
+                    })}
+                  />
+                </Grid>
+                <Grid item sm="6">
+                  {" "}
+                  <TextField
+                    inputRef={birthdayRef}
+                    id="date"
+                    label="Birthday"
+                    type="date"
+                    size="small"
+                    defaultValue="1997-05-02"
+                    name="birthday"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={handleInputValue}
+                    error={errors[inputFieldValue[10].name]}
+                    helperText={errors[inputFieldValue[10].name]}
+                  />
+                </Grid>
+                <Grid item sm="6">
+                  {" "}
+                  <FormLabel component="legend">Gender</FormLabel>
+                  <RadioGroup
+                    aria-label="gender"
+                    row
+                    onChange={handleGenderChange}
+                    name="gender"
+                  >
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio />}
+                      label="Female"
+                    />
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                    />
+                  </RadioGroup>
+                </Grid>
+                <Grid item sm="6"></Grid>
+              </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <FormLabel component="legend">Gender</FormLabel>
-              <RadioGroup
-                onChange={handleGenderChange}
-                aria-label="gender"
-                name="gender"
-                row
-                // value={value}
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-              </RadioGroup>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography
-                variant="subtitle1"
-                style={{
-                  fontWeight: "bold",
-                  color: "#056f8c",
-                }}
-              >
-                The Company information
-              </Typography>
-            </Grid>
+              <Divider orientation="vertical" flexItem variant="middle" />
 
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={companyNameRef}
-                variant="outlined"
-                required
-                id="companyName"
-                name="companyName"
-                label="The Company Name"
-                fullWidth
-                size="small"
-              />
+              <Grid container item spacing={3} item sm="6">
+                <Grid item xs={12}>
+                  <Typography
+                    variant="subtitle1"
+                    style={{
+                      fontWeight: "bold",
+                      color: "#056f8c",
+                    }}
+                  >
+                    The Company information
+                  </Typography>
+                </Grid>
+                <Grid item sm="6">
+                  {" "}
+                  <TextField
+                    inputRef={companyNameRef}
+                    variant="outlined"
+                    required
+                    id="companyName"
+                    fullWidth
+                    size="small"
+                    key={inputFieldValue[4].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[4].name}
+                    label={inputFieldValue[4].label}
+                    error={errors[inputFieldValue[4].name]}
+                    multiline={inputFieldValue[4].multiline ?? false}
+                    rows={inputFieldValue[4].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[4].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[4].name],
+                    })}
+                  />
+                </Grid>
+                <Grid item sm="6">
+                  {" "}
+                  <TextField
+                    inputRef={companyEmailRef}
+                    variant="outlined"
+                    required
+                    id="companyEmail"
+                    fullWidth
+                    size="small"
+                    key={inputFieldValue[5].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[5].name}
+                    label={inputFieldValue[5].label}
+                    error={errors[inputFieldValue[5].name]}
+                    multiline={inputFieldValue[5].multiline ?? false}
+                    rows={inputFieldValue[5].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[5].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[5].name],
+                    })}
+                  />
+                </Grid>
+                <Grid item sm="12">
+                  {" "}
+                  <TextField
+                    inputRef={companyAddressRef}
+                    variant="outlined"
+                    required
+                    id="companyAddress"
+                    fullWidth
+                    size="small"
+                    key={inputFieldValue[6].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[6].name}
+                    label={inputFieldValue[6].label}
+                    error={errors[inputFieldValue[6].name]}
+                    multiline={inputFieldValue[6].multiline ?? false}
+                    rows={inputFieldValue[6].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[6].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[6].name],
+                    })}
+                  />
+                </Grid>
+                <Grid item sm="6">
+                  {" "}
+                  <TextField
+                    inputRef={companyPhoneRef}
+                    variant="outlined"
+                    required
+                    id="companyPhone"
+                    fullWidth
+                    size="small"
+                    key={inputFieldValue[7].index}
+                    onChange={handleInputValue}
+                    onBlur={handleInputValue}
+                    name={inputFieldValue[7].name}
+                    label={inputFieldValue[7].label}
+                    error={errors[inputFieldValue[7].name]}
+                    multiline={inputFieldValue[7].multiline ?? false}
+                    rows={inputFieldValue[7].rows ?? 1}
+                    autoComplete="none"
+                    {...(errors[inputFieldValue[7].name] && {
+                      error: true,
+                      helperText: errors[inputFieldValue[7].name],
+                    })}
+                  />
+                </Grid>
+                <Grid item sm="6">
+                  <FormLabel component="legend">
+                    The Subscription Type
+                  </FormLabel>
+                  <RadioGroup
+                    aria-label="subscription"
+                    name="supportType"
+                    row
+                    key={inputFieldValue[9].index}
+                    onChange={handleSupportTypeChange}
+                  >
+                    <FormControlLabel
+                      value="withSupport"
+                      control={<Radio />}
+                      label="With Support"
+                    />
+                    <FormControlLabel
+                      value="withoutSupport"
+                      control={<Radio />}
+                      label="Without Support"
+                    />
+                  </RadioGroup>
+                </Grid>
+                <Grid item sm="12">
+                  <div display="block" align="right">
+                    {" "}
+                    <Button
+                      disabled={loading}
+                      size="large"
+                      href="/"
+                      style={{
+                        marginRight: 20,
+                        fontWeight: "bold",
+                        width: 130,
+                      }}
+                      variant="outlined"
+                      color="primary"
+                      //style={{backgroundColor: '#fa931d', color: '#FFFFFF'}}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      onClick={handleRequest}
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        width: 130,
+                      }}
+                      disabled={!formIsValid()}
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={companyEmailRef}
-                variant="outlined"
-                required
-                id="companyEmail"
-                name="companyEmail"
-                label="The Company email"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                inputRef={companyAddressRef}
-                variant="outlined"
-                required
-                id="companyAddress"
-                name="companyAddress"
-                label="Company Address"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={companyPhoneRef}
-                variant="outlined"
-                required
-                id="companyPhone"
-                name="companyPhone"
-                label="Company Phone"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormLabel component="legend">The Subscription Type</FormLabel>
-              <RadioGroup
-                onChange={handleSupportTypeChange}
-                aria-label="subscription"
-                name="subscription"
-                row
-                // value={value}
-                // onChange={}
-              >
-                <FormControlLabel
-                  value="withSupport"
-                  control={<Radio />}
-                  label="With Support"
-                />
-                <FormControlLabel
-                  value="withoutSupport"
-                  control={<Radio />}
-                  label="Without Support"
-                />
-              </RadioGroup>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button
-                onClick={handleRequest}
-                size="large"
-                variant="contained"
-                color="primary"
-                style={{
-                  marginRight: 50,
-                  fontWeight: "bold",
-                  //   color: "blue",
-                  textTransform: "none",
-                }}
-              >
-                Submit the Request
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        </Container>
       </div>
     </div>
   );

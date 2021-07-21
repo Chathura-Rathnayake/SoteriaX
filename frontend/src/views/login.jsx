@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import image from "./soteriax.png";
-// import Link from '@material-ui/core/Link';
+import MaterialLink from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -97,7 +97,7 @@ const Login = () => {
         process.env.REACT_APP_ADMIN_EMAIL.toUpperCase()
       ) {
         //TODO - validate user from his/her collection
-        history.push("/admin"); //to the admin dashboard
+        history.push("/adminDashboard"); //to the admin dashboard
       } else {
         history.push("/adashboard"); //to the headlife dashboard
       }
@@ -162,23 +162,40 @@ const Login = () => {
                 autoComplete="current-password"
                 inputRef={passwordRef}
               />
+              <div align="center">
+                <Button
+                  disabled={loading}
+                  href="/"
+                  style={{
+                    marginRight: 50,
+                    fontWeight: "bold",
+                  }}
+                  variant="outlined"
+                  color="primary"
+                  //style={{backgroundColor: '#fa931d', color: '#FFFFFF'}}
+                
+                >
+                  Back to Home
+                </Button>
 
-              <Button
-                disabled={loading}
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                //style={{backgroundColor: '#fa931d', color: '#FFFFFF'}}
-                className={classes.submit}
-              >
-                Sign In
-              </Button>
+                <Button
+                  disabled={loading}
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  //style={{backgroundColor: '#fa931d', color: '#FFFFFF'}}
+                  className={classes.submit}
+                  style={{ width: "130px" }}
+                >
+                  Sign In
+                </Button>
+              </div>
+
               <div style={{ alignItems: "center" }}>
                 {/* fix this (the Link vs Link conflict) */}
-                {/* <Link href="/forgetPassword" variant="body2">
-                Forgot password?
-              </Link> */}
+                <MaterialLink href="/forgetPassword" variant="body2">
+                  Forgot password?
+                </MaterialLink>
               </div>
             </form>
           </div>
