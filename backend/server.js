@@ -4,7 +4,7 @@ const path = require("path");
 const app = express();
 
 var admin = require("firebase-admin");
-var serviceAccount = require("./serviceAccountKey.json");
+var serviceAccount = require("./serviceAccountKey.json"); //this file is excluded - add it again when coding
 
 // const functions = require("firebase-functions");
 
