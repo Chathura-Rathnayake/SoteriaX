@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
 }));
+
 export default function Live() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -57,6 +58,58 @@ export default function Live() {
     setOpen(false);
   };
 
+  //Code segment to handle the real time video streaming
+  async function handleVideoButtonClick(e) {
+    console.log("clicked");
+    const peer = createPeer();
+    //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
+    peer.addTransceiver("video", { direction: "recvonly" });
+  }
+
+  function createPeer() {
+    const peer = new RTCPeerConnection();
+    //STUN server configurations
+    //   {
+    //   iceServers: [
+    //     {
+    //       urls: "stun:stun.stunprotocol.org:3478",
+    //     },
+    //   ],
+    // }
+    peer.ontrack = handleTrackEvent; //listen to ontrack event (to receive the broadcaster's(RasberryPi's) stream from the server)
+    peer.onnegotiationneeded = () => handleNegotiationNeededEvent(peer); //the negotiation
+    return peer;
+  }
+
+  async function handleNegotiationNeededEvent(peer) {
+    const offer = await peer.createOffer(); //create my offer
+    await peer.setLocalDescription(offer); //set it as the local description
+    const payload = {
+      sdp: peer.localDescription,
+    };
+
+    const { data } = await axios.post(
+      "http://192.168.1.105:5000/consumer", //ip address and port of the raspberry pi server (this is currently hardcoded)
+      payload
+    );
+    const desc = new RTCSessionDescription(data.sdp);
+    peer.setRemoteDescription(desc).catch((e) => console.log(e)); //setting the remote description
+  }
+
+  function handleTrackEvent(e) {
+    console.log(e.streams[0]);
+    // console.log(e.streams[0]);
+
+    // if (document.getElementById("video").srcObject) {
+    //   console.log("if");
+    //   return;
+    // } else {
+    //   console.log("else");
+    //   document.getElementById("video").srcObject = e.streams[0];
+    // }
+    document.getElementById("video").srcObject = e.streams[0]; //sending the strem to the front end video tag
+  }
+  //end of the realtime stream handler code
   return (
     <Layout>
       <Grid container spacing={2}>
@@ -78,7 +131,7 @@ export default function Live() {
             id="my-button"
             variant="contained"
             color="primary"
-            // onClick={handleVideoButtonClick} //uncomment this
+            onClick={handleVideoButtonClick}
             startIcon={<PlayArrowIcon />}
           >
             Watch Live Stream
