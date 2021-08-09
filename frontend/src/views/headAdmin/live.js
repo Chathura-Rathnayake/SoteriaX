@@ -6,6 +6,8 @@ import Layout from "../../components/headAdmin/Layout";
 import { VideoCard } from "material-ui-player";
 import footage from "../../assets/vid/footage.mp4";
 import Grid from "@material-ui/core/Grid";
+import axios from "axios";
+import Icon from "@material-ui/core/Icon";
 
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineItem from "@material-ui/lab/TimelineItem";
@@ -18,6 +20,12 @@ import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import { CardMedia } from "@material-ui/core";
+import ReactPlayer from "react-player";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import StopIcon from "@material-ui/icons/Stop";
+import InfoIcon from "@material-ui/icons/Info";
+import droneView from "../../assets/images/droneView.png";
 
 const useStyles = makeStyles((theme) => ({
   bot: {
@@ -48,21 +56,45 @@ export default function Live() {
 
     setOpen(false);
   };
+
   return (
     <Layout>
       <Grid container spacing={2}>
-        <Grid item lg={12}>
-          <Typography
-            className={classes.bold400}
-            variant="h4"
-            align="center"
-            color="textSecondary"
+        <Grid item lg={12}></Grid>
+        <Grid item lg={7}>
+          <video
+            style={{
+              boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.2)",
+              borderRadius: "7px",
+            }}
+            poster={droneView}
+            width="704"
+            height="528"
+            autoPlay
+            id="video"
+            controls
+          ></video>
+          <Button
+            id="my-button"
+            variant="contained"
+            color="primary"
+            // onClick={handleVideoButtonClick} //uncomment this
+            startIcon={<PlayArrowIcon />}
           >
-            Live Operation
-          </Typography>
-        </Grid>
-        <Grid item lg={8}>
-          <VideoCard
+            Watch Live Stream
+          </Button>
+
+          <Button
+            style={{ margin: 10 }}
+            id="my-button"
+            variant="contained"
+            color="secondary"
+            // onClick={}
+            startIcon={<StopIcon />}
+          >
+            Stop Live Stream
+          </Button>
+          {/* <VideoCard
             src={footage}
             autoplay="true"
             width="700"
@@ -71,9 +103,32 @@ export default function Live() {
             fadeInTime="2"
             fadeOutTime="2"
             PlayProps
-          />
+          /> */}
         </Grid>
-        <Grid item lg={4}>
+        <Grid
+          item
+          lg={4}
+          style={{
+            boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.2)",
+            borderRadius: "7px",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="Primary"
+            startIcon={<InfoIcon />}
+            size="large"
+            fullWidth
+            style={{
+              marginRight: 50,
+              // fontWeight: "bold",
+              // color: "white",
+              textTransform: "none",
+              // fontFamily: "'Lato', sans-serif",
+            }}
+          >
+            The Mission Status
+          </Button>
           <Grid item lg={12}>
             <Container align="left">
               <Timeline align="alternate">
@@ -132,13 +187,16 @@ export default function Live() {
                 </TimelineItem>
               </Timeline>
             </Container>
-            <Typography align="right" className={classes.bold400} size="10px">
+            {/* <Typography align="right" className={classes.bold400} size="10px">
+              {" "}
+            
               Emergency Code : 200 Lock Malfunction{" "}
-            </Typography>
+            </Typography> */}
           </Grid>
         </Grid>
-        <Grid item lg={12}>
-          {/* <div>
+        {/*<Grid item lg={12}>
+    
+          <div>
             <Button onClick={handleClick}>Emergency Code</Button>
             <Snackbar
               autoHideDuration= {1000000},
@@ -163,10 +221,9 @@ export default function Live() {
                 </React.Fragment>
               }
             />
-          </div> */}
-        </Grid>
+          </div>
+        </Grid> */}
       </Grid>
-      <Container size="sm"></Container>
     </Layout>
   );
 }
