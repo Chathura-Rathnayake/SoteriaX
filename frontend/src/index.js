@@ -23,6 +23,7 @@ import App from "./views/Admin/App";
 import Complaints from "./views/Admin/Complaints";
 import Suggestions from "./views/Admin/Suggestions";
 import HelpRequest from "./views/Admin/HelpRequest";
+import test from "./views/test"; //just a testing file
 
 const theme = createMuiTheme({
   palette: {
@@ -50,7 +51,7 @@ ReactDOM.render(
             path="/headlifeguardRequest"
             component={HeadlifeguardRequest}
           />
-
+          <Route exact path="/test" component={test} />
           {/* restricted routes  - admin*/}
           <PrivateRouteAdmin exact path="/admin" component={Admin} />
           <PrivateRouteAdmin exact path="/adminProfile" component={App} />
@@ -64,15 +65,15 @@ ReactDOM.render(
             path="/adminComplaint"
             component={Complaints}
           />
-  <PrivateRouteAdmin
+          <PrivateRouteAdmin
             exact
             path="/adminSuggestion"
-            component={Suggestions }
+            component={Suggestions}
           />
           <PrivateRouteAdmin
             exact
             path="/adminHelpRequest"
-            component={HelpRequest }
+            component={HelpRequest}
           />
 
           {/* restricted routes  - headlifeguard*/}
@@ -96,11 +97,7 @@ ReactDOM.render(
             path="/support"
             component={Support}
           />
-          <PrivateRouteHeadlifeguard
-            exact
-            path="/live"
-            component={Live}
-          />
+          <PrivateRouteHeadlifeguard exact path="/live" component={Live} />
 
           <Route exact path="/addUser" component={AddUser} />
         </AuthProvider>

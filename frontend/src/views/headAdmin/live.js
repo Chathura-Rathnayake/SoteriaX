@@ -87,9 +87,10 @@ export default function Live() {
     const payload = {
       sdp: peer.localDescription,
     };
-
+    console.log("hello");
+    console.log(peer.localDescription);
     const { data } = await axios.post(
-      "http://192.168.1.105:5000/consumer", //ip address and port of the raspberry pi server (this is currently hardcoded)
+      "http://192.168.1.103:5000/consumer", //ip address and port of the raspberry pi server (this is currently hardcoded)
       payload
     );
     const desc = new RTCSessionDescription(data.sdp);
