@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
+import { secondaryApp } from "../firebase";
 
 const AuthContext = React.createContext();
 
@@ -12,11 +13,17 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password);
+    secondaryApp //we are issuing the sign in request with the secondary reference to stop logging out admin once he create a lifeguard account
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(function (firebaseUser) {
+        console.log("User " + firebaseUser.uid + " created successfully!");
+        secondaryApp.auth().signOut();
+      });
   }
 
   function login(email, password) {
-    console.log("inside login");
+    console.log("inside login function");
     return auth.signInWithEmailAndPassword(email, password);
   }
 

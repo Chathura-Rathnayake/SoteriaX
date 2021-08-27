@@ -126,6 +126,8 @@ export default function RequestList() {
   async function handleSubmit(e) {}
 
   const approveUserRequest = (request) => {
+    console.log("the reqeset.id");
+    console.log(request.id);
     //storing the data in headlifeguard collection
     firestore
       .collection("headLifeguards")
@@ -142,11 +144,13 @@ export default function RequestList() {
       //   setError("");
       //   setLoading(true);
       const password = `${request.firstName.toUpperCase()}${request.userPhone}`;
-      console.log(password);
       signup(request.userEmail, password);
+      //console.log(testVar.uid)
+
       //if success send an email with the password
+      
     } catch {
-      //   setError("Failed to create an account");
+      // setError("Failed to create an account");
     }
 
     // setLoading(false);

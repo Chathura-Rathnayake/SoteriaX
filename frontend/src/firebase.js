@@ -15,3 +15,4 @@ const app = firebase.initializeApp({
 // Initialize Firebase
 export const auth = app.auth();
 export const firestore = app.firestore();
+export const secondaryApp = firebase.initializeApp(app, "Secondary");
