@@ -1,6 +1,6 @@
 
 module.exports = {
-  sendData: function (req, db) {
+  sendData: function (req, db,uid) {
 
     if (req.body.type = 1) {
       collectionName = "Help Requests"
@@ -9,10 +9,12 @@ module.exports = {
     } else {
       collectionName = "Suggestions"
     }
+    
     db.collection(collectionName)
       .add({
         accountType: "headLifeGuard",
-        companyId: "xxxxxxxxxx",
+        userID: uid,
+        companyID: uid,
         headline: req.body.headline,
         msg: req.body.msg,
         status: "pending",

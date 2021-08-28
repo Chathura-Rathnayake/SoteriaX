@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Layout from "../../components/headAdmin/Layout";
 import { TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
-
+import { useAuth } from "../../contexts/AuthContext.js";
 const useStyles = makeStyles({
   bot: {
     marginBottom: 10,
@@ -30,10 +30,16 @@ const useStyles = makeStyles({
 
 export default function Support() {
   const classes = useStyles();
- 
+   let uid;
+
+   useAuth()
+  .currentUser.getIdToken(true)
+  .then((idToken) => {
+   uid = idToken;
+  });
+
 
   function FromdataTranfer(data) {
-    
     fetch("/headguardSupport", {
       method: "POST",
       headers: {
@@ -41,10 +47,9 @@ export default function Support() {
       },
       body: JSON.stringify(data),
       
-    })
+    }) 
       .then((res) => res.json())
       .then((data) => console.log(data));
-    
     console.log("done");
 }
 
@@ -68,12 +73,12 @@ export default function Support() {
     var formdata = {
       type:type.value,
       headline:headline.value,
-      msg:msg.value
+      msg:msg.value,
+      token: uid
+      
     };  
     
     FromdataTranfer(formdata);
-    
-    
   }
 
   return (

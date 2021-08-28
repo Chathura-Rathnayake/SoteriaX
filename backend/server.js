@@ -27,6 +27,7 @@ app.get("/", function (req, res) {
 
 //a test route (to send data to frontend)
 app.get("/retrieve", function (req, res) {
+  
   //doing a read
   var docRef = db.collection("test").doc("chathu");
   docRef
@@ -51,6 +52,7 @@ app.get("/retrieve", function (req, res) {
 
 //a test route (to retrieve data from frontend)
 app.post("/send", function (req, res) {
+  console.log(req.body); 
   admin
     .auth()
     .verifyIdToken(req.body.token) //verify the token came from frontend
@@ -78,8 +80,22 @@ app.post("/send", function (req, res) {
 });
 
 app.post("/headguardSupport", function (req,res) {
-  var data = require("./headlifeguard/headguardSupport.js");
-  data.sendData(req,db)
+  console.log(req.body); 
+  admin
+  .auth()
+  .verifyIdToken(req.body.token)
+  .then((decodedToken) => {
+    var data = require("./headlifeguard/headguardSupport.js");
+    data.sendData(req,db,decodedToken.uid)
+    res.json({
+      name: "huuu",
+      age: "aaaaa",
+    });
+  })
+  .catch((error) => {
+    // Handle error
+  });
+
 
 });
 
