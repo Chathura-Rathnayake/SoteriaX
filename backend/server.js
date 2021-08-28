@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 
 //body parser middleware setup
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -16,7 +17,10 @@ admin.initializeApp({
 
 const db = admin.firestore(); //loading the firestore database
 
+
+
 //a test route
+
 app.get("/", function (req, res) {
   res.send("hello it works.!");
 });
@@ -72,5 +76,12 @@ app.post("/send", function (req, res) {
   //   token: req.body.token,
   // });
 });
+
+app.post("/headguardSupport", function (req,res) {
+  var data = require("./headlifeguard/headguardSupport.js");
+  data.sendData(req,db)
+
+});
+
 
 app.listen(process.env.PORT || 8080);
