@@ -23,6 +23,7 @@ import App from "./views/Admin/App";
 import Complaints from "./views/Admin/Complaints";
 import Suggestions from "./views/Admin/Suggestions";
 import HelpRequest from "./views/Admin/HelpRequest";
+import Profiles from "./views/Admin/Profiles";
 import test from "./views/test"; //just a testing file
 
 const theme = createMuiTheme({
@@ -59,6 +60,11 @@ ReactDOM.render(
             exact
             path="/adminDashboard"
             component={Dashboard}
+          />
+          <PrivateRouteAdmin
+            exact
+            path="/adminManagement"
+            component={Profiles}
           />
           <PrivateRouteAdmin
             exact
