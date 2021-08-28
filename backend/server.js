@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 
-
 //body parser middleware setup
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,19 +17,10 @@ admin.initializeApp({
 
 const db = admin.firestore(); //loading the firestore database
 
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    var uid = user.uid;
-    console.log(uid);
-    // ...
-  } else {
-    // User is signed out
-    // ...
-  }
-});
+
+
 //a test route
+
 app.get("/", function (req, res) {
   res.send("hello it works.!");
 });
