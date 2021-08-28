@@ -2,13 +2,15 @@
 module.exports = {
   sendData: function (req, db,uid) {
 
-    if (req.body.type = 1) {
+    if (req.body.type == 1) {
       collectionName = "Help Requests"
-    } else if (req.body.type = 2) {
+    } else if (req.body.type == 2) {
       collectionName = "Complaints"
     } else {
       collectionName = "Suggestions"
     }
+    var today = new Date(),
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     
     db.collection(collectionName)
       .add({
@@ -18,7 +20,8 @@ module.exports = {
         headline: req.body.headline,
         msg: req.body.msg,
         status: "pending",
-        viewed: "false"
+        viewed: "false",
+        date: date
       })
       .then(function (docRef) {
         console.log("Document written with ID: ", docRef.id);
