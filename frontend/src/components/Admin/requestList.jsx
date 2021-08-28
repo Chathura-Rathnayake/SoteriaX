@@ -76,7 +76,7 @@ export default function RequestList() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   //sign up related data
-  const { signup } = useAuth();
+  const { signup, login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -123,41 +123,38 @@ export default function RequestList() {
       });
   };
 
-  async function handleSubmit(e) {}
-
   const approveUserRequest = (request) => {
-    //storing the data in headlifeguard collection
-    firestore
-      .collection("headLifeguards")
-      .doc(request.id)
-      .set(request)
-      .then((res) => {
-        console.log("Added!", res);
-        alert("The Account Approved Successfully");
-      });
     //creating an account for the user
     // e.preventDefault()
-
     try {
       //   setError("");
       //   setLoading(true);
       const password = `${request.firstName.toUpperCase()}${request.userPhone}`;
-      console.log(password);
-      signup(request.userEmail, password);
-      //if success send an email with the password
-    } catch {
-      //   setError("Failed to create an account");
-    }
+      signup(request.userEmail, password).then((uid) => { //getting the uid of the created account
+        
+        //storing the data in headlifeguard collection
+        firestore
+          .collection("headLifeguards")
+          .doc(uid) //creating a lifeguard document by setting the uid as its document id
+          .set(request)
+          .then((res) => {
+            alert("The Account Approved Successfully");
+          });
 
-    // setLoading(false);
-    //finally deleting the document
-    firestore
-      .collection("userRequests")
-      .doc(request.id)
-      .delete()
-      .then((res) => {
-        console.log("Deleted!", res);
+        //finally deleting the document from user request list
+        firestore
+          .collection("userRequests")
+          .doc(request.id)
+          .delete()
+          .then((res) => {
+            console.log("Deleted!", res);
+          });
       });
+      //if successful send an email with the password
+
+    } catch {
+      // setError("Failed to create an account");
+    }
   };
 
   return (

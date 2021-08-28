@@ -51,14 +51,30 @@ app.get("/retrieve", function (req, res) {
 
 //a test route (to retrieve data from frontend)
 app.post("/send", function (req, res) {
+  admin
+    .auth()
+    .verifyIdToken(req.body.token) //verify the token came from frontend
+    .then((decodedToken) => {
+      //only an API request from a verified user will reach inside this block
+      console.log("I'm inside, I'm a verified user");
+      console.log(decodedToken.uid); //logging that user's uid
 
-  console.log(req.body);
+      //sending an authenticated response (which means only authenticated users will receive this reponse)
+      res.json({
+        name: "huuu",
+        age: "aaaaa",
+      });
+    })
+    .catch((error) => {
+      // Handle error
+    });
+
   //testing writes
-  var citiesRef = db.collection("test");
-  citiesRef.doc("fromFront").set({
-    name: req.body.username,
-    state: req.body.age,
-  });
+  // var citiesRef = db.collection("test");
+  // citiesRef.doc("fromFront").set({
+  //   name: req.body.username,
+  //   token: req.body.token,
+  // });
 });
 
 app.post("/headguardSupport", function (req,res) {
