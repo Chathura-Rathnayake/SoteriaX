@@ -13,6 +13,10 @@ import TableRow from "@material-ui/core/TableRow";
 import { Button } from "@material-ui/core";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import Visibility from '@material-ui/icons/Visibility';
+import ThumbUp from '@material-ui/icons/ThumbUp';
+import Delete from '@material-ui/icons/Delete';
+import red from "@material-ui/core/colors/red";
 
 const columns = [
   { id: "firstName", label: "First\u00a0Name", minWidth: 80 },
@@ -200,26 +204,29 @@ export default function RequestList() {
                               ? column.format(value)
                               : value}
                             {column.id === "view" && (
-                              <Button variant="contained" color="primary">
-                                view
-                              </Button>
+                              <Link className="button" to="/adminDashboard">
+                                <Button mini={true} variant="fab" zDepth={0}>
+                                  <Visibility />
+                                </Button>
+                              </Link>
                             )}
                             {column.id === "approve" && (
                               <Button
-                                variant="contained"
-                                color="primary"
+                                mini={true}
+                                variant="fab"
+                                zDepth={0}
                                 onClick={() => approveUserRequest(request)}
                               >
-                                approve
+                                <ThumbUp/>
                               </Button>
                             )}
                             {column.id === "remove" && (
                               <Button
-                                variant="contained"
-                                color="secondary"
+                                mini={true}
+                                variant="fab"
                                 onClick={() => deleteUserRequest(request["id"])}
                               >
-                                remove
+                                <Delete style={{ color: "red" }}/>
                               </Button>
                             )}
                           </TableCell>
