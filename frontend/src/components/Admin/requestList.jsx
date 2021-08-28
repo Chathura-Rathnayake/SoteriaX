@@ -13,6 +13,10 @@ import TableRow from "@material-ui/core/TableRow";
 import { Button } from "@material-ui/core";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import Visibility from '@material-ui/icons/Visibility';
+import ThumbUp from '@material-ui/icons/ThumbUp';
+import Delete from '@material-ui/icons/Delete';
+import red from "@material-ui/core/colors/red";
 
 const columns = [
   { id: "firstName", label: "First\u00a0Name", minWidth: 80 },
@@ -76,7 +80,7 @@ export default function RequestList() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   //sign up related data
-  const { signup, login } = useAuth();
+  const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -123,38 +127,41 @@ export default function RequestList() {
       });
   };
 
+  async function handleSubmit(e) {}
+
   const approveUserRequest = (request) => {
+    //storing the data in headlifeguard collection
+    firestore
+      .collection("headLifeguards")
+      .doc(request.id)
+      .set(request)
+      .then((res) => {
+        console.log("Added!", res);
+        alert("The Account Approved Successfully");
+      });
     //creating an account for the user
     // e.preventDefault()
+
     try {
       //   setError("");
       //   setLoading(true);
       const password = `${request.firstName.toUpperCase()}${request.userPhone}`;
-      signup(request.userEmail, password).then((uid) => { //getting the uid of the created account
-        
-        //storing the data in headlifeguard collection
-        firestore
-          .collection("headLifeguards")
-          .doc(uid) //creating a lifeguard document by setting the uid as its document id
-          .set(request)
-          .then((res) => {
-            alert("The Account Approved Successfully");
-          });
-
-        //finally deleting the document from user request list
-        firestore
-          .collection("userRequests")
-          .doc(request.id)
-          .delete()
-          .then((res) => {
-            console.log("Deleted!", res);
-          });
-      });
-      //if successful send an email with the password
-
+      console.log(password);
+      signup(request.userEmail, password);
+      //if success send an email with the password
     } catch {
-      // setError("Failed to create an account");
+      //   setError("Failed to create an account");
     }
+
+    // setLoading(false);
+    //finally deleting the document
+    firestore
+      .collection("userRequests")
+      .doc(request.id)
+      .delete()
+      .then((res) => {
+        console.log("Deleted!", res);
+      });
   };
 
   return (
@@ -197,26 +204,29 @@ export default function RequestList() {
                               ? column.format(value)
                               : value}
                             {column.id === "view" && (
-                              <Button variant="contained" color="primary">
-                                view
-                              </Button>
+                              <Link className="button" to="/adminDashboard">
+                                <Button mini={true} variant="fab" zDepth={0}>
+                                  <Visibility />
+                                </Button>
+                              </Link>
                             )}
                             {column.id === "approve" && (
                               <Button
-                                variant="contained"
-                                color="primary"
+                                mini={true}
+                                variant="fab"
+                                zDepth={0}
                                 onClick={() => approveUserRequest(request)}
                               >
-                                approve
+                                <ThumbUp/>
                               </Button>
                             )}
                             {column.id === "remove" && (
                               <Button
-                                variant="contained"
-                                color="secondary"
+                                mini={true}
+                                variant="fab"
                                 onClick={() => deleteUserRequest(request["id"])}
                               >
-                                remove
+                                <Delete style={{ color: "red" }}/>
                               </Button>
                             )}
                           </TableCell>
