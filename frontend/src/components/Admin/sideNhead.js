@@ -10,7 +10,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Box from "@material-ui/core/Box";
 import {
-  PlayArrow,
+  Email,
   DashboardOutlined,
   ArrowDropDown,
   TrackChangesOutlined,
@@ -82,12 +82,18 @@ export default function Layout({ children }) {
     },
 
     {
-      text: "Profile management",
-      icon: <GroupRounded color="secondary" />,
+      text: "Registrations",
+      icon: <Email color="secondary" />,
       path: "/adminProfile",
     },
     {
-      text: "Suggestion",
+      text: "Profile Management",
+      icon: <GroupRounded color="secondary" />,
+      path: "adminManagement",
+    },
+
+    {
+      text: "Suggestions",
       icon: <TrackChangesOutlined color="secondary" />,
       path: "/adminSuggestion",
     },
@@ -97,7 +103,7 @@ export default function Layout({ children }) {
       path: "/adminComplaint",
     },
     {
-      text: "Help request",
+      text: "Help requests",
       icon: <LiveHelp color="secondary" />,
       path: "/adminHelpRequest",
     },

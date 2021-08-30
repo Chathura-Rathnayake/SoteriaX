@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 
 //body parser middleware setup
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -16,13 +17,17 @@ admin.initializeApp({
 
 const db = admin.firestore(); //loading the firestore database
 
+
+
 //a test route
+
 app.get("/", function (req, res) {
   res.send("hello it works.!");
 });
 
 //a test route (to send data to frontend)
 app.get("/retrieve", function (req, res) {
+  
   //doing a read
   var docRef = db.collection("test").doc("chathu");
   docRef
@@ -47,6 +52,7 @@ app.get("/retrieve", function (req, res) {
 
 //a test route (to retrieve data from frontend)
 app.post("/send", function (req, res) {
+  console.log(req.body); 
   admin
     .auth()
     .verifyIdToken(req.body.token) //verify the token came from frontend
@@ -72,5 +78,61 @@ app.post("/send", function (req, res) {
   //   token: req.body.token,
   // });
 });
+
+app.post("/headguardSupport", function (req,res) {
+  console.log(req.body); 
+  admin
+  .auth()
+  .verifyIdToken(req.body.token)
+  .then((decodedToken) => {
+    var data = require("./headlifeguard/headguardSupport.js");
+    data.sendData(req,db,decodedToken.uid)
+    res.json({
+      name: "huuu",
+      age: "aaaaa",
+    });
+  })
+  .catch((error) => {
+    // Handle error
+  });
+
+
+});
+
+app.get("/adminSuggestion", function (req, res) {
+  //doing a read
+  var docRef = db.collection("Help Requests");
+  docRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        console.log("Document data:", doc.data());
+        //sending the response to the frontend
+        res.json({
+          accountType: doc.data().accountType,
+          companyId: doc.data().companyId,
+          headline: doc.data().headline,
+          msg: doc.data().msg,
+          status: doc.data().status,
+          viewed: doc.data().viewed,
+        });
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+    });
+
+
+  //   const citiesRef = db.collection('cities');
+  //     const snapshot = await citiesRef.get();
+  //     snapshot.forEach(doc => {
+  //     console.log(doc.id, '=>', doc.data());
+  //     });
+
+});
+
 
 app.listen(process.env.PORT || 8080);

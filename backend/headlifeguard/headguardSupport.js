@@ -1,0 +1,34 @@
+
+module.exports = {
+  sendData: function (req, db,uid) {
+
+    if (req.body.type == 1) {
+      collectionName = "Help Requests"
+    } else if (req.body.type == 2) {
+      collectionName = "Complaints"
+    } else {
+      collectionName = "Suggestions"
+    }
+    var today = new Date(),
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    
+    db.collection(collectionName)
+      .add({
+        accountType: "headLifeGuard",
+        userID: uid,
+        companyID: uid,
+        headline: req.body.headline,
+        msg: req.body.msg,
+        status: "pending",
+        viewed: "false",
+        date: date
+      })
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id);
+      }).catch(function (error) {
+        console.error("Error adding document: ", error);
+      });
+
+  }
+
+}
