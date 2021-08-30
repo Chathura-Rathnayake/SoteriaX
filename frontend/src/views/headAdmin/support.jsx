@@ -30,14 +30,17 @@ const useStyles = makeStyles({
 
 export default function Support() {
   const classes = useStyles();
-   let uid;
 
+  let uid;
+  var x;
    useAuth()
   .currentUser.getIdToken(true)
   .then((idToken) => {
-   uid = idToken;
+   uid = idToken
+   var x= uid
+   console.log("orin 1", uid);
   });
-
+  console.log("orin dsadada1", x);
 
   function FromdataTranfer(data) {
     fetch("/headguardSupport", {
@@ -69,7 +72,7 @@ export default function Support() {
   function handleSubmit(e) {
     e.preventDefault();
     const {type,msg,headline} = e.target.elements
-    
+    console.log("orin 2", uid);
     var formdata = {
       type:type.value,
       headline:headline.value,
