@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import Layout from "../../components/headAdmin/Layout";
 import { TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
+import { useAuth } from "../../contexts/AuthContext.js";
+import { constants } from "buffer";
 
 const useStyles = makeStyles({
   bot: {
@@ -32,6 +34,35 @@ const useStyles = makeStyles({
 
 export default function Training() {
   const classes = useStyles();
+  const [userlist, getUsers] = useState({});
+  const users = {};
+  let uid;
+  useAuth()
+    .currentUser.getIdToken(true)
+    .then((idToken) => {
+      uid = idToken;
+    });
+
+
+  useEffect(() => {
+    // getUserdata();
+  }, []);
+
+
+
+  useEffect(() => {
+    fetch("/trainingView", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(uid),
+    }).then((res) => res.json()).then((data) => getUsers(data));
+  }, []);
+
+
+
+  console.log(users);
 
   const [state, setState] = React.useState({
     type: "",
@@ -112,11 +143,11 @@ export default function Training() {
                         native
                         style={{ width: "60%" }}
                         defaultValue={1}
-                        value={state.types}
+                        value={users}
                         onChange={handleChange}
                         inputProps={{
-                          name: "type",
-                          id: "filled-age-native-simple",
+                          name: "phandeler",
+                          id: "phandeler",
                         }}
                       >
                         <option value={1}>Kumara Dasanayeka</option>
@@ -183,7 +214,7 @@ export default function Training() {
                       color="secondary"
                       size="medium"
                       style={{ marginLeft: 25 }}
-                      onClick={() => {}}
+                      onClick={() => { }}
                     >
                       Procced To Training
                     </Button>

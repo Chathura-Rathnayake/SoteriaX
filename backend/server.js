@@ -60,8 +60,10 @@ app.post("/send", function (req, res) {
 
       //sending an authenticated response (which means only authenticated users will receive this reponse)
       res.json({
+
         name: "huuu",
         age: "aaaaa",
+
       });
     })
     .catch((error) => {
@@ -77,23 +79,59 @@ app.post("/send", function (req, res) {
 });
 
 app.post("/headguardSupport", function (req, res) {
-  console.log(req.body);
-  admin
-    .auth()
-    .verifyIdToken(req.body.token)
-    .then((decodedToken) => {
-      var data = require("./headlifeguard/headguardSupport.js");
-      data.sendData(req, db, decodedToken.uid);
-      res.json({
-        name: "huuu",
-        age: "aaaaa",
-      });
-    })
-    .catch((error) => {
-      // Handle error
-    });
+  // console.log(req.body); 
+  var data = require("./headlifeguard/headguardSupport.js");
+  data.sendData(req, db, admin)
 });
 
+app.post("/trainingView", async function (req, res) {
+  var lifeguards = [];
+  console.log(req.body)
+  console.log("came here 3");
+  const data = db.collection('lifeguards');
+  const snapshot = await data.where('accountStatus', '==', true).get();
+  admin
+  .auth()
+  .verifyIdToken(req.body.token)
+  .then(() => {
+  if (snapshot.empty) {
+      console.log('No matching documents.');
+      return;
+  }
+  console.log(snapshot)
+  snapshot.forEach(doc => {
+      const fname= (doc.data().firstName);
+      const lname= (doc.data().lastName);
+      const uid = doc.data().empID;
+      // lifeguards.push([uid,fname,lname]);
+      lifeguards.push({
+        "uid" :uid,
+        "fname":fname,
+        "lname": lname});
+  });
+  result = lifeguards;
+  res.json({
+  result  
+  });
+
+});
+  // admin
+  // .auth()
+  // .verifyIdToken(req.body.token)
+  // .then(() => {
+  //     console.log("came here 3");
+  //     const data = db.collection('lifeguards');
+  //     const snapshot = await data.where('accountStatus', '==', true).get();
+  //     if (snapshot.empty) {
+  //         console.log('No matching documents.');
+  //         return;
+  //     }
+  //     snapshot.forEach(doc => {
+  //         console.log("came here 4");
+  //         console.log(doc.data().firstName, "", doc.data().lastName);
+  //     });
+  // })
+});
 app.get("/adminSuggestion", function (req, res) {
   //doing a read
   var docRef = db.collection("Help Requests");
@@ -119,7 +157,6 @@ app.get("/adminSuggestion", function (req, res) {
     .catch((error) => {
       console.log("Error getting document:", error);
     });
-
   //   const citiesRef = db.collection('cities');
   //     const snapshot = await citiesRef.get();
   //     snapshot.forEach(doc => {
