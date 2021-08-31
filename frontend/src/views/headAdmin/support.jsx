@@ -72,7 +72,6 @@ export default function Support() {
   function handleSubmit(e) {
     e.preventDefault();
     const {type,msg,headline} = e.target.elements
-    console.log("orin 2", uid);
     var formdata = {
       type:type.value,
       headline:headline.value,

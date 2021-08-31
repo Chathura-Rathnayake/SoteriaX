@@ -34,7 +34,11 @@ const useStyles = makeStyles({
 
 export default function Training() {
   const classes = useStyles();
-  const [userlist, getUsers] = useState([{}]);
+  const [userlist, getUsers] = useState([]);
+  const [state, setState] = React.useState({
+    type: "",
+    
+  });
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -55,39 +59,19 @@ export default function Training() {
           .then((data) => getUsers(data)); //printing it to the console
       
         } catch (err) {
-        console.log(err);
+        //
       }
     }
     getUserList(); //executing it
   }, []);
-
-  const lifeguards = userlist.lifeguards;
-  const options = [
-    {
-      label: "Apple",
-      value: "apple",
-    },
-    {
-      label: "Mango",
-      value: "mango",
-    },
-    {
-      label: "Banana",
-      value: "banana",
-    },
-    {
-      label: "Pineapple",
-      value: "pineapple",
-    },
-  ];
-  // const arr = Object.values(lifeguards);
-  //  console.log(arr) 
-  const [state, setState] = useState({
-    types: ""
+  var pilots = userlist.filter(function(getpilots){
+    return getpilots.isPilot == true;
   });
-  const handleHandelerChange = (e) => {
-    getUsers(e.target.value)
-  }
+
+  var non_pilots = userlist.filter(function(getpilots){
+    return getpilots.isPilot == false;
+  });
+
   const handleChange = (event) => {
     const name = event.target.name;
     setState({
@@ -95,6 +79,25 @@ export default function Training() {
       [name]: event.target.value,
     });
   };
+  function handleSubmit(e) {
+    e.preventDefault();
+    const {msg,sea,packageH,rescuer,pilot} = e.target.elements
+    // if(packageH.value == rescuer.value){
+    //   alert("pick diffrent user")
+    // }
+    
+    var formdata = {
+        Summary:msg.value,
+        SeaCondition:sea.value,
+        Package:packageH.value,
+        Rescuer:rescuer.value,
+        Pilot:pilot.value,
+        
+      
+    };  
+    console.log(formdata);
+    // FromdataTranfer(formdata);
+  }
 
   return (
     <Layout>
@@ -118,19 +121,20 @@ export default function Training() {
 
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <form noValidate autoComplete="off">
+            <form onSubmit={handleSubmit} autoComplete="off">
               <div>
                 <div style={{ marginTop: "10px", marginLeft: "50px" }}>
                   <Grid container spacing={5} autoComplete="off">
                     <Grid item xs={2}>
                       <Typography size="12px" color="textSecondary">
                         Summary:
+
                       </Typography>
                     </Grid>
                     <Grid item xs={10}>
                       <TextField
                         style={{ width: "80%" }}
-                        id="summery"
+                        name="msg"
                         multiline
                         rows={8}
                         variant="outlined"
@@ -143,15 +147,12 @@ export default function Training() {
                     </Grid>
                     <Grid item xs={6}>
                       <Select
+                       name="sea"
                         native
-                        style={{ width: "60%" }}
                         defaultValue={1}
-      
+                        value={state.types}
+                        style={{ width: "60%" }}      
                         onChange={handleChange}
-                        inputProps={{
-                          name: "type",
-                          id: "filled-age-native-simple",
-                        }}
                       >
                         <option value={1}>Mild</option>
                         <option value={2}>Moderate</option>
@@ -165,12 +166,14 @@ export default function Training() {
                     </Grid>
                     <Grid item xs={6}>
                       <Select
+                        name="packageH"
                         native
                         style={{ width: "60%" }}
-                        onChange={handleHandelerChange}
+                        onChange={handleChange}
                       >
-                          {options.map((user) => (
-                            <option value={user.dui}>{user.label}</option>
+                          {non_pilots.map((user) => (
+                            
+                            <option value={user.empID}>{user.firstName} {user.lastName}</option>
                           ))}
 
                       </Select>
@@ -182,21 +185,15 @@ export default function Training() {
                     </Grid>
                     <Grid item xs={6}>
                       <Select
+                        name="rescuer"
                         native
                         style={{ width: "60%" }}
-                        defaultValue={3}
-                        value={state.types}
                         onChange={handleChange}
-                        inputProps={{
-                          name: "type",
-                          id: "filled-age-native-simple",
-                        }}
                       >
-                        <option value={1}>Kumara Dasanayeka</option>
-                        <option value={2}>Sarath Gunasingha</option>
-                        <option value={3}>Amal Kularathne</option>
-                        <option value={4}>Jagath Silva</option>
-                        <option value={5}>Sahan Fernando</option>
+                          {non_pilots.map((user) => (
+                            <option value={user.empID}>{user.firstName} {user.lastName}</option>
+                          ))}
+
                       </Select>
                     </Grid>
                     <Grid item xs={4}>
@@ -206,21 +203,15 @@ export default function Training() {
                     </Grid>
                     <Grid item xs={6}>
                       <Select
+                        name="pilot"
                         native
                         style={{ width: "60%" }}
-                        defaultValue={4}
-                        value={state.types}
                         onChange={handleChange}
-                        inputProps={{
-                          name: "type",
-                          id: "filled-age-native-simple",
-                        }}
                       >
-                        <option value={1}>Kumara Dasanayeka</option>
-                        <option value={2}>Sarath Gunasingha</option>
-                        <option value={3}>Amal Kularathne</option>
-                        <option value={4}>Jagath Silva</option>
-                        <option value={5}>Sahan Fernando</option>
+                          {pilots.map((user) => (
+                            <option value={user.empID}>{user.firstName} {user.lastName}</option>
+                          ))}
+
                       </Select>
                     </Grid>
                   </Grid>

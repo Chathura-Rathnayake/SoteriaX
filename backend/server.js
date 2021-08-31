@@ -85,56 +85,31 @@ app.post("/headguardSupport", function (req, res) {
 });
 
 app.post("/trainingView", async function (req, res) {
-  var lifeguards = [];
- 
-  console.log(req.body)
-  console.log("came here 3");
-  const data = db.collection('lifeguards');
-  const snapshot = await data.where('accountStatus', '==', true).get();
+  var toSend = [];
   admin
   .auth()
   .verifyIdToken(req.body.token)
   .then(() => {
-  if (snapshot.empty) {
-      console.log('No matching documents.');
-      return;
-  }
-  // console.log(snapshot)
-  snapshot.forEach(doc => {
-      console.log(doc)
-      const fname= (doc.data().firstName);
-      const lname= (doc.data().lastName);
-      const uid = doc.data().empID;
-      // lifeguards.push([uid,fname,lname]);
-      lifeguards.push({
-        uid:uid,
-        fname:fname,
-        lname:lname});
+  db.collection("lifeguards").get() 
+  .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        toSend.push(doc.data());
+      });
+      console.log(toSend)
+      res.json(toSend); //sending the response
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    })
+  }).catch((error) => {
+    console.log ("token errror :", error)
   });
 
-  res.json({
-  lifeguards
-  });
   
-  console.log(lifeguards)
+
+
 });
-  // admin
-  // .auth()
-  // .verifyIdToken(req.body.token)
-  // .then(() => {
-  //     console.log("came here 3");
-  //     const data = db.collection('lifeguards');
-  //     const snapshot = await data.where('accountStatus', '==', true).get();
-  //     if (snapshot.empty) {
-  //         console.log('No matching documents.');
-  //         return;
-  //     }
-  //     snapshot.forEach(doc => {
-  //         console.log("came here 4");
-  //         console.log(doc.data().firstName, "", doc.data().lastName);
-  //     });
-  // })
-});
+
 app.get("/adminSuggestion", function (req, res) {
   //doing a read
   var docRef = db.collection("Help Requests");
