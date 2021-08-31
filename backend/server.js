@@ -89,6 +89,7 @@ app.post("/headguardSupport", function (req, res) {
 
 app.post("/trainingView", async function (req, res) {
   var lifeguards = [];
+ 
   console.log(req.body)
   console.log("came here 3");
   const data = db.collection('lifeguards');
@@ -101,22 +102,24 @@ app.post("/trainingView", async function (req, res) {
       console.log('No matching documents.');
       return;
   }
-  console.log(snapshot)
+  // console.log(snapshot)
   snapshot.forEach(doc => {
+      console.log(doc)
       const fname= (doc.data().firstName);
       const lname= (doc.data().lastName);
       const uid = doc.data().empID;
       // lifeguards.push([uid,fname,lname]);
       lifeguards.push({
-        "uid" :uid,
-        "fname":fname,
-        "lname": lname});
-  });
-  result = lifeguards;
-  res.json({
-  result  
+        uid:uid,
+        fname:fname,
+        lname:lname});
   });
 
+  res.json({
+  lifeguards
+  });
+  
+  console.log(lifeguards)
 });
   // admin
   // .auth()

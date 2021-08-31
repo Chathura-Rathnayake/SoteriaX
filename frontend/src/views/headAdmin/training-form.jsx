@@ -8,7 +8,7 @@ import Layout from "../../components/headAdmin/Layout";
 import { TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { useAuth } from "../../contexts/AuthContext.js";
-import { constants } from "buffer";
+
 
 const useStyles = makeStyles({
   bot: {
@@ -34,40 +34,60 @@ const useStyles = makeStyles({
 
 export default function Training() {
   const classes = useStyles();
-  const [userlist, getUsers] = useState({});
-  const users = {};
-  let uid;
-  useAuth()
-    .currentUser.getIdToken(true)
-    .then((idToken) => {
-      uid = idToken;
-    });
-
+  const [userlist, getUsers] = useState([{}]);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    // getUserdata();
+    async function getUserList() {
+      const idToken = await currentUser.getIdToken(true); //get the token of the current user
+      const toSend = {
+        token: idToken,
+      };
+      try {
+        fetch("/trainingView", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(toSend),
+        })
+          .then((res) => res.json()) //retrieving the request from backend
+          .then((data) => getUsers(data)); //printing it to the console
+      
+        } catch (err) {
+        console.log(err);
+      }
+    }
+    getUserList(); //executing it
   }, []);
 
-
-
-  useEffect(() => {
-    fetch("/trainingView", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(uid),
-    }).then((res) => res.json()).then((data) => getUsers(data));
-  }, []);
-
-
-
-  console.log(users);
-
-  const [state, setState] = React.useState({
-    type: "",
+  const lifeguards = userlist.lifeguards;
+  const options = [
+    {
+      label: "Apple",
+      value: "apple",
+    },
+    {
+      label: "Mango",
+      value: "mango",
+    },
+    {
+      label: "Banana",
+      value: "banana",
+    },
+    {
+      label: "Pineapple",
+      value: "pineapple",
+    },
+  ];
+  // const arr = Object.values(lifeguards);
+  //  console.log(arr) 
+  const [state, setState] = useState({
+    types: ""
   });
-
+  const handleHandelerChange = (e) => {
+    getUsers(e.target.value)
+  }
   const handleChange = (event) => {
     const name = event.target.name;
     setState({
@@ -75,6 +95,7 @@ export default function Training() {
       [name]: event.target.value,
     });
   };
+
   return (
     <Layout>
       <Container size="sm">
@@ -88,6 +109,10 @@ export default function Training() {
           >
             Initiate Training Session
           </Typography>
+          {/* <div>
+
+      <h1>The Age: {userlist[0]}</h1>
+    </div> */}
           <div class={classes.bot50}></div>
         </div>
 
@@ -121,7 +146,7 @@ export default function Training() {
                         native
                         style={{ width: "60%" }}
                         defaultValue={1}
-                        value={state.types}
+      
                         onChange={handleChange}
                         inputProps={{
                           name: "type",
@@ -142,19 +167,12 @@ export default function Training() {
                       <Select
                         native
                         style={{ width: "60%" }}
-                        defaultValue={1}
-                        value={users}
-                        onChange={handleChange}
-                        inputProps={{
-                          name: "phandeler",
-                          id: "phandeler",
-                        }}
+                        onChange={handleHandelerChange}
                       >
-                        <option value={1}>Kumara Dasanayeka</option>
-                        <option value={2}>Sarath Gunasingha</option>
-                        <option value={3}>Amal Kularathne</option>
-                        <option value={4}>Jagath Silva</option>
-                        <option value={5}>Sahan Fernando</option>
+                          {options.map((user) => (
+                            <option value={user.dui}>{user.label}</option>
+                          ))}
+
                       </Select>
                     </Grid>
                     <Grid item xs={4}>
