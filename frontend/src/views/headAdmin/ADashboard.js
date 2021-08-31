@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import SimpleCard from "../../components/headAdmin/SimpleCard";
-import Simplemap from "../../components/headAdmin/Simplemap";
+// import Simplemap from "../../components/headAdmin/Simplemap";
 import Grid from "@material-ui/core/Grid";
 import Layout from "../../components/headAdmin/Layout";
 import { useAuth } from "../../contexts/AuthContext.js";
@@ -97,8 +97,8 @@ export default function ADashboard() {
         <Typography variant="h6" color="textSecondary">
           Dashboard - Lifecorp(Pvt) Ltd - {currentUser.email}
         </Typography>
-
-        <Simplemap />
+{/* 
+        <Simplemap /> */}
         <div class={classes.bot}></div>
 
         <Grid container spacing={3}>
