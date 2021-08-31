@@ -17,8 +17,6 @@ admin.initializeApp({
 
 const db = admin.firestore(); //loading the firestore database
 
-
-
 //a test route
 
 app.get("/", function (req, res) {
@@ -27,7 +25,6 @@ app.get("/", function (req, res) {
 
 //a test route (to send data to frontend)
 app.get("/retrieve", function (req, res) {
-
   //doing a read
   var docRef = db.collection("test").doc("chathu");
   docRef
@@ -168,6 +165,27 @@ app.get("/adminSuggestion", function (req, res) {
   //     snapshot.forEach(doc => {
   //     console.log(doc.id, '=>', doc.data());
   //     });
+});
+
+/*
+An example for retrieving multiple documents from the database and sending to the frontend
+*/
+
+//a test route (to send data to frontend) - without authentication
+app.get("/multipledocs", function (req, res) {
+  //doing a read from firebase
+  let toSend = [];
+  db.collection("Complaints")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        toSend.push(doc.data());
+      });
+      res.json(toSend); //sending the response
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
 });
 
 app.listen(process.env.PORT || 8080);
