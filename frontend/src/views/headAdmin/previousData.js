@@ -114,11 +114,22 @@ export default function RequestData() {
           <Container size="sm">
 
             <Grid container spacing={4}>
-            {/* {data.map((entry) => (
-                            
-                            <option value={user.id}>{user.firstName} {user.lastName}</option>
-                          ))} */}
-              <Grid item xs={12}>
+            {data.map((entry) => (
+                                          <Grid item xs={12}>
+
+                                          <MsgCard
+                                            id={entry.docID}
+                                            status={"pending"}
+                                            headline={entry.headline}
+                                            msg={entry.msg}
+                                            reply={entry.reply}
+                                          />
+                                        </Grid>
+
+                          
+                          ))}
+                        
+              {/* <Grid item xs={12}>
                 <MsgCard
                   id={"12FDSDFEDFS342ADFSADA"}
                   status="pending"
@@ -126,7 +137,7 @@ export default function RequestData() {
                   msg="hello"
                   reply="bye"
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <MsgCard
                   id={"12FDSADADAADASDADA"}

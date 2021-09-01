@@ -1,6 +1,8 @@
 module.exports = {
     getData: async (req, db, admin, res) => {
         var toSend = [];
+        var temp =[];
+   
         admin
             .auth()
             .verifyIdToken(req.body.token)
@@ -8,7 +10,9 @@ module.exports = {
                 db.collection("helpRequests").get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
-                            toSend.push(doc.data());
+                            temp =doc.data()
+                            temp.docID = doc.id
+                            toSend.push(temp);
                         });
                         res.json(toSend)//sending the response
                     })
