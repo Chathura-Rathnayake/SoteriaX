@@ -147,21 +147,34 @@ export default function RequestList() {
       //   setLoading(true);
       const password = `${request.firstName.toUpperCase()}${request.userPhone}`;
       console.log(password);
-      signup(request.userEmail, password);
+      signup(request.userEmail, password).then((uid) => { //getting the uid of the created account
+        //console.log(password);
+          //storing the data in headlifeguard collection
+        //if success send an email with the password
+          firestore
+            .collection("headLifeguards")
+            .doc(uid) //creating a lifeguard document by setting the uid as its document id
+            .set(request)
+            .then((res) => {
+              alert("The Account Approved Successfully");
+            });
+  
+          //finally deleting the document from user request list
+          firestore
+            .collection("userRequests")
+            .doc(request.id)
+            .delete()
+            .then((res) => {
+              console.log("Deleted!", res);
+            });
+        });
+        //if successful send an email with the password
+  
+  
       //if success send an email with the password
     } catch {
       //   setError("Failed to create an account");
     }
-
-    // setLoading(false);
-    //finally deleting the document
-    firestore
-      .collection("userRequests")
-      .doc(request.id)
-      .delete()
-      .then((res) => {
-        console.log("Deleted!", res);
-      });
   };
 
   return (
