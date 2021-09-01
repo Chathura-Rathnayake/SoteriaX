@@ -1,4 +1,4 @@
-import React, { useState , useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -8,6 +8,9 @@ import Layout from "../../components/headAdmin/Layout";
 import { TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { useAuth } from "../../contexts/AuthContext.js";
+
+
+import Notification from "../../components/headAdmin/Notification";
 const useStyles = makeStyles({
   bot: {
     marginBottom: 10,
@@ -27,40 +30,52 @@ const useStyles = makeStyles({
   },
 });
 
-
 export default function Support() {
   const classes = useStyles();
-
   let uid;
-  var x;
-   useAuth()
-  .currentUser.getIdToken(true)
-  .then((idToken) => {
-   uid = idToken
-   var x= uid
-   console.log("orin 1", uid);
-  });
-  console.log("orin dsadada1", x);
+  useAuth()
+    .currentUser.getIdToken(true)
+    .then((idToken) => {
+      uid = idToken;
+    });
 
   function FromdataTranfer(data) {
-    fetch("/headguardSupport", {
+   fetch("/headguardSupport", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data),
-      
-    }) 
+    })
       .then((res) => res.json())
-      .then((data) => console.log(data));
-    console.log("done");
-}
 
+      .then((data) => 
+      {
+        setNotify({
+          isOpen: true,
+          message: "Successfully Submitted. \n\
+           Your Reference Number: "+ data,
+          type: 'success'
+        })  
+      }).catch((error) => {
+        setNotify({
+          isOpen: true,
+          message: "Error Occured, Please try again later",
+          type: 'failed'
+        })
+    })
+      ;
+      
+
+  }
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
+  const [response, setResponse] = useState();
   const [state, setState] = React.useState({
     type: "",
-    
   });
+  const [open, setOpen] = React.useState(false);
 
+  
   const handleChange = (e) => {
     const name = e.target.name;
     setState({
@@ -71,15 +86,14 @@ export default function Support() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const {type,msg,headline} = e.target.elements
+    const { type, msg, headline } = e.target.elements;
     var formdata = {
-      type:type.value,
-      headline:headline.value,
-      msg:msg.value,
-      token: uid
-      
-    };  
-    
+      type: type.value,
+      headline: headline.value,
+      msg: msg.value,
+      token: uid,
+    };
+
     FromdataTranfer(formdata);
   }
 
@@ -157,6 +171,7 @@ export default function Support() {
                 </div>
               </div>
             </form>
+
           </Grid>
 
           {/* <div className={classes.root}>
@@ -193,7 +208,12 @@ export default function Support() {
           </Grid>
               
       </div> */}
+              <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
         </Grid>
+
       </Container>
     </Layout>
   );

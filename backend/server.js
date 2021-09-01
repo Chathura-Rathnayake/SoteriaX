@@ -70,45 +70,28 @@ app.post("/send", function (req, res) {
       // Handle error
     });
 
-  //testing writes
-  // var citiesRef = db.collection("test");
-  // citiesRef.doc("fromFront").set({
-  //   name: req.body.username,
-  //   token: req.body.token,
-  // });
 });
 
-app.post("/headguardSupport", function (req, res) {
-  // console.log(req.body); 
+
+
+// ------------- HeadlifeGuard backend functions  ----------------
+
+app.post("/headguardSupport", function (req, res) {  //headlifeguard support backend code 
   var data = require("./headlifeguard/headguardSupport.js");
-  data.sendData(req, db, admin)
+  data.sendData(req,db,admin,res);
 });
 
-app.post("/trainingView", async function (req, res) {
-  var toSend = [];
-  admin
-  .auth()
-  .verifyIdToken(req.body.token)
-  .then(() => {
-  db.collection("lifeguards").get() 
-  .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        toSend.push(doc.data());
-      });
-      console.log(toSend)
-      res.json(toSend); //sending the response
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    })
-  }).catch((error) => {
-    console.log ("token errror :", error)
-  });
-
-  
-
-
+app.post("/trainingView", async function (req, res) {  //headlifeguard training backend code 
+  var data = require("./headlifeguard/trainingView.js");
+  data.getData(req,db,admin,res);
 });
+
+// ------------- HeadlifeGuard backend functions  ----------------
+
+
+
+
+
 
 app.get("/adminSuggestion", function (req, res) {
   //doing a read
