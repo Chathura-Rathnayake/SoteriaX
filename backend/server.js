@@ -86,6 +86,11 @@ app.post("/trainingView", async function (req, res) {  //headlifeguard training 
   data.getData(req,db,admin,res);
 });
 
+app.post("/supportData", async function (req, res) {  //headlifeguard support data backend code 
+  var data = require("./headlifeguard/supportData.js");
+  data.getData(req,db,admin,res);
+});
+
 // ------------- HeadlifeGuard backend functions  ----------------
 
 

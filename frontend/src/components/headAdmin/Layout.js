@@ -16,6 +16,7 @@ import { format } from 'date-fns'
 import Avatar from '@material-ui/core/Avatar'
 import uxceo from "../../assets/images/headguard.png";
 import logo from "../../assets/icons/logoColor.png";
+import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
 import { useAuth } from "../../contexts/AuthContext";
 
 const drawerWidth = 240
@@ -120,7 +121,11 @@ export default function Layout({ children }) {
       icon: <LiveHelp color="secondary" />, 
       path: '/support'
     },
-
+    { 
+      text: 'Help inbox', 
+      icon: <MoveToInboxIcon color="secondary" />, 
+      path: '/requestInbox'
+    },
   ];
 
   return (

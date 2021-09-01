@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -8,8 +8,7 @@ import Layout from "../../components/headAdmin/Layout";
 import { TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { useAuth } from "../../contexts/AuthContext.js";
-
-
+import { useHistory} from 'react-router-dom'
 import Notification from "../../components/headAdmin/Notification";
 const useStyles = makeStyles({
   bot: {
@@ -32,7 +31,9 @@ const useStyles = makeStyles({
 
 export default function Support() {
   const classes = useStyles();
+  const history = useHistory();
   let uid;
+
   useAuth()
     .currentUser.getIdToken(true)
     .then((idToken) => {
@@ -40,7 +41,7 @@ export default function Support() {
     });
 
   function FromdataTranfer(data) {
-   fetch("/headguardSupport", {
+    fetch("/headguardSupport", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -49,33 +50,35 @@ export default function Support() {
     })
       .then((res) => res.json())
 
-      .then((data) => 
-      {
+      .then((data) => {
         setNotify({
           isOpen: true,
-          message: "Successfully Submitted. \n\
-           Your Reference Number: "+ data,
-          type: 'success'
-        })  
-      }).catch((error) => {
+          message:
+            "Successfully Submitted. \n\
+           Your Reference Number: " +
+            data,
+          type: "success",
+        });
+      })
+      .catch((error) => {
         setNotify({
           isOpen: true,
           message: "Error Occured, Please try again later",
-          type: 'failed'
-        })
-    })
-      ;
-      
-
+          type: "failed",
+        });
+      });
   }
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
-  const [response, setResponse] = useState();
-  const [state, setState] = React.useState({
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
     type: "",
   });
+
+  const [response, setResponse] = useState();
+  const [state, setState] = React.useState({
+    type: "",});
   const [open, setOpen] = React.useState(false);
 
-  
   const handleChange = (e) => {
     const name = e.target.name;
     setState({
@@ -97,6 +100,7 @@ export default function Support() {
     FromdataTranfer(formdata);
   }
 
+
   return (
     <Layout>
       <Container size="sm">
@@ -110,7 +114,7 @@ export default function Support() {
           </Typography>
         </div>
         <div class={classes.top70}></div>
-        <Grid container spacing={3}>
+        <Grid>
           <Grid item xs={10}>
             <form onSubmit={handleSubmit} autoComplete="off">
               <div>
@@ -141,6 +145,7 @@ export default function Support() {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        required={true}
                         name="headline"
                         label="Subject line"
                         style={{ width: "80%" }}
@@ -148,6 +153,7 @@ export default function Support() {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        required={true}
                         style={{ width: "80%" }}
                         name="msg"
                         label="State your request here"
@@ -167,53 +173,27 @@ export default function Support() {
                     >
                       Submit
                     </Button>
+                    <Button
+                      onClick={() => { history.push('/requestInbox') }}
+                      variant="contained"
+                      color="secondary"
+                      size="medium"
+                      style={{ marginLeft: 125 }}
+                    >
+                      View previous requests
+                    </Button>
                   </div>
                 </div>
               </div>
             </form>
-
           </Grid>
 
-          {/* <div className={classes.root}>
-        <Grid item xs={3}>            
-          <div className={classes.card} >      
-              <Typography
-              variant="h6" 
-              color="Secondary"  
-            >
-           Hot-Line :+45112211122
-            </Typography>
-          </div>  
-          </Grid> 
-          <Grid item xs={3}>
-          <div className={classes.card} >      
-              <Typography
-              variant="h6" 
-              color="Secondary"  
-            >
-           Email : Support@soteriax.com
-            </Typography>
-          </div>  
-          </Grid>
-          <Grid item xs={3}>
-          <div className={classes.card} >      
-              <Typography
-              variant="h6" 
-              color="Secondary"  
-            >
-           Skype : +4555555544
+          <div className={classes.root}>
 
-            </Typography>
-          </div> 
-          </Grid>
-              
-      </div> */}
-              <Notification
-                notify={notify}
-                setNotify={setNotify}
-            />
+          </div>
+
+          <Notification notify={notify} setNotify={setNotify} />
         </Grid>
-
       </Container>
     </Layout>
   );

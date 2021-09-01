@@ -173,7 +173,7 @@ export default function Training() {
                       >
                           {non_pilots.map((user) => (
                             
-                            <option value={user.empID}>{user.firstName} {user.lastName}</option>
+                            <option value={user.id}>{user.firstName} {user.lastName}</option>
                           ))}
 
                       </Select>
