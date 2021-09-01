@@ -70,106 +70,68 @@ app.post("/send", function (req, res) {
       // Handle error
     });
 
-  //testing writes
-  // var citiesRef = db.collection("test");
-  // citiesRef.doc("fromFront").set({
-  //   name: req.body.username,
-  //   token: req.body.token,
-  // });
 });
 
-app.post("/headguardSupport", function (req, res) {
-  // console.log(req.body); 
+
+
+// ------------- HeadlifeGuard backend functions  ----------------
+
+app.post("/headguardSupport", function (req, res) {  //headlifeguard support backend code 
   var data = require("./headlifeguard/headguardSupport.js");
-  data.sendData(req, db, admin)
+  data.sendData(req,db,admin,res);
 });
 
-app.post("/trainingView", async function (req, res) {
-  var lifeguards = [];
- 
-  console.log(req.body)
-  console.log("came here 3");
-  const data = db.collection('lifeguards');
-  const snapshot = await data.where('accountStatus', '==', true).get();
-  admin
-  .auth()
-  .verifyIdToken(req.body.token)
-  .then(() => {
-  if (snapshot.empty) {
-      console.log('No matching documents.');
-      return;
-  }
-  // console.log(snapshot)
-  snapshot.forEach(doc => {
-      console.log(doc)
-      const fname= (doc.data().firstName);
-      const lname= (doc.data().lastName);
-      const uid = doc.data().empID;
-      // lifeguards.push([uid,fname,lname]);
-      lifeguards.push({
-        uid:uid,
-        fname:fname,
-        lname:lname});
-  });
+app.post("/trainingView", async function (req, res) {  //headlifeguard training backend code 
+  var data = require("./headlifeguard/trainingView.js");
+  data.getData(req,db,admin,res);
+});
 
-  res.json({
-  lifeguards
-  });
-  
-  console.log(lifeguards)
+app.post("/supportData", async function (req, res) {  //headlifeguard support data backend code 
+  var data = require("./headlifeguard/supportData.js");
+  data.getData(req,db,admin,res);
 });
-  // admin
-  // .auth()
-  // .verifyIdToken(req.body.token)
-  // .then(() => {
-  //     console.log("came here 3");
-  //     const data = db.collection('lifeguards');
-  //     const snapshot = await data.where('accountStatus', '==', true).get();
-  //     if (snapshot.empty) {
-  //         console.log('No matching documents.');
-  //         return;
-  //     }
-  //     snapshot.forEach(doc => {
-  //         console.log("came here 4");
-  //         console.log(doc.data().firstName, "", doc.data().lastName);
-  //     });
-  // })
-});
+
+// ------------- HeadlifeGuard backend functions  ----------------
+
+
+
+
+
+
 app.get("/adminSuggestion", function (req, res) {
-  //doing a read
-  var docRef = db.collection("Help Requests");
-  docRef
+  //doing a read from firebase
+  let toSend = [];
+
+  db.collection("suggestions")
     .get()
-    .then((doc) => {
-      if (doc.exists) {
-        console.log("Document data:", doc.data());
-        //sending the response to the frontend
-        res.json({
-          accountType: doc.data().accountType,
-          companyId: doc.data().companyId,
-          headline: doc.data().headline,
-          msg: doc.data().msg,
-          status: doc.data().status,
-          viewed: doc.data().viewed,
-        });
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // db.collection("headLifeguards")
+        //   .get()
+        //   .then((querySnapshot2) => {
+        //     querySnapshot2.forEach((doc2) => {
+              
+        //      if(doc.data().userID == doc2.data().id)
+        //     {
+        //       console.log(doc.data().userID);
+        //       console.log(doc2.data().firstName);
+        //     }
+        //   });
+        // })
+        var temp = [];
+        temp = doc.data();
+        temp.name = "Shanuka";
+        console.log(temp);
+        toSend.push(temp);
+       // console.log(doc.data().userID); 
+      });
+      res.json(toSend); //sending the response
     })
     .catch((error) => {
-      console.log("Error getting document:", error);
+      console.log("Error getting documents: ", error);
     });
-  //   const citiesRef = db.collection('cities');
-  //     const snapshot = await citiesRef.get();
-  //     snapshot.forEach(doc => {
-  //     console.log(doc.id, '=>', doc.data());
-  //     });
 });
 
-/*
-An example for retrieving multiple documents from the database and sending to the frontend
-*/
 
 //a test route (to send data to frontend) - without authentication
 app.get("/multipledocs", function (req, res) {

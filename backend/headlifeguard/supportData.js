@@ -5,7 +5,7 @@ module.exports = {
             .auth()
             .verifyIdToken(req.body.token)
             .then(() => {
-                db.collection("lifeguards").get()
+                db.collection("helpRequests").get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             toSend.push(doc.data());
@@ -22,5 +22,4 @@ module.exports = {
     }
 
 }
-
 

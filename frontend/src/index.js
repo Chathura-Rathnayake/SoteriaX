@@ -11,6 +11,7 @@ import ADashboard from "./views/headAdmin/ADashboard";
 import Members from "./views/headAdmin/Members";
 import Training from "./views/headAdmin/training-form";
 import Support from "./views/headAdmin/support";
+import RequestData from "./views/headAdmin/previousData";
 import Live from "./views/headAdmin/live";
 import AddUser from "./views/addUser";
 import Admin from "./views/admin";
@@ -24,6 +25,7 @@ import Complaints from "./views/Admin/Complaints";
 import Suggestions from "./views/Admin/Suggestions";
 import HelpRequest from "./views/Admin/HelpRequest";
 import Profiles from "./views/Admin/Profiles";
+
 import test from "./views/test"; //just a testing file
 
 const theme = createMuiTheme({
@@ -103,6 +105,12 @@ ReactDOM.render(
             path="/support"
             component={Support}
           />
+          <PrivateRouteHeadlifeguard
+            exact
+            path="/requestInbox"
+            component={RequestData}
+          />
+           {/* restricted routes  - headlifeguard*/} 
           <PrivateRouteHeadlifeguard exact path="/live" component={Live} />
 
           <Route exact path="/addUser" component={AddUser} />

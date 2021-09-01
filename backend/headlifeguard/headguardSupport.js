@@ -1,17 +1,17 @@
 
 module.exports = {
-  sendData: function (req, db, admin) {
+  sendData: function (req, db, admin,res) {
     admin
       .auth()
       .verifyIdToken(req.body.token)
       .then((decodedToken) => {
 
         if (req.body.type == 1) {
-          collectionName = "Help Requests"
+          collectionName = "helpRequests"
         } else if (req.body.type == 2) {
-          collectionName = "Complaints"
+          collectionName = "complaints"
         } else {
-          collectionName = "Suggestions"
+          collectionName = "suggestions"
         }
         var today = new Date(),
           date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -29,6 +29,7 @@ module.exports = {
           })
           .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);
+            res.json(docRef.id)
           }).catch(function (error) {
             console.error("Error adding document: ", error);
           });

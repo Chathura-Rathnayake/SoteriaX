@@ -28,6 +28,7 @@ export default function SimpleCard(props) {
   
   return (
     <Card className={classes.root}>
+      
       <CardContent>
         <Typography variant="h6" color="Secondary">
          

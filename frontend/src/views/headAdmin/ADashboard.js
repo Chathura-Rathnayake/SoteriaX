@@ -3,14 +3,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import SimpleCard from "../../components/headAdmin/SimpleCard";
-import Simplemap from "../../components/headAdmin/Simplemap";
+// import Simplemap from "../../components/headAdmin/Simplemap";
 import Grid from "@material-ui/core/Grid";
 import Layout from "../../components/headAdmin/Layout";
 import { useAuth } from "../../contexts/AuthContext.js";
 
 const useStyles = makeStyles({
   bot: {
-    marginBottom: 10,
+    marginBottom: 30,
   },
 });
 
@@ -95,21 +95,21 @@ export default function ADashboard() {
     <Layout>
       <Container size="sm">
         <Typography variant="h6" color="textSecondary">
-          Dashboard - Lifecorp(Pvt) Ltd - {currentUser.email}
+          Dashboard - {currentUser.email}
         </Typography>
-
-        <Simplemap />
+{/* 
+        <Simplemap /> */}
         <div class={classes.bot}></div>
 
-        <Grid container spacing={3}>
-          <Grid item xs={3}>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
             <SimpleCard name="Incidents Logged" num="0" />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <SimpleCard name="Members Registered" num="0" />
           </Grid>
-          <Grid item xs={3}>
-            <SimpleCard name="Users Active" num="0" />
+          <Grid item xs={4}>
+            <SimpleCard name="Training sessions" num="0" />
           </Grid>
         </Grid>
       </Container>
