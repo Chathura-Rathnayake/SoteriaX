@@ -99,40 +99,39 @@ app.post("/supportData", async function (req, res) {  //headlifeguard support da
 
 
 app.get("/adminSuggestion", function (req, res) {
-  //doing a read
-  var docRef = db.collection("Help Requests");
-  docRef
+  //doing a read from firebase
+  let toSend = [];
+
+  db.collection("suggestions")
     .get()
-    .then((doc) => {
-      if (doc.exists) {
-        console.log("Document data:", doc.data());
-        //sending the response to the frontend
-        res.json({
-          accountType: doc.data().accountType,
-          companyId: doc.data().companyId,
-          headline: doc.data().headline,
-          msg: doc.data().msg,
-          status: doc.data().status,
-          viewed: doc.data().viewed,
-        });
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // db.collection("headLifeguards")
+        //   .get()
+        //   .then((querySnapshot2) => {
+        //     querySnapshot2.forEach((doc2) => {
+              
+        //      if(doc.data().userID == doc2.data().id)
+        //     {
+        //       console.log(doc.data().userID);
+        //       console.log(doc2.data().firstName);
+        //     }
+        //   });
+        // })
+        var temp = [];
+        temp = doc.data();
+        temp.name = "Shanuka";
+        console.log(temp);
+        toSend.push(temp);
+       // console.log(doc.data().userID); 
+      });
+      res.json(toSend); //sending the response
     })
     .catch((error) => {
-      console.log("Error getting document:", error);
+      console.log("Error getting documents: ", error);
     });
-  //   const citiesRef = db.collection('cities');
-  //     const snapshot = await citiesRef.get();
-  //     snapshot.forEach(doc => {
-  //     console.log(doc.id, '=>', doc.data());
-  //     });
 });
 
-/*
-An example for retrieving multiple documents from the database and sending to the frontend
-*/
 
 //a test route (to send data to frontend) - without authentication
 app.get("/multipledocs", function (req, res) {

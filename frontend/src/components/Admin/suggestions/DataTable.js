@@ -15,18 +15,18 @@ import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 //import tableData from "../../data";
 
-function createData(id, name, email, subject, date) {
-    return { id, name, email, subject, date };
-  }
+// function createData(id, name, email, subject, date) {
+//     return { id, name, email, subject, date };
+//   }
   
-  const rows = [
-    createData(1, 'Pasindu Perera', 'pasindu@123.com', 'System not working', '12/07/2021'),
-    createData(2, 'Udayanga Peiris', 'uda@123.com', 'Logging problem', '11/07/2021'),
-    createData(3, 'Govinda Kumar', 'gok@123.com', 'Dead bodies everywhere', '30/06/2021'),
-    createData(4, 'Pasindu Perera', 'pasindu@123.com', 'We did the best', '23/06/2021'),
-    createData(5, 'Hasanka Rathnayake', 'kalu@123.com', 'We bleed Green', '27/06/2021'),
-    createData(6, 'Hasanka Rathnayake', 'kalu@123.com', 'We bleed Green', '27/06/2021'),
-  ];
+//   const rows = [
+//     createData(1, 'Pasindu Perera', 'pasindu@123.com', 'System not working', '12/07/2021'),
+//     createData(2, 'Udayanga Peiris', 'uda@123.com', 'Logging problem', '11/07/2021'),
+//     createData(3, 'Govinda Kumar', 'gok@123.com', 'Dead bodies everywhere', '30/06/2021'),
+//     createData(4, 'Pasindu Perera', 'pasindu@123.com', 'We did the best', '23/06/2021'),
+//     createData(5, 'Hasanka Rathnayake', 'kalu@123.com', 'We bleed Green', '27/06/2021'),
+//     createData(6, 'Hasanka Rathnayake', 'kalu@123.com', 'We bleed Green', '27/06/2021'),
+//   ];
 
 const desc = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
@@ -72,10 +72,21 @@ class EnhancedTable extends React.Component {
     order: "asc",
     orderBy: "id",
     selected: [],
-    data: rows,
+    rows: [],
     page: 0,
     rowsPerPage: 5
   };
+
+  componentDidMount() {
+    fetch('/adminSuggestion')
+    .then((response) => response.json())
+    .then(data => {
+        this.setState({ rows: data });
+    });
+}
+
+
+
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -90,7 +101,7 @@ class EnhancedTable extends React.Component {
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.id) }));
+      this.setState(state => ({ selected: state.rows.map(n => n.suggestionID) }));
       return;
     }
     this.setState({ selected: [] });
@@ -129,9 +140,8 @@ class EnhancedTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const {  rows, order, orderBy, selected, rowsPerPage, page } = this.state;
+    const emptyRows =rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
@@ -144,17 +154,17 @@ class EnhancedTable extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
+              rowCount={rows.length}
             />
             <TableBody>
-              {stableSort(data, getSorting(order, orderBy))
+              {stableSort(rows, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isSelected = this.isSelected(n.id);
+                  const isSelected = this.isSelected(n.suggestionID);
                   return (
                     <TableRow
                       hover
-                      onClick={event => this.handleClick(event, n.id)}
+                      onClick={event => this.handleClick(event, n.suggestionID)}
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
@@ -164,10 +174,10 @@ class EnhancedTable extends React.Component {
                       <TableCell padding="checkbox">
                         <Checkbox checked={isSelected} />
                       </TableCell>
-                      <TableCell align="left">{n.id}</TableCell>
+                      {/* <TableCell align="left">{n.companyID}</TableCell> */}
                       <TableCell align="left">{n.name}</TableCell>
-                      <TableCell align="left">{n.email}</TableCell>
-                      <TableCell align="left">{n.subject}</TableCell>
+                      <TableCell align="left">{n.accountType}</TableCell>
+                      <TableCell align="left">{n.headline}</TableCell>
                       <TableCell align="left">{n.date}</TableCell>
                       <TableCell>
                         <Link className="button" to="/adminDashboard">
@@ -190,7 +200,7 @@ class EnhancedTable extends React.Component {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={data.length}
+          count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{

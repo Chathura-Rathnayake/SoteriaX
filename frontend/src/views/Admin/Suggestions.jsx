@@ -2,6 +2,7 @@ import React from 'react';
 import { CssBaseline, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import Layout from '../../components/Admin/sideNhead';
 import EnhancedTable from '../../components/Admin/suggestions/DataTable';
+//import SuggestionTable from '../../components/Admin/suggestions/SuggestionTable';
 
 const theme = createMuiTheme({
     palette: {
