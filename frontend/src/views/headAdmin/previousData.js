@@ -116,10 +116,9 @@ export default function RequestData() {
             <Grid container spacing={4}>
             {data.map((entry) => (
                                           <Grid item xs={12}>
-
                                           <MsgCard
                                             id={entry.docID}
-                                            status={"pending"}
+                                            status={entry.status > 0 ? 'Completed' : 'Pending' }
                                             headline={entry.headline}
                                             msg={entry.msg}
                                             reply={entry.reply}
