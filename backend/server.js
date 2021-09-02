@@ -60,43 +60,36 @@ app.post("/send", function (req, res) {
 
       //sending an authenticated response (which means only authenticated users will receive this reponse)
       res.json({
-
         name: "huuu",
         age: "aaaaa",
-
       });
     })
     .catch((error) => {
       // Handle error
     });
-
 });
-
-
 
 // ------------- HeadlifeGuard backend functions  ----------------
 
-app.post("/headguardSupport", function (req, res) {  //headlifeguard support backend code 
+app.post("/headguardSupport", function (req, res) {
+  //headlifeguard support backend code
   var data = require("./headlifeguard/headguardSupport.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
-app.post("/trainingView", async function (req, res) {  //headlifeguard training backend code 
+app.post("/trainingView", async function (req, res) {
+  //headlifeguard training backend code
   var data = require("./headlifeguard/trainingView.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.post("/supportData", async function (req, res) {  //headlifeguard support data backend code 
+app.post("/supportData", async function (req, res) {
+  //headlifeguard support data backend code
   var data = require("./headlifeguard/supportData.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
 // ------------- HeadlifeGuard backend functions  ----------------
-
-
-
-
-
 
 app.get("/adminSuggestion", function (req, res) {
   //doing a read from firebase
@@ -110,7 +103,7 @@ app.get("/adminSuggestion", function (req, res) {
         //   .get()
         //   .then((querySnapshot2) => {
         //     querySnapshot2.forEach((doc2) => {
-              
+
         //      if(doc.data().userID == doc2.data().id)
         //     {
         //       console.log(doc.data().userID);
@@ -123,7 +116,7 @@ app.get("/adminSuggestion", function (req, res) {
         temp.name = "Shanuka";
         console.log(temp);
         toSend.push(temp);
-       // console.log(doc.data().userID); 
+        // console.log(doc.data().userID);
       });
       res.json(toSend); //sending the response
     })
@@ -163,6 +156,13 @@ app.get("/multipledocs", function (req, res) {
     .catch((error) => {
       console.log("Error getting documents: ", error);
     });
+});
+
+/** routes related to the user authentication module **/
+//The route to create an instance in the resetTickets collection and send a password reset email to the user
+app.post("/createResetToken", function (req, res) {
+  var data = require("./Admin/createResetToken.js");
+  data.sendData(req, db, admin, res);
 });
 
 app.listen(process.env.PORT || 8080);
