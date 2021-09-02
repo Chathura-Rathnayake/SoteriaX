@@ -13,9 +13,9 @@ import TableRow from "@material-ui/core/TableRow";
 import { Button } from "@material-ui/core";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import Visibility from '@material-ui/icons/Visibility';
-import ThumbUp from '@material-ui/icons/ThumbUp';
-import Delete from '@material-ui/icons/Delete';
+import Visibility from "@material-ui/icons/Visibility";
+import ThumbUp from "@material-ui/icons/ThumbUp";
+import Delete from "@material-ui/icons/Delete";
 import red from "@material-ui/core/colors/red";
 
 const columns = [
@@ -130,48 +130,38 @@ export default function RequestList() {
   async function handleSubmit(e) {}
 
   const approveUserRequest = (request) => {
-    //storing the data in headlifeguard collection
-    firestore
-      .collection("headLifeguards")
-      .doc(request.id)
-      .set(request)
-      .then((res) => {
-        console.log("Added!", res);
-        alert("The Account Approved Successfully");
-      });
-    //creating an account for the user
-    // e.preventDefault()
-
     try {
       //   setError("");
       //   setLoading(true);
+
+      //removing the id from the request - cuz we don't want it to get saved in the head lifeguard document
+      var requestToSave = Object.assign({}, request);
+      delete requestToSave.id;
+
       const password = `${request.firstName.toUpperCase()}${request.userPhone}`;
-      console.log(password);
-      signup(request.userEmail, password).then((uid) => { //getting the uid of the created account
-        //console.log(password);
-          //storing the data in headlifeguard collection
-        //if success send an email with the password
-          firestore
-            .collection("headLifeguards")
-            .doc(uid) //creating a lifeguard document by setting the uid as its document id
-            .set(request)
-            .then((res) => {
-              alert("The Account Approved Successfully");
-            });
-  
-          //finally deleting the document from user request list
-          firestore
-            .collection("userRequests")
-            .doc(request.id)
-            .delete()
-            .then((res) => {
-              console.log("Deleted!", res);
-            });
-        });
-        //if successful send an email with the password
-  
-  
-      //if success send an email with the password
+
+      //after signup get the uid of the created account and..
+      signup(request.userEmail, password).then((uid) => {
+        //storing the data in headlifeguard collection
+        firestore
+          .collection("headLifeguards")
+          .doc(uid) //creating a lifeguard document by setting the uid as its document id
+          .set(requestToSave) //saving the request to headlifeguard collection
+          .then((res) => {
+            alert("The Account Approved Successfully");
+          });
+
+        //finally deleting the document from user request list
+        firestore
+          .collection("userRequests")
+          .doc(request.id)
+          .delete()
+          .then((res) => {
+            console.log("Deleted!", res);
+          });
+      });
+      //if successful send an email with the password
+      //call to the backend
     } catch {
       //   setError("Failed to create an account");
     }
@@ -230,7 +220,7 @@ export default function RequestList() {
                                 zDepth={0}
                                 onClick={() => approveUserRequest(request)}
                               >
-                                <ThumbUp/>
+                                <ThumbUp />
                               </Button>
                             )}
                             {column.id === "remove" && (
@@ -239,7 +229,7 @@ export default function RequestList() {
                                 variant="fab"
                                 onClick={() => deleteUserRequest(request["id"])}
                               >
-                                <Delete style={{ color: "red" }}/>
+                                <Delete style={{ color: "red" }} />
                               </Button>
                             )}
                           </TableCell>
