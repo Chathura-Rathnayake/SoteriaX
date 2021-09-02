@@ -80,7 +80,7 @@ export default function RequestList() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   //sign up related data
-  const { signup } = useAuth();
+  const { signup, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -131,9 +131,6 @@ export default function RequestList() {
 
   const approveUserRequest = (request) => {
     try {
-      //   setError("");
-      //   setLoading(true);
-
       //removing the id from the request - cuz we don't want it to get saved in the head lifeguard document
       var requestToSave = Object.assign({}, request);
       delete requestToSave.id;
@@ -143,7 +140,7 @@ export default function RequestList() {
       //after signup get the uid of the created account and..
       signup(request.userEmail, password).then((uid) => {
         //storing the data in headlifeguard collection
-        firestore
+        /*       firestore
           .collection("headLifeguards")
           .doc(uid) //creating a lifeguard document by setting the uid as its document id
           .set(requestToSave) //saving the request to headlifeguard collection
@@ -159,9 +156,33 @@ export default function RequestList() {
           .then((res) => {
             console.log("Deleted!", res);
           });
+*/
+        //send an email to reset the password
+        currentUser
+          .getIdToken(true) //getting the currently logged in user's id token from firebase (the admin actually)
+          .then((idToken) => {
+            //the complete object that is needed to sent to the backend
+            const toSend = {
+              headlifeguardUID: uid, //the uid of the headlifeguard we want to register
+              token: idToken, //the token
+            };
+
+            // Send the data to the backend
+            fetch("/createResetToken", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify(toSend),
+            });
+            //.then((res) => res.json()) //retrieving the request from backend
+            //.then((data) => console.log(data)); //printing it to the console
+          })
+          .catch(function (error) {
+            // Handle the error
+            console.log(error);
+          });
       });
-      //if successful send an email with the password
-      //call to the backend
     } catch {
       //   setError("Failed to create an account");
     }
