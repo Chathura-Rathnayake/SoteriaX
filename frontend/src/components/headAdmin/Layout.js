@@ -102,7 +102,7 @@ export default function Layout({ children }) {
     },
 
     { 
-      text: 'Member access', 
+      text: 'Member Access', 
       icon: <GroupRounded color="secondary" />, 
       path: '/members'
     },
@@ -112,7 +112,12 @@ export default function Layout({ children }) {
       path: '/training'
     },
     { 
-      text: 'Operation statistics', 
+      text: 'Training Records', 
+      icon: <MoveToInboxIcon color="secondary" />, 
+      path: '/trainingRecords'
+    },
+    { 
+      text: 'Operation Statistics', 
       icon: <Timeline color="secondary" />, 
       path: '/opstat'
     },
@@ -122,7 +127,7 @@ export default function Layout({ children }) {
       path: '/support'
     },
     { 
-      text: 'Help inbox', 
+      text: 'Help Inbox', 
       icon: <MoveToInboxIcon color="secondary" />, 
       path: '/requestInbox'
     },
