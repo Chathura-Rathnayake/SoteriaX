@@ -2,18 +2,18 @@ module.exports = {
     getData: async (req, db, admin, res) => {
         var toSend = [];
         var temp =[];
-   
         admin
             .auth()
             .verifyIdToken(req.body.token)
             .then((decodedToken) => {
-                db.collection("helpRequests").where("companyID", "==" ,decodedToken.uid).get()
+                db.collection("trainingV2").where("companyID", "==" ,decodedToken.uid).get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             temp =doc.data()
-                            temp.docID = doc.id
+                            temp.id = doc.id
                             toSend.push(temp);
                         });
+                        console.log(toSend)
                         res.json(toSend)//sending the response
                     })
                     .catch((error) => {

@@ -114,19 +114,19 @@ export default function RequestData() {
           <Container size="sm">
 
             <Grid container spacing={4}>
-            {data.map((entry) => (
-                                          <Grid item xs={12}>
-                                          <MsgCard
-                                            id={entry.docID}
-                                            status={entry.status > 0 ? 'Completed' : 'Pending' }
-                                            headline={entry.headline}
-                                            msg={entry.msg}
-                                            reply={entry.reply}
-                                          />
-                                        </Grid>
+              {data.map((entry) => (
+                <Grid item xs={12}>
+                  <MsgCard
+                    id={entry.docID}
+                    status={entry.status > 0 ? 'Completed' : 'Pending'}
+                    headline={entry.headline}
+                    msg={entry.msg}
+                    reply={entry.reply}
+                  />
+                </Grid>
 
-                          
-                          ))}
+
+              ))}
 
 
             </Grid>
