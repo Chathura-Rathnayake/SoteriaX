@@ -10,7 +10,8 @@ import Button from '@material-ui/core/Button'
 import Layout from '../../components/headAdmin/Layout';
 import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-
+import { useState, useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,12 +77,12 @@ const columns = [
     width: 170,
     headerAlign: 'center',
   },
-  {
-    field: 'username',
-    headerName: 'Username',
-    width: 150,
-    headerAlign: 'center',
-  },
+  // {
+  //   field: 'username',
+  //   headerName: 'Username',
+  //   width: 150,
+  //   headerAlign: 'center',
+  // },
   {
     field: 'firstName',
     headerName: 'First name',
@@ -113,15 +114,9 @@ const columns = [
 
   },
 ];
-const rows = [
-  { id: 'EMP-LG-032', username: 'RonPerera', lastName: 'Perera', firstName: 'Ron', age: 35 },
-  { id: 'EMP-LG-021', username: 'AmilaS', lastName: 'Silva', firstName: 'Amila', age: 45 },
-  { id: 'EMP-LG-082', username: 'GunaKamal', lastName: 'Gunarathne', firstName: 'Kamal', age: 51 },
-  { id: 'EMP-LG-011', username: 'Susantha84', lastName: 'Desilva', firstName: 'Susantha', age: 46 },
-  { id: 'EMP-LG-014', username: 'kapilaWili', lastName: 'Wimalarathne', firstName: 'Kapila', age: 37 },
-  { id: 'EMP-LG-005', username: 'ThusharaSW', lastName: 'Wickrama', firstName: 'Thushara', age: 29 },
-  { id: 'EMP-LG-010', username: 'Haritha13', lastName: 'Peris', firstName: 'Harith', age: 43 },
-];
+
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -141,6 +136,79 @@ export default function Members() {
     setValue(newValue);
   };
 
+  let uid;
+  var x;
+   useAuth()
+  .currentUser.getIdToken(true)
+  .then((idToken) => {
+   uid = idToken
+   var x= uid
+   console.log("orin 1", uid);
+  });
+  console.log("orin dsadada1", x);
+
+  function FromdataTranfer(data) {
+    fetch("/headguardSupport", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+      
+    }) 
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+    console.log("done");
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const {type,msg,headline} = e.target.elements
+    var formdata = {
+      type:type.value,
+      headline:headline.value,
+      msg:msg.value,
+      token: uid
+      
+    };  
+    
+    FromdataTranfer(formdata);
+  }
+
+  const [data1, setData1] = useState([]);
+  useEffect(() => {
+    fetch("/getLifeguards")
+      .then((res) => res.json())
+      .then((data1) => setData1(data1));
+
+  }, []);
+  // console.log(data1);
+  // data1.forEach(element => {
+  //   // delete element.NIC;
+  //   // delete element.accountStatus;
+  //   // delete element.birthday;
+  //   // delete element.certificationLevel;
+  //   // delete element.contactNum;
+  //   // delete element.email;
+  //   // delete element.isPilot;
+  //   // delete element.noOfOperations;
+  //   console.log(element);  
+  // });
+
+  const rows = [
+    // { id: 'EMP-LG-032', username: 'RonPerera', lastName: 'Perera', firstName: 'Ron', age: 35 },
+    // { id: 'EMP-LG-021', username: 'AmilaS', lastName: 'Silva', firstName: 'Amila', age: 45 },
+    // { id: 'EMP-LG-082', username: 'GunaKamal', lastName: 'Gunarathne', firstName: 'Kamal', age: 51 },
+    // { id: 'EMP-LG-011', username: 'Susantha84', lastName: 'Desilva', firstName: 'Susantha', age: 46 },
+    // { id: 'EMP-LG-014', username: 'kapilaWili', lastName: 'Wimalarathne', firstName: 'Kapila', age: 37 },
+    // { id: 'EMP-LG-005', username: 'ThusharaSW', lastName: 'Wickrama', firstName: 'Thushara', age: 29 },
+    // { id: 'EMP-LG-010', username: 'Haritha13', lastName: 'Peris', firstName: 'Harith', age: 43 },
+    // {data1['0']}
+    // array.forEach(element => {
+    //   { id: element.id, username: 'Haritha13'},
+    // });
+
+  ];
   return (
     <Layout>
       <div className={classes.root}>
@@ -163,7 +231,7 @@ export default function Members() {
           <div style={{ height: '400px', width: '100%' }}>
             <DataGrid 
               autoHeight
-              rows={rows}
+              rows={data1}
               columns={columns}
               pageSize={6}
               onRowDoubleClick
@@ -173,29 +241,29 @@ export default function Members() {
 
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <form noValidate autoComplete="off">
+          <form onSubmit={handleSubmit} noValidate autoComplete="off">
             <div style={{ marginTop: '50px', marginLeft: '50px' }}>
 
               Please note that the default password will be allocated as the first time password.
               <div style={{ marginTop: '50px', marginLeft: '50px' }}>
                 <Grid container spacing={5} autoComplete="off">
                   <Grid item xs={5} >
-                    <TextField id="fname" f label="First name" style={{ width: 300 }} />
+                    <TextField name="fname" id="fname"  label="First name" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5}>
-                    <TextField id="lname" label="Last name" style={{ width: 300 }} />
+                    <TextField name="lname" id="lname" label="Last name" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5}>
-                    <TextField id="email" label="Email" style={{ width: 300 }} />
+                    <TextField name="email" id="email" label="Email" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5} >
-                    <TextField id="age" label="Age" style={{ width: 300 }} />
+                    <TextField name="age" id="age" label="Age" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5}>
-                    <TextField id="Id" label="NIC Number" style={{ width: 300 }} />
+                    <TextField name="NIC" id="Id" label="NIC Number" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5} >
-                    <TextField id="phone" label="Phone Number" style={{ width: 300 }} />
+                    <TextField name="phone" id="phone" label="Phone Number" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField id="standard-secondary" label="Username" style={{ width: 300 }} />
