@@ -8,16 +8,30 @@ module.exports = {
             
           db.collection("trainingV2")
             .add({
-              userID: decodedToken.uid,
-              companyID: decodedToken.uid,
               title:req.body.title,
+              companyID: decodedToken.uid,
+              currentStage:0,
+              currentStatus:"Not Initialized",
               date:req.body.date,
-              time:req.body.time,
+              startTime:req.body.time,
+              engaged:false,
+              engagedLifeguard: {
+                userID: '',
+                userType: '',
+              },
+              operationStatus: "Pending",
+              participants: {
+                dronePilot: req.body.Pilot,
+                dronePilotName:req.body.PilotName,
+                mobileHandeler: req.body.Package,
+                mobileHandelerName: req.body.PackageName,
+                swimmer: req.body.Rescuer,
+                swimmerName:req.body.RescuerName,
+              },
+              timeline: ["","","","","",],
+              trainingTimes: ["1.23","1.50","2.45","5.43","6.24",],
               summary:req.body.Summary,
               seaCondition:req.body.SeaCondition,
-              package:req.body.Package,
-              rescuer:req.body.Rescuer,
-              pilot:req.body.Pilot,
             })
             .then(function (docRef) {
               console.log("Training Document written with ID: ", docRef.id);

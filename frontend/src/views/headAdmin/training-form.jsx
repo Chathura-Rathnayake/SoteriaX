@@ -95,15 +95,22 @@ export default function Training() {
   function handleSubmit(e) {
     e.preventDefault();
     const {title,date,time,msg,sea,packageH,rescuer,pilot} = e.target.elements
+    // var str=pilot.value;
+    var arry1= pilot.value.split(",")
+    var arry2= rescuer.value.split(",")
+    var arry3= packageH.value.split(",")
     var formdata = {
       title:title.value,
       date:date.value,
       time:time.value,
       Summary:msg.value,
       SeaCondition:sea.value,
-      Package:packageH.value,
-      Rescuer:rescuer.value,
-      Pilot:pilot.value,
+      Pilot:arry1[0],
+      PilotName:arry1[1]+" "+arry1[2],
+      Rescuer:arry2[0],
+      RescuerName:arry2[1]+" "+arry2[2],
+      Package:arry3[0],
+      PackageName:arry3[1]+" "+arry3[2],
       token:uid,
 
   };
@@ -134,7 +141,6 @@ export default function Training() {
         
         return
       }
-  
      FromdataTranfer(formdata);
      console.log(formdata);
 
@@ -235,8 +241,7 @@ export default function Training() {
                    </Grid>
                     <Grid item xs={2}>
                       <Typography size="12px" color="textSecondary">
-                        Summary:
-
+                        Description:
                       </Typography>
                     </Grid>
                     <Grid item xs={10}>
@@ -283,7 +288,7 @@ export default function Training() {
                       >
                           {non_pilots.length  ? 
                           non_pilots.map((user) => (
-                             <option value={user.id}>{user.firstName} {user.lastName}</option>
+                             <option value={[user.id,user.firstName,user.lastName]}>{user.firstName} {user.lastName}</option>
                           )) 
                           :
                           <option value= {0} >No Available Lifeguards</option>
@@ -305,7 +310,7 @@ export default function Training() {
                       >
                           {non_pilots.length  ? 
                           non_pilots.map((user) => (
-                             <option value={user.id}>{user.firstName} {user.lastName}</option>
+                             <option value={[user.id,user.firstName,user.lastName]}>{user.firstName} {user.lastName}</option>
                           )) 
                           :
                           <option value= {0} >No Available Lifeguards</option>
@@ -327,7 +332,8 @@ export default function Training() {
                       >
                           {pilots.length  ? 
                           pilots.map((user) => (
-                             <option value={user.id}>{user.firstName} {user.lastName}</option>
+                           
+                             <option value={[user.id,user.firstName,user.lastName]}>{user.firstName} {user.lastName}</option>
                           )) 
                           :
                           <option value= {0} >No Available Lifeguards</option>

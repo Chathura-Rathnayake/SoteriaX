@@ -18,7 +18,7 @@ import uxceo from "../../assets/images/headguard.png";
 import logo from "../../assets/icons/logoColor.png";
 import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
 import { useAuth } from "../../contexts/AuthContext";
-
+import DescriptionIcon from '@material-ui/icons/Description';
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => {
@@ -113,13 +113,13 @@ export default function Layout({ children }) {
     },
     { 
       text: 'Training Records', 
-      icon: <MoveToInboxIcon color="secondary" />, 
+      icon: <DescriptionIcon color="secondary" />, 
       path: '/trainingRecords'
     },
     { 
       text: 'Operation Statistics', 
       icon: <Timeline color="secondary" />, 
-      path: '/opstat'
+      path: '/statisticsData'
     },
     { 
       text: 'Support', 

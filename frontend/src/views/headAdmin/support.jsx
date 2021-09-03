@@ -58,7 +58,7 @@ export default function Support() {
            Your Reference Number: " +
             data,
           type: "success",
-          num:70,
+          num:5,
         });
       })
       .catch((error) => {
