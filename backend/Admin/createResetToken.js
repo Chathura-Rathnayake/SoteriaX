@@ -5,6 +5,7 @@ module.exports = {
       .verifyIdToken(req.body.token)
       .then(() => {
         console.log("A verified request");
+        console.log(req.baseUrl);
         //console.log(req.body.headlifeguardUID);
 
         //getting the current time + 30 minutes (to set the token expiration time in database)
@@ -50,18 +51,18 @@ module.exports = {
         var nodemailer = require("nodemailer");
 
         var transporter = nodemailer.createTransport({
-          service: "gmail",
+          service: "yahoo",
           auth: {
-            user: "binarag65@gmail.com",
-            pass: "",
+            user: "soteriax@yahoo.com",
+            pass: "asghmjtnjqvpbwkj",
           },
         });
 
         var mailOptions = {
-          from: "binarag65@gmail.com",
+          from: "soteriax@yahoo.com",
           to: "c.rathnayake97@gmail.com",
           subject: "Sending Email using Node.js",
-          text: "That was easy!",
+          text: `hi! dis the link ma negro, http://localhost:3000/setPassword?uid=${req.body.headlifeguardUID}&token=${resetToken}`,
         };
 
         transporter.sendMail(mailOptions, function (error, info) {

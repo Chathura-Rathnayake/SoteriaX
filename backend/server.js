@@ -165,4 +165,9 @@ app.post("/createResetToken", function (req, res) {
   data.sendData(req, db, admin, res);
 });
 
+app.get("/retrieveAuthLinkData", function (req, res) {
+  var data = require("./Admin/authLink.js");
+  data.sendData(req, db, admin, res);
+});
+
 app.listen(process.env.PORT || 8080);
