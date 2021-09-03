@@ -91,8 +91,11 @@ app.post("/supportData", async function (req, res) {  //headlifeguard support da
   data.getData(req,db,admin,res);
 });
 
+app.post("/CreateTrainingSession", async function (req, res) {  //headlifeguard support data backend code 
+  var data = require("./headlifeguard/trainingDataSubmit.js");
+  data.sendData(req,db,admin,res);
+});
 // ------------- HeadlifeGuard backend functions  ----------------
-
 
 
 

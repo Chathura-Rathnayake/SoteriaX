@@ -127,25 +127,8 @@ export default function RequestData() {
 
                           
                           ))}
-                        
-              {/* <Grid item xs={12}>
-                <MsgCard
-                  id={"12FDSDFEDFS342ADFSADA"}
-                  status="pending"
-                  headline="Incidents Logged"
-                  msg="hello"
-                  reply="bye"
-                />
-              </Grid> */}
-              <Grid item xs={12}>
-                <MsgCard
-                  id={"12FDSADADAADASDADA"}
-                  status="pending"
-                  headline="Incidents Logged"
-                  msg="hello HEELLO"
-                  reply="bye"
-                />
-              </Grid>
+
+
             </Grid>
           </Container>
         </TabPanel>

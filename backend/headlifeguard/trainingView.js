@@ -4,8 +4,8 @@ module.exports = {
         admin
             .auth()
             .verifyIdToken(req.body.token)
-            .then(() => {
-                db.collection("lifeguards").get()
+            .then((decodedToken) => {
+                db.collection("lifeguards").where("companyID", "==" ,decodedToken.uid).get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             toSend.push(doc.data());

@@ -2,16 +2,21 @@ import React from 'react'
 import { Snackbar, makeStyles } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Slide from '@material-ui/core/Slide';
+
 const useStyles = makeStyles(theme => ({
-    root: {
-        top: theme.spacing(90)
+    top: {
+        top: theme.spacing(15)
+    },
+    bot: {
+        top: theme.spacing(74)
     }
 }))
 
 function TransitionUp(props) {
-    return <Slide {...props} direction="up" />;
+    return <Slide {...props} direction="down" />;
   }
 export default function Notification(props) {
+
     const { notify, setNotify } = props;
     const classes = useStyles()
 
@@ -27,14 +32,16 @@ export default function Notification(props) {
 
     return (
         <Snackbar
-            className={classes.root}
+            style ={{ marginTop:notify.num  }}
+            // className={notify.num == 1 ? classes.top : classes.bot}
             open={notify.isOpen}
-            autoHideDuration={9000}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            autoHideDuration={4000}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             TransitionComponent={TransitionUp}
             onClose={handleClose}>
             
             <Alert
+                variant="filled"
                 severity={notify.type}
                 onClose={handleClose}>
                 {notify.message}
