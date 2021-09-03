@@ -1,8 +1,8 @@
 module.exports = {
   sendData: async (req, db, admin, res) => {
     //console.log(req.body.uid);
-    console.log(req.body.uid);
-    console.log(req.body.token);
+    //console.log(req.body.uid);
+    //console.log(req.body.token);
 
     //get the tokenHash for this UID from the database
     var collectionRef = db.collection("resetTokens");
@@ -17,24 +17,26 @@ module.exports = {
             req.body.token, //the token received from the frontend (from URL of the user)
             doc.data().tokenHash, //the hash stored in the database
             function (err, resp) {
-              let status = 1; //status code --> everything is okay - 0 , invalid token - 1, token expiration - 2
               if (resp) {
                 console.log("Your password mached with database hash password");
-                //check the expiration date
-                if (new Date(req.body.expirationTime) > new Date()) {
+                const moment = require("moment");
+                let expirationTime = doc.data().expirationTime._seconds;
+                let currentTime = moment().unix();
+
+                if (expirationTime > currentTime) {
                   //token has not expired
-                  console.log("token has not expired - we good to go");
+                  console.log("token has not expired - we are good to go");
                   //check whether the token is used before
-                  if (req.body.tokenUsed) {
+                  if (doc.data().tokenUsed) {
                     //token is used before
                     console.log("token is used");
                     res.json({
-                      status: 2,
+                      status: 2, //status code: everything is okay - 0 , invalid token - 1, token expiration - 2
                     });
                   } else {
                     console.log("token isn't used - we good man");
                     //mark the token as used (updating the database)
-                    doc.collectionRef.update({ tokenUsed: true });
+                    doc.ref.update({ tokenUsed: true });
                     //return the feedback to front end
                     res.json({
                       status: 0,

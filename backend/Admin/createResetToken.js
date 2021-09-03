@@ -60,9 +60,9 @@ module.exports = {
 
         var mailOptions = {
           from: "soteriax@yahoo.com",
-          to: "c.rathnayake97@gmail.com",
+          to: "c.rathnayake97@gmail.com", //change this to user email
           subject: "Sending Email using Node.js",
-          text: `hi! dis the link ma negro, http://localhost:3000/setPassword?uid=${req.body.headlifeguardUID}&token=${resetToken}`,
+          text: `hi! dis the link ma negro, http://localhost:3000/setPassword?uid=${req.body.headlifeguardUID}&token=${resetToken}`, //change this hardcoding of base url
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
