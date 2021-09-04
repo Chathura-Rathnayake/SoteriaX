@@ -8,7 +8,7 @@ import Layout from "../../components/headAdmin/Layout";
 import { TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { useAuth } from "../../contexts/AuthContext.js";
-
+import Notification from "../../components/headAdmin/Notification";
 
 const useStyles = makeStyles({
   bot: {
@@ -33,12 +33,24 @@ const useStyles = makeStyles({
 });
 
 export default function Training() {
+  var date = new Date().getDate();
+  
   const classes = useStyles();
   const [userlist, getUsers] = useState([]);
-  const [state, setState] = React.useState({
+  const [state, setState] = React.useState({type: "", });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
     type: "",
-    
+    num: '200',
   });
+  let uid;
+
+  useAuth()
+    .currentUser.getIdToken(true)
+    .then((idToken) => {
+      uid = idToken;
+    });
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -47,6 +59,7 @@ export default function Training() {
       const toSend = {
         token: idToken,
       };
+
       try {
         fetch("/trainingView", {
           method: "POST",
@@ -71,7 +84,7 @@ export default function Training() {
   var non_pilots = userlist.filter(function(getpilots){
     return getpilots.isPilot == false;
   });
-
+  
   const handleChange = (event) => {
     const name = event.target.name;
     setState({
@@ -81,22 +94,88 @@ export default function Training() {
   };
   function handleSubmit(e) {
     e.preventDefault();
-    const {msg,sea,packageH,rescuer,pilot} = e.target.elements
-    // if(packageH.value == rescuer.value){
-    //   alert("pick diffrent user")
-    // }
-    
+    const {title,date,time,msg,sea,packageH,rescuer,pilot} = e.target.elements
+    // var str=pilot.value;
+    var arry1= pilot.value.split(",")
+    var arry2= rescuer.value.split(",")
+    var arry3= packageH.value.split(",")
     var formdata = {
-        Summary:msg.value,
-        SeaCondition:sea.value,
-        Package:packageH.value,
-        Rescuer:rescuer.value,
-        Pilot:pilot.value,
+      title:title.value,
+      date:date.value,
+      time:time.value,
+      Summary:msg.value,
+      SeaCondition:sea.value,
+      Pilot:arry1[0],
+      PilotName:arry1[1]+" "+arry1[2],
+      Rescuer:arry2[0],
+      RescuerName:arry2[1]+" "+arry2[2],
+      Package:arry3[0],
+      PackageName:arry3[1]+" "+arry3[2],
+      token:uid,
+
+  };
+    if ( packageH.value == 0 || rescuer.value == 0 || pilot.value == 0 ) {
+        setNotify({
+          isOpen: true,
+          message: "No available Lifeguards, Create new lifeguards",
+          type: "error",
+          num:830,
+        });
+        return
+    }else if( !title || !date || !time || !msg || !sea ){ 
+      setNotify({
+        isOpen: true,
+        message: "Input fields are empty",
+        type: "error",
+        num:830,
+      });
+      return
+    }else{
+      if(packageH.value == rescuer.value){      
+        setNotify({
+          isOpen: true,
+          message: "Please select diffrent lifeguards for each action",
+          type: "error",
+          num:830,
+        });
         
-      
-    };  
-    console.log(formdata);
-    // FromdataTranfer(formdata);
+        return
+      }
+     FromdataTranfer(formdata);
+     console.log(formdata);
+
+    }
+    
+  }
+  function FromdataTranfer(data) {
+    fetch("/CreateTrainingSession", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((respond) => {
+        if(respond){
+          setNotify({
+            isOpen: true,
+            message:"Training Session Created successfully",
+            type: "success",
+            num:830,
+            
+          });
+        }
+
+      })
+      .catch((error) => {
+        setNotify({
+          isOpen: true,
+          message: "Error Occured, Please try again later",
+          type: "error",
+          num:830,
+        });
+      });
   }
 
   return (
@@ -112,10 +191,6 @@ export default function Training() {
           >
             Initiate Training Session
           </Typography>
-          {/* <div>
-
-      <h1>The Age: {userlist[0]}</h1>
-    </div> */}
           <div class={classes.bot50}></div>
         </div>
 
@@ -125,14 +200,53 @@ export default function Training() {
               <div>
                 <div style={{ marginTop: "10px", marginLeft: "50px" }}>
                   <Grid container spacing={5} autoComplete="off">
+
+                    <Grid item xs={12}>
+                    <TextField
+                        required={true}  
+                        name="title"
+                        label="Training Title"
+                        style={{ width: "80%" }}
+                      />
+                    </Grid>
                     <Grid item xs={2}>
                       <Typography size="12px" color="textSecondary">
-                        Summary:
-
+                        Date-time:
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                    <TextField
+                    required={true}
+                    id="date"
+                    label="Training Day"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                   </Grid>
+                   <Grid item xs={6}>
+                   <TextField
+                      required={true}
+                      id="time"
+                      label="Time"
+                      type="time"                    
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      inputProps={{
+                      // 5 min
+                      }}
+                    />
+                   </Grid>
+                    <Grid item xs={2}>
+                      <Typography size="12px" color="textSecondary">
+                        Description:
                       </Typography>
                     </Grid>
                     <Grid item xs={10}>
                       <TextField
+                        required={true}
                         style={{ width: "80%" }}
                         name="msg"
                         multiline
@@ -147,6 +261,7 @@ export default function Training() {
                     </Grid>
                     <Grid item xs={6}>
                       <Select
+                       required={true}
                        name="sea"
                         native
                         defaultValue={1}
@@ -171,10 +286,13 @@ export default function Training() {
                         style={{ width: "60%" }}
                         onChange={handleChange}
                       >
-                          {non_pilots.map((user) => (
-                            
-                            <option value={user.id}>{user.firstName} {user.lastName}</option>
-                          ))}
+                          {non_pilots.length  ? 
+                          non_pilots.map((user) => (
+                             <option value={[user.id,user.firstName,user.lastName]}>{user.firstName} {user.lastName}</option>
+                          )) 
+                          :
+                          <option value= {0} >No Available Lifeguards</option>
+                        }
 
                       </Select>
                     </Grid>
@@ -190,10 +308,13 @@ export default function Training() {
                         style={{ width: "60%" }}
                         onChange={handleChange}
                       >
-                          {non_pilots.map((user) => (
-                            <option value={user.empID}>{user.firstName} {user.lastName}</option>
-                          ))}
-
+                          {non_pilots.length  ? 
+                          non_pilots.map((user) => (
+                             <option value={[user.id,user.firstName,user.lastName]}>{user.firstName} {user.lastName}</option>
+                          )) 
+                          :
+                          <option value= {0} >No Available Lifeguards</option>
+                        }
                       </Select>
                     </Grid>
                     <Grid item xs={4}>
@@ -202,20 +323,28 @@ export default function Training() {
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
+               
                       <Select
                         name="pilot"
                         native
                         style={{ width: "60%" }}
                         onChange={handleChange}
                       >
-                          {pilots.map((user) => (
-                            <option value={user.empID}>{user.firstName} {user.lastName}</option>
-                          ))}
+                          {pilots.length  ? 
+                          pilots.map((user) => (
+                           
+                             <option value={[user.id,user.firstName,user.lastName]}>{user.firstName} {user.lastName}</option>
+                          )) 
+                          :
+                          <option value= {0} >No Available Lifeguards</option>
+                        }
 
                       </Select>
                     </Grid>
                   </Grid>
+
                   <div style={{ marginTop: "50px", marginLeft: "50px" }}>
+                 
                     <Button
                       type="submit"
                       value="Submit"
@@ -233,6 +362,7 @@ export default function Training() {
             </form>
           </Grid>
         </Grid>
+        <Notification notify={notify} setNotify={setNotify} />
       </Container>
     </Layout>
   );

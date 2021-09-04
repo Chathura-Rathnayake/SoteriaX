@@ -98,7 +98,17 @@ app.post("/addLifeguard", function (req, res) {  //headlifeguard support backend
 });
 
 // ------------- HeadlifeGuard backend functions  ----------------
+app.post("/CreateTrainingSession", async function (req, res) {  //headlifeguard support data backend code 
+  var data = require("./headlifeguard/trainingDataSubmit.js");
+  data.sendData(req,db,admin,res);
+});
 
+app.post("/getTrainingRecords", async function (req, res) {  //get training records data backend code 
+  var data = require("./headlifeguard/getTrainingRecords.js");
+  data.getData(req,db,admin,res);
+});
+
+// ------------- HeadlifeGuard backend functions  ----------------
 
 
 

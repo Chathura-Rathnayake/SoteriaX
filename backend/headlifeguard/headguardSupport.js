@@ -23,8 +23,8 @@ module.exports = {
             companyID: decodedToken.uid,
             headline: req.body.headline,
             msg: req.body.msg,
-            status: false,
-            viewed: false,
+            status: 0,
+            viewed: 0,
             date: date
           })
           .then(function (docRef) {
@@ -42,3 +42,4 @@ module.exports = {
   }
 
 }
+
