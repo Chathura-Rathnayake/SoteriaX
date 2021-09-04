@@ -11,6 +11,7 @@ import Layout from '../../components/headAdmin/Layout';
 import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { useState, useEffect } from "react";
+import { firestore } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext.js";
 
 function TabPanel(props) {
@@ -148,7 +149,7 @@ export default function Members() {
   console.log("orin dsadada1", x);
 
   function FromdataTranfer(data) {
-    fetch("/headguardSupport", {
+    fetch("/addLifeguard", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -163,17 +164,73 @@ export default function Members() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const {type,msg,headline} = e.target.elements
+    const {fname,lname,email,NIC,age,phone} = e.target.elements
     var formdata = {
-      type:type.value,
-      headline:headline.value,
-      msg:msg.value,
+      firstName:fname.value,
+      lastName:lname.value,
+      NIC:NIC.value,
+      phone_no: phone.value,
+      email: email.value,
+      age: age.value,
       token: uid
       
     };  
-    
-    FromdataTranfer(formdata);
+    //FromdataTranfer(formdata);
+    addlifeguard(formdata);
   }
+  const { signup } = useAuth();
+  const { currentUser } = useAuth();
+  const addlifeguard = (request) => {
+    try {
+      //   setError("");
+      //   setLoading(true);
+
+      //removing the id from the request - cuz we don't want it to get saved in the head lifeguard document
+      
+    var requestToSave = Object.assign({}, request);
+    //delete requestToSave.id;
+
+    const password = `${request.firstName.toUpperCase()}${request.phone_no}`;
+
+    //after signup get the uid of the created account and..
+    signup(request.email, password).then((uid) => {
+      //storing the data in headlifeguard collection
+      firestore
+        .collection("lifeguard")
+        .doc(uid) //creating a lifeguard document by setting the uid as its document id
+        .set({
+          //id: docRef.id,
+          firstName: request.firstName,
+          lastName: request.lastName,
+          companyID: currentUser.uid,
+          id: uid,
+          age: request.age,
+          NIC: request.NIC,
+          phone_number: request.phone_no,
+          email: request.email,
+        }) //saving the request to headlifeguard collection
+        .then((res) => {
+          alert("The Lifeguard added Successfully");
+        });
+
+      //finally deleting the document from user request list
+      // firestore
+      //   .collection("userRequests")
+      //   .doc(request.id)
+      //   .delete()
+      //   .then((res) => {
+      //     console.log("Deleted!", res);
+      //   });
+    });
+
+    console.log("addLifeguard");
+          
+    //if successful send an email with the password
+      //call to the backend
+    } catch {
+      //   setError("Failed to create an account");
+    }
+  };
 
   const [data1, setData1] = useState([]);
   useEffect(() => {
@@ -248,10 +305,10 @@ export default function Members() {
               <div style={{ marginTop: '50px', marginLeft: '50px' }}>
                 <Grid container spacing={5} autoComplete="off">
                   <Grid item xs={5} >
-                    <TextField name="fname" id="fname"  label="First name" style={{ width: 300 }} />
+                    <TextField name="fname" label="First name" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5}>
-                    <TextField name="lname" id="lname" label="Last name" style={{ width: 300 }} />
+                    <TextField name="lname" label="Last name" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5}>
                     <TextField name="email" id="email" label="Email" style={{ width: 300 }} />
@@ -265,9 +322,9 @@ export default function Members() {
                   <Grid item xs={5} >
                     <TextField name="phone" id="phone" label="Phone Number" style={{ width: 300 }} />
                   </Grid>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <TextField id="standard-secondary" label="Username" style={{ width: 300 }} />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 <div style={{ marginTop: '50px', marginLeft: '50px' }}>
                   <Button
@@ -277,7 +334,7 @@ export default function Members() {
                     size="medium"
                     style={{ marginLeft: 485 }}
                     onClick={() => {
-
+                        
                     }}
                   >
                     Create Lifeguard

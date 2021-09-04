@@ -112,7 +112,6 @@ const columns = [
   ];
   
 
-
   const rows = [
     { id: 'EMP-LG-032', username: 'RonPerera', lastName: 'Perera', firstName: 'Ron', age: 35 },
     { id: 'EMP-LG-021',username: 'AmilaS', lastName: 'Silva', firstName: 'Amila', age: 45 },
@@ -157,7 +156,7 @@ export default function Members() {
         
     {/* Content for first column */}
     <div style={{ height: 400, width: '100%' }}>
-      <DataGrid style="border: none !important;"
+      <DataGrid
         autoHeight
         rows={rows}
         columns={columns}

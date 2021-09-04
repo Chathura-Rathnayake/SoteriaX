@@ -33,7 +33,6 @@ export default function Support() {
   const classes = useStyles();
   const history = useHistory();
   let uid;
-
   useAuth()
     .currentUser.getIdToken(true)
     .then((idToken) => {
@@ -51,6 +50,7 @@ export default function Support() {
       .then((res) => res.json())
 
       .then((data) => {
+
         setNotify({
           isOpen: true,
           message:
@@ -58,22 +58,18 @@ export default function Support() {
            Your Reference Number: " +
             data,
           type: "success",
+          num:5,
         });
       })
       .catch((error) => {
         setNotify({
           isOpen: true,
           message: "Error Occured, Please try again later",
-          type: "failed",
+          type: "error",
         });
       });
   }
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "",
-  });
-
+  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '',num:'' })
   const [response, setResponse] = useState();
   const [state, setState] = React.useState({
     type: "",});

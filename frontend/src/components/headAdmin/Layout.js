@@ -18,7 +18,7 @@ import uxceo from "../../assets/images/headguard.png";
 import logo from "../../assets/icons/logoColor.png";
 import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
 import { useAuth } from "../../contexts/AuthContext";
-
+import DescriptionIcon from '@material-ui/icons/Description';
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => {
@@ -102,7 +102,7 @@ export default function Layout({ children }) {
     },
 
     { 
-      text: 'Member access', 
+      text: 'Member Access', 
       icon: <GroupRounded color="secondary" />, 
       path: '/members'
     },
@@ -112,9 +112,14 @@ export default function Layout({ children }) {
       path: '/training'
     },
     { 
-      text: 'Operation statistics', 
+      text: 'Training Records', 
+      icon: <DescriptionIcon color="secondary" />, 
+      path: '/trainingRecords'
+    },
+    { 
+      text: 'Operation Statistics', 
       icon: <Timeline color="secondary" />, 
-      path: '/opstat'
+      path: '/statisticsData'
     },
     { 
       text: 'Support', 
@@ -122,7 +127,7 @@ export default function Layout({ children }) {
       path: '/support'
     },
     { 
-      text: 'Help inbox', 
+      text: 'Help Inbox', 
       icon: <MoveToInboxIcon color="secondary" />, 
       path: '/requestInbox'
     },

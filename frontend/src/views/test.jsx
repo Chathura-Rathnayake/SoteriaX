@@ -5,10 +5,10 @@ export default function Test() {
   //setting the useState hook
   const [data, setData] = useState([]);
 
-  // const formInfo = {
-  //   username: "harcana",
-  //   age: 69,
-  // };
+  const formInfo = {
+    username: "harcana",
+    age: 69,
+  };
 
   // useEffect(() => {
   //   fetch("/retrieve")
@@ -16,18 +16,18 @@ export default function Test() {
   //     .then((data) => setData(data));
   // }, []);
 
-  // useEffect(() => {
-  //   fetch("/send", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(formInfo),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  //   console.log("done");
-  // }, []);
+  useEffect(() => {
+    fetch("/send", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(formInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+    console.log("done");
+  }, []);
 
   useEffect(() => {
     fetch("/multipledocs")
