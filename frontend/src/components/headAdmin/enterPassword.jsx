@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import image from "../../assets/images/soteriax.png";
@@ -6,11 +6,9 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { useAuth } from "../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
 import { usePasswordValidation } from "./usePasswordValidation";
-import { auth } from "../../firebase";
 
 function Copyright() {
   return (
@@ -64,13 +62,12 @@ export default function EnterPassword(props) {
 
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { updatePassword } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  let userId = "TlWW5XC4xMYa7o0SGGHTMW1STWp2"; //removing this hardcoding - retrieve this from props
-
+  let userId = props.uid;
+  //console.log(userId);
   //function to handle the submit click
   async function handleSubmit(e) {
     e.preventDefault();
@@ -78,11 +75,34 @@ export default function EnterPassword(props) {
     try {
       setError("");
       setLoading(true);
-      console.log(passwordRef.current.value);
-      console.log(passwordConfirmRef.current.value);
+      //console.log(passwordRef.current.value);
+      // console.log(passwordConfirmRef.current.value);
       if (passwordRef.current.value === passwordConfirmRef.current.value) {
         // update the user password by performing an backend API call
-        // history.push("/test"); //to the
+        const toSend = {
+          pwd: passwordRef.current.value,
+          uid: userId,
+        };
+
+        //sending the backend request to change the password
+        await fetch("/changePwd", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(toSend),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.status == 0) {
+              //then the password is changed nicely
+              alert("Password changed successfully.");
+              history.push("/"); //redirect to the home
+            } else {
+              setError("Failed to set the password");
+            }
+          });
       } else {
         setError("Two Passwords Does Not Match");
       }

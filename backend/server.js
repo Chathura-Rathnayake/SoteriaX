@@ -170,4 +170,10 @@ app.post("/isResetTokenValid", function (req, res) {
   data.sendData(req, db, admin, res);
 });
 
+app.post("/changePwd", function (req, res) {
+  var data = require("./Admin/changePwd.js");
+  data.sendData(req, db, admin, res);
+});
+
+
 app.listen(process.env.PORT || 8080);

@@ -6,10 +6,10 @@ import { useState, useEffect } from "react";
 import EnterPassword from "../../components/headAdmin/enterPassword";
 import SetPasswordError from "../../components/headAdmin/setPasswordError";
 
-function Greeting(props) {
+function ResetPassComponent(props) {
   const isLoggedIn = props.isLoggedIn;
   if (isLoggedIn) {
-    return <EnterPassword status={props.status} />;
+    return <EnterPassword status={props.status} uid={props.uid} />;
   }
   return <SetPasswordError />;
 }
@@ -55,7 +55,7 @@ export default function SetPassword() {
     //   <p>UID :{uid}</p> <p>TOKEN: {token}</p> <p> {status}</p>
     // </div>
     <div>
-      <Greeting isLoggedIn={true} status={status} />
+      <ResetPassComponent isLoggedIn={true} status={status} uid={uid} />
     </div>
   );
 }
