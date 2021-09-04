@@ -58,7 +58,7 @@ export default function Support() {
            Your Reference Number: " +
             data,
           type: "success",
-          num:5,
+          num:80,
         });
       })
       .catch((error) => {
@@ -66,11 +66,11 @@ export default function Support() {
           isOpen: true,
           message: "Error Occured, Please try again later",
           type: "error",
+          num:80,
         });
       });
   }
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '',num:'' })
-  const [response, setResponse] = useState();
   const [state, setState] = React.useState({
     type: "",});
   const [open, setOpen] = React.useState(false);
