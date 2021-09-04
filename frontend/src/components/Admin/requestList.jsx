@@ -140,7 +140,7 @@ export default function RequestList() {
       //after signup get the uid of the created account and..
       signup(request.userEmail, password).then((uid) => {
         //storing the data in headlifeguard collection
-        /*       firestore
+        firestore
           .collection("headLifeguards")
           .doc(uid) //creating a lifeguard document by setting the uid as its document id
           .set(requestToSave) //saving the request to headlifeguard collection
@@ -156,7 +156,6 @@ export default function RequestList() {
           .then((res) => {
             console.log("Deleted!", res);
           });
-*/
         //send an email to reset the password
         currentUser
           .getIdToken(true) //getting the currently logged in user's id token from firebase (the admin actually)

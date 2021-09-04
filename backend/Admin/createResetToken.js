@@ -5,13 +5,12 @@ module.exports = {
       .verifyIdToken(req.body.token)
       .then(() => {
         console.log("A verified request");
-        console.log(req.baseUrl);
+        //console.log(req.baseUrl);
         //console.log(req.body.headlifeguardUID);
 
         //getting the current time + 30 minutes (to set the token expiration time in database)
         var time = new Date(); //getting the current time
         time.setMinutes(time.getMinutes() + 30); //adding 30 minutes to it
-        //console.log(time);
 
         //creating a random string as the reset token
         function makeResetToken(length) {
@@ -27,7 +26,6 @@ module.exports = {
           return result;
         }
         let resetToken = makeResetToken(16);
-        //console.log(resetToken);
         //getting the hash value of the token and sending all 04 data (uid,timestamp,tokenHash,tokenUsed) to the firebase collection
         const bcrypt = require("bcrypt");
         bcrypt.hash(resetToken, 10, function (err, hash) {
@@ -48,30 +46,50 @@ module.exports = {
         });
 
         //send the email to the user
-        var nodemailer = require("nodemailer");
 
-        var transporter = nodemailer.createTransport({
-          service: "yahoo",
-          auth: {
-            user: "soteriax@yahoo.com",
-            pass: "asghmjtnjqvpbwkj",
-          },
-        });
+        //first getting the email of the user from the database
+        admin
+          .auth()
+          .getUser(req.body.headlifeguardUID)
+          .then((userRecord) => {
+            userData = userRecord.toJSON(); //getting the userData
 
-        var mailOptions = {
-          from: "soteriax@yahoo.com",
-          to: "c.rathnayake97@gmail.com", //change this to user email
-          subject: "Sending Email using Node.js",
-          text: `hi! dis the link ma negro, http://localhost:3000/setPassword?uid=${req.body.headlifeguardUID}&token=${resetToken}`, //change this hardcoding of base url
-        };
+            //sending the email via nodemailer
+            var nodemailer = require("nodemailer");
+            var transporter = nodemailer.createTransport({
+              service: "yahoo",
+              auth: {
+                user: "soteriax@yahoo.com",
+                pass: "asghmjtnjqvpbwkj",
+              },
+            });
 
-        transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log("Email sent: " + info.response);
-          }
-        });
+            var mailOptions = {
+              from: "soteriax@yahoo.com",
+              to: userData.email,
+              subject: "SoteriaX password set up for headlifeguards",
+              //change this hardcoding of base url
+              html: `<p>Hello,</p>
+
+            <p>
+            We have sent you this email in response to your request to create a head lifeguard account on SoteriaX. </br>
+            To set the password to your account, please follow this link, ${process.env.BASE_URL}/setPassword?uid=${req.body.headlifeguardUID}&token=${resetToken}
+            </p>
+            
+            <p>Team SoteriaX</p>`,
+            };
+
+            transporter.sendMail(mailOptions, function (error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log("Email sent: " + info.response);
+              }
+            });
+          })
+          .catch((error) => {
+            console.log("Error fetching user data:", error);
+          });
       })
       .catch((error) => {
         console.log(error);

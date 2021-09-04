@@ -3,6 +3,10 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 
+require("dotenv").config({ path: __dirname + "/.env" });
+process.env["BASE_URL"] = "http://localhost:3000";
+//console.log(process.env.BASE_URL);
+
 //body parser middleware setup
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -174,6 +178,5 @@ app.post("/changePwd", function (req, res) {
   var data = require("./Admin/changePwd.js");
   data.sendData(req, db, admin, res);
 });
-
 
 app.listen(process.env.PORT || 8080);

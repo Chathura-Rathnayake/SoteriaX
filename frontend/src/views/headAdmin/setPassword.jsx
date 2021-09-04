@@ -7,11 +7,13 @@ import EnterPassword from "../../components/headAdmin/enterPassword";
 import SetPasswordError from "../../components/headAdmin/setPasswordError";
 
 function ResetPassComponent(props) {
-  const isLoggedIn = props.isLoggedIn;
-  if (isLoggedIn) {
-    return <EnterPassword status={props.status} uid={props.uid} />;
-  }
-  return <SetPasswordError />;
+  const status = props.status;
+  if (status == 0) {
+    //token validation successfull
+    return <EnterPassword status={status} uid={props.uid} />;
+  } else if (status == 1 || status == 2)
+    //token validation failed
+    return <SetPasswordError status={status} />;
 }
 
 export default function SetPassword() {
@@ -50,12 +52,10 @@ export default function SetPassword() {
   console.log(status);
 
   return (
-    // <div>
-    //   <h1>Set Your Password</h1>
-    //   <p>UID :{uid}</p> <p>TOKEN: {token}</p> <p> {status}</p>
-    // </div>
     <div>
-      <ResetPassComponent isLoggedIn={true} status={status} uid={uid} />
+      {typeof status !== "undefined" && ( //loading the component when the status is defined
+        <ResetPassComponent status={status} uid={uid} />
+      )}
     </div>
   );
 }
