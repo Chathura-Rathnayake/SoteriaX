@@ -56,6 +56,7 @@ ReactDOM.render(
             component={HeadlifeguardRequest}
           />
           <Route exact path="/test" component={test} />
+          <Route exact path="/setPassword" component={SetPassword} />
           {/* restricted routes  - admin*/}
           <PrivateRouteAdmin exact path="/admin" component={Admin} />
           <PrivateRouteAdmin exact path="/adminProfile" component={App} />
