@@ -113,6 +113,23 @@ export default function Training() {
       token:uid,
 
   };
+  function invalidDate(getDate,getTime){
+    var GivenDate =getDate;
+    var CurrentDate = new Date().toISOString().split('T')[0];
+    var CurrentTime = new Date().getHours() + ":" + new Date().getMinutes() 
+    console.log(GivenDate)
+    console.log(CurrentDate)
+    GivenDate = new Date(GivenDate);
+    CurrentDate= new Date(CurrentDate);
+    // GivenDate > CurrentDate &&
+    if( GivenDate > CurrentDate ){
+      return false;
+    }else if( GivenDate.toDateString() == CurrentDate.toDateString() &&  getTime > CurrentTime){
+      return false;
+    }else{
+      return true;
+    }
+}
     if ( packageH.value == 0 || rescuer.value == 0 || pilot.value == 0 ) {
         setNotify({
           isOpen: true,
@@ -121,19 +138,28 @@ export default function Training() {
           num:80,
         });
         return
-    }else if( !title || !date || !time || !msg || !sea ){ 
+    }else if( !title.value || !date.value || !time.value || !msg.value || !sea.value ){ 
       setNotify({
         isOpen: true,
-        message: "Input fields are empty",
+        message: "Empty input fields detected",
         type: "error",
         num:80,
       });
       return
+    }else if(invalidDate(date.value,time.value) ){ 
+      setNotify({
+        isOpen: true,
+        message: "Please select a Future Date & Time",
+        type: "error",
+        num:80,
+      });
+      return  
+
     }else{
       if(packageH.value == rescuer.value){      
         setNotify({
           isOpen: true,
-          message: "Please select diffrent lifeguards for each action",
+          message: "Please select unique lifeguards for each action",
           type: "error",
           num:80,
         });
@@ -202,7 +228,7 @@ export default function Training() {
 
                     <Grid item xs={12}>
                     <TextField
-                        required={true}  
+                        equired={true}  
                         name="title"
                         label="Training Title"
                         style={{ width: "80%" }}

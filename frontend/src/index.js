@@ -28,6 +28,7 @@ import Profiles from "./views/Admin/Profiles";
 import test from "./views/test"; //just a testing file
 import TrainingRecords from "./views/headAdmin/trainingRecords";
 import Statistics from "./views/headAdmin/statistics";
+import SetPassword from "./views/headAdmin/setPassword";
 
 const theme = createMuiTheme({
   palette: {
@@ -112,17 +113,17 @@ ReactDOM.render(
             path="/requestInbox"
             component={RequestData}
           />
-           <PrivateRouteHeadlifeguard
+          <PrivateRouteHeadlifeguard
             exact
             path="/trainingRecords"
             component={TrainingRecords}
           />
-           <PrivateRouteHeadlifeguard
+          <PrivateRouteHeadlifeguard
             exact
             path="/statisticsData"
             component={Statistics}
           />
-           {/* restricted routes  - headlifeguard*/} 
+          {/* restricted routes  - headlifeguard*/}
           <PrivateRouteHeadlifeguard exact path="/live" component={Live} />
 
           <Route exact path="/addUser" component={AddUser} />

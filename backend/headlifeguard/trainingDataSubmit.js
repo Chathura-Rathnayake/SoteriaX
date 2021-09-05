@@ -29,7 +29,8 @@ module.exports = {
                 swimmerName:req.body.RescuerName,
               },
               timeline: ["","","","","",],
-              trainingTimes: ["1.23","1.50","2.45","5.43","6.24",],
+              // trainingTimes: ["1.23","1.50","2.45","5.43","6.24",],
+              trainingTimes: ["","","","","",],
               summary:req.body.Summary,
               seaCondition:req.body.SeaCondition,
             })

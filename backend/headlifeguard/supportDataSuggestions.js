@@ -7,7 +7,7 @@ module.exports = {
       .auth()
       .verifyIdToken(req.body.token)
       .then((decodedToken) => {
-        db.collection("helpRequests")
+        db.collection("suggestions")
           .where("companyID", "==", decodedToken.uid)
           .get()
           .then((querySnapshot) => {
