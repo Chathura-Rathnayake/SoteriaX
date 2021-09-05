@@ -45,7 +45,7 @@ export default function MsgCard(props) {
           value={props.msg}
           style={{ width: "100%" }}
           name="msg"
-          label="Message :"
+          label="Sent Message :"
           multiline
           
           variant="outlined"
@@ -57,7 +57,7 @@ export default function MsgCard(props) {
           value={props.reply}
           style={{ width: "100%" }}
           name="reply"
-          label="Reply :"
+          label="Reply from SoteriaX :"
           multiline
 
           variant="outlined"

@@ -34,7 +34,7 @@ export default function AlertDialog(props) {
         .then((res) => res.json())
         .then((respond) => {
           if(respond){
-            window.location.reload(true);
+            window.location.reload();
             // setNotify({
             //   isOpen: true,
             //   message:"Training Session Scheduled successfully",
