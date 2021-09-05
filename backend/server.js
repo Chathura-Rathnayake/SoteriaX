@@ -131,32 +131,34 @@ app.post("/DeleteScheduledTraining", function (req, res) {  //headlifeguard supp
 
 
 
+//---------------------Meca Allanna epa plz-------------------------//
+
 app.get("/adminSuggestion", function (req, res) {
   //doing a read from firebase
   let toSend = [];
-
-  db.collection("suggestions")
+  db.collection("suggestions").orderBy('date','desc')
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // db.collection("headLifeguards")
-        //   .get()
-        //   .then((querySnapshot2) => {
-        //     querySnapshot2.forEach((doc2) => {
-
-        //      if(doc.data().userID == doc2.data().id)
-        //     {
-        //       console.log(doc.data().userID);
-        //       console.log(doc2.data().firstName);
-        //     }
-        //   });
-        // })
         var temp = [];
+        var docname = doc.id;
+        var uid = doc.data().userID;
+        if(!doc.data().name){
+        db.collection("headLifeguards").doc(uid)
+          .get()
+          .then((doc2) => {
+            var username = doc2.data().firstName + " " + doc2.data().lastName;
+            console.log(username)
+            var setdata = db.collection("suggestions").doc(docname);
+            setdata.update({
+              name: username,
+            });
+          })
+        }
+
         temp = doc.data();
-        temp.name = "Shanuka";
-        console.log(temp);
+        temp.suggestionID = docname;
         toSend.push(temp);
-        // console.log(doc.data().userID);
       });
       res.json(toSend); //sending the response
     })
@@ -165,21 +167,49 @@ app.get("/adminSuggestion", function (req, res) {
     });
 });
 
-app.get("/getLifeguards", function (req, res) {
-  //doing a read from firebase
-  let toSend = [];
-  db.collection("lifeguards")
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        toSend.push(doc.data());
-      });
-      res.json(toSend); //sending the response
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
+//-----------------------Admin view suggestions and reply-----------------------//
+
+// app.post("/viewSuggestions", async function (req, res) {  
+//   var data = require("./Admin/viewSuggestion.js");
+//   data.getData(req,db,admin,res);
+// });
+
+app.post("/viewSuggestions", function (req, res) {
+  console.log(req.body);
+  
+  db.collection("suggestions").doc(req.body.suggestionID)
+  .update({
+    reply: req.body.reply,
+    status: 1,
+  })
+  .then(function (docRef) {
+    console.log("Document written with ID: ", docRef.id);
+    res.json(docRef.id)
+  }).catch(function (error) {
+    console.error("Error adding document: ", error);
+  });
+
 });
+
+app.post("/updateSuggestions", function (req, res) {
+  console.log(req.body);
+  
+  db.collection("suggestions").doc(req.body.suggestionID)
+  .update({
+    viewed: 1
+  })
+  .then(function (docRef) {
+    console.log("Document written with ID: ", docRef.id);
+    res.json(docRef.id)
+  }).catch(function (error) {
+    console.error("Error adding document: ", error);
+  });
+
+});
+
+
+
+//-----------------------------------------------------------------------------//
 
 //a test route (to send data to frontend) - without authentication
 app.get("/multipledocs", function (req, res) {
