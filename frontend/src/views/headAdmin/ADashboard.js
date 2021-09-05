@@ -45,6 +45,7 @@ export default function ADashboard() {
   //   });
 
   //performing an API request
+
   async function myFunc() {
     const idToken = await currentUser.getIdToken(true); //get the token of the current user
     const toSend = {
@@ -74,21 +75,32 @@ export default function ADashboard() {
       const toSend = {
         token: idToken,
       };
-      try {
-        fetch("/send", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(toSend),
-        })
-          .then((res) => res.json()) //retrieving the request from backend
-          .then((data) => console.log(data)); //printing it to the console
-      } catch (err) {
-        console.log(err);
-      }
+    
+    try {
+      const urls = [
+        "/getOperationCount",
+        "/getTrainingCount",
+        // "/getMemberCount",
+        // "/latestOperationtime",
+        // "/latestTrainingtime",
+      ];
+        var data = await Promise.all(
+            urls.map(
+                url =>
+                    fetch(url).then(
+                        (response) => response.json()
+                    )));
+        console.log(data)    
+        return (data)
+                  
+    } catch (error) {
+        console.log(error)
+
+        throw (error)
     }
-    someFunc(); //executing it
+    }
+    someFunc();
+       //executing it
   }, []);
 
   return (

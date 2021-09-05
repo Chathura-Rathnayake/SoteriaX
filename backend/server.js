@@ -126,7 +126,22 @@ app.post("/DeleteScheduledTraining", function (req, res) {  //headlifeguard supp
   var data = require("./headlifeguard/deleteScheduledTraining.js");
   data.deleteData(req,db,admin,res);
 });
-
+app.post("/getOperationCount", async function (req, res) {  //get training records data backend code 
+  console.log("works")
+  res.json(
+    toSend ={
+      key: "dsadad",
+    }
+  )
+});
+app.post("/getTrainingCount", async function (req, res) {  //get training records data backend code 
+  console.log("works2")
+  res.json(
+    toSend2 ={
+      key2: "dsadaddsadadadada",
+    }
+  )
+});
 // ------------- HeadlifeGuard backend functions  ----------------
 
 
