@@ -24,6 +24,13 @@ module.exports = {
           //   }).catch(function (error) {
           //     console.error("Error adding document: ", error);
           //   });
+          db.collection("lifeguards").doc(req.body.id).delete().then(
+                //console.log("Document written with ID: ", docRef.id);
+                // res.json(docRef.id)
+                console.log("Deletion completed")
+              ).catch(function (error) {
+                console.error("Error adding document: ", error);
+              });
   
   
         })

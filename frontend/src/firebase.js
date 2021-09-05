@@ -27,5 +27,6 @@ const secondApp = firebase.initializeApp(
 
 // Initialize Firebase
 export const auth = app.auth();
+export const deleteUser = app.deleteUser();
 export const firestore = app.firestore();
 export const secondaryAppAuth = secondApp.auth();
