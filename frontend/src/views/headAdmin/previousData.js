@@ -61,6 +61,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RequestData() {
   const [data, getData] = useState([]);
+  const [dataComplaints, getDataComplaints] = useState([]);
+  const [dataSuggestions, getDataSuggestions] = useState([]);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -79,13 +81,47 @@ export default function RequestData() {
         })
           .then((res) => res.json()) //retrieving the request from backend
           .then((data) => getData(data)); //printing it to the console
-      } catch (err) {
-        //
-      }
+      } catch (err) {}
+      try {
+        fetch("/supportDataComplaints", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(toSend),
+        })
+          .then((res) => res.json()) //retrieving the request from backend
+          .then((data) => getDataComplaints(data)); //printing it to the console
+      } catch (err) {}
+      try {
+        fetch("/supportDataSuggestions", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(toSend),
+        })
+          .then((res) => res.json()) //retrieving the request from backend
+          .then((data) => getDataSuggestions(data)); //printing it to the console
+      } catch (err) {}
     }
     getList(); //executing it
   }, []);
-  console.log(data)
+  data.sort((a, b) => {
+    let da = new Date(a.date),
+      db = new Date(b.date);
+    return db - da;
+  });
+  dataComplaints.sort((a, b) => {
+    let da = new Date(a.date),
+      db = new Date(b.date);
+    return db - da;
+  });
+  dataSuggestions.sort((a, b) => {
+    let da = new Date(a.date),
+      db = new Date(b.date);
+    return db - da;
+  });
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -112,35 +148,95 @@ export default function RequestData() {
 
         <TabPanel value={value} index={0}>
           <Container size="sm">
-
             <Grid container spacing={4}>
-              {data.map((entry) => (
+              {data.length ? (
+                data.map((entry) => (
+                  <Grid item xs={12}>
+                    <MsgCard
+                      id={entry.docID}
+                      status={entry.status > 0 ? "Completed" : "Pending"}
+                      headline={entry.headline}
+                      msg={entry.msg}
+                      reply={entry.reply}
+                    />
+                  </Grid>
+                ))
+              ) : (
                 <Grid item xs={12}>
-                  <MsgCard
-                    id={entry.docID}
-                    status={entry.status > 0 ? 'Completed' : 'Pending'}
-                    headline={entry.headline}
-                    msg={entry.msg}
-                    reply={entry.reply}
-                  />
+                  <Typography
+                    style={{ marginTop: "50px", marginBottom: "50px" }}
+                    size="12px"
+                    align="center"
+                    color="textSecondary"
+                  >
+                    <strong>No Records Submitted</strong>
+                  </Typography>
                 </Grid>
-
-
-              ))}
-
-
+              )}
             </Grid>
           </Container>
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          <form noValidate autoComplete="off">
-            <div style={{ marginTop: "50px", marginLeft: "50px" }}></div>
-          </form>
+          <Container size="sm">
+            <Grid container spacing={4}>
+              {dataComplaints.length ? (
+                dataComplaints.map((entry) => (
+                  <Grid item xs={12}>
+                    <MsgCard
+                      id={entry.docID}
+                      status={entry.status > 0 ? "Completed" : "Pending"}
+                      headline={entry.headline}
+                      msg={entry.msg}
+                      reply={entry.reply}
+                    />
+                  </Grid>
+                ))
+              ) : (
+                <Grid item xs={12}>
+                  <Typography
+                    style={{ marginTop: "50px", marginBottom: "50px" }}
+                    size="12px"
+                    align="center"
+                    color="textSecondary"
+                  >
+                    <strong>No Records Submitted</strong>
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+          </Container>
         </TabPanel>
 
         <TabPanel value={value} index={2}>
-          <div style={{ height: "400px", width: "100%" }}></div>
+          <Container size="sm">
+            <Grid container spacing={4}>
+              {dataSuggestions.length ? (
+                dataSuggestions.map((entry) => (
+                  <Grid item xs={12}>
+                    <MsgCard
+                      id={entry.docID}
+                      status={entry.status > 0 ? "Completed" : "Pending"}
+                      headline={entry.headline}
+                      msg={entry.msg}
+                      reply={entry.reply}
+                    />
+                  </Grid>
+                ))
+              ) : (
+                <Grid item xs={12}>
+                  <Typography
+                    style={{ marginTop: "50px", marginBottom: "50px" }}
+                    size="12px"
+                    align="center"
+                    color="textSecondary"
+                  >
+                    <strong>No Records Submitted</strong>
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+          </Container>
         </TabPanel>
       </div>
     </Layout>
