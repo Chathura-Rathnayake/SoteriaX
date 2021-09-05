@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import Visibility from '@material-ui/icons/Visibility';
 import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
+import CustomizedDialogs from "./popUp"
 //import tableData from "../../data";
 
 // function createData(id, name, email, subject, date) {
@@ -68,13 +69,14 @@ const styles = theme => ({
 });
 
 class EnhancedTable extends React.Component {
+
   state = {
     order: "asc",
     orderBy: "id",
     selected: [],
     rows: [],
     page: 0,
-    rowsPerPage: 5
+    rowsPerPage: 5,
   };
 
   componentDidMount() {
@@ -140,7 +142,8 @@ class EnhancedTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const {  rows, order, orderBy, selected, rowsPerPage, page } = this.state;
+    const { rows, order, orderBy, selected, rowsPerPage, page } = this.state;
+  
     const emptyRows =rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
@@ -180,11 +183,21 @@ class EnhancedTable extends React.Component {
                       <TableCell align="left">{n.headline}</TableCell>
                       <TableCell align="left">{n.date}</TableCell>
                       <TableCell>
-                        <Link className="button" to="/adminDashboard">
-                          <Button mini={true} variant="fab" zDepth={0}>
+                        
+                          {/* <Button mini={true} variant="fab" zDepth={0}>
                             <Visibility />
-                          </Button>
-                        </Link>
+                          </Button> */}
+                          <CustomizedDialogs
+                           suggestionID={n.suggestionID}
+                           name={n.name}
+                           accountType={n.accountType}
+                           headline={n.headline}
+                           date={n.date}
+                           userID={n.userID}
+                           msg={n.msg}
+                           companyID={n.companyID} 
+                           />  
+                        
                       </TableCell>
                     </TableRow>
                   );
