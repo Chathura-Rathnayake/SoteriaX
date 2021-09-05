@@ -92,7 +92,16 @@ app.post("/supportData", async function (req, res) {
   var data = require("./headlifeguard/supportData.js");
   data.getData(req, db, admin, res);
 });
-
+app.post("/supportDataComplaints", async function (req, res) {
+  //headlifeguard support data backend code
+  var data = require("./headlifeguard/supportDataComplaints.js");
+  data.getData(req, db, admin, res);
+});
+app.post("/supportDataSuggestions", async function (req, res) {
+  //headlifeguard support data backend code
+  var data = require("./headlifeguard/supportDataSuggestions.js");
+  data.getData(req, db, admin, res);
+});
 app.post("/addLifeguard", function (req, res) {  //headlifeguard support backend code 
   var data = require("./headlifeguard/addLifeguard.js");
   data.sendData(req,db,admin,res);
@@ -113,14 +122,12 @@ app.post("/getTrainingRecords", async function (req, res) {  //get training reco
 
 app.post("/DeleteScheduledTraining", function (req, res) {  //headlifeguard support backend code
   console.log("works") 
-  console.log(req) 
-  // var data = require("./headlifeguard/deleteScheduledTraining.js");
-  // data.deleteData(req,db,admin,res);
+  console.log(req.body) 
+  var data = require("./headlifeguard/deleteScheduledTraining.js");
+  data.deleteData(req,db,admin,res);
 });
 
 // ------------- HeadlifeGuard backend functions  ----------------
-
-
 
 
 
