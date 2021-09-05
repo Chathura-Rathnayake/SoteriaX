@@ -99,6 +99,12 @@ app.post("/addLifeguard", function (req, res) {  //headlifeguard support backend
   console.log(req.body);
 });
 
+app.post("/deleteLifeguard", function (req, res) {  //headlifeguard support backend code 
+  var data = require("./headlifeguard/deleteLifeguard.js");
+  data.sendData(req,db,admin,res);
+  console.log(req.body);
+});
+
 // ------------- HeadlifeGuard backend functions  ----------------
 app.post("/CreateTrainingSession", async function (req, res) {  //headlifeguard support data backend code 
   console.log(req)

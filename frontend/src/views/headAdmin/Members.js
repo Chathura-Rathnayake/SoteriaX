@@ -13,6 +13,8 @@ import Grid from '@material-ui/core/Grid';
 import { useState, useEffect } from "react";
 import { firestore } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext.js";
+import { deleteUser } from "../../firebase";
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,7 +54,7 @@ function LinkTab(props) {
   );
 }
 
-const renderDetailsButton = (params) => {
+const renderDetailsButtonEdit = (params) => {
   return (
     <strong>
       <Button
@@ -70,51 +72,11 @@ const renderDetailsButton = (params) => {
   )
 }
 
-const columns = [
 
-  {
-    field: 'id',
-    headerName: 'Employee-ID',
-    width: 170,
-    headerAlign: 'center',
-  },
-  // {
-  //   field: 'username',
-  //   headerName: 'Username',
-  //   width: 150,
-  //   headerAlign: 'center',
-  // },
-  {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    headerAlign: 'center',
-  },
-  {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    headerAlign: 'center',
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 110,
-    align: 'left',
-    headerAlign: 'center',
-  },
-  {
-    field: 'Edit',
-    headerName: 'Edit',
-    renderCell: renderDetailsButton,
-    disableClickEventBubbling: true,
-    width: 200,
-    align: 'center',
-    headerAlign: 'center',
 
-  },
-];
+
+
+
 
 
 
@@ -136,6 +98,81 @@ export default function Members() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const columns = [
+
+    {
+      field: 'id',
+      headerName: 'Employee-ID',
+      width: 170,
+      headerAlign: 'center',
+    },
+    // {
+    //   field: 'username',
+    //   headerName: 'Username',
+    //   width: 150,
+    //   headerAlign: 'center',
+    // },
+    {
+      field: 'firstName',
+      headerName: 'First name',
+      width: 150,
+      headerAlign: 'center',
+    },
+    {
+      field: 'lastName',
+      headerName: 'Last name',
+      width: 150,
+      headerAlign: 'center',
+    },
+    {
+      field: 'age',
+      headerName: 'Age',
+      type: 'number',
+      width: 110,
+      align: 'left',
+      headerAlign: 'center',
+    },
+    {
+      field: 'Edit',
+      headerName: 'Edit',
+      renderCell: renderDetailsButtonEdit,
+      disableClickEventBubbling: true,
+      width: 200,
+      align: 'center',
+      headerAlign: 'center',
+  
+    },
+    {
+      field: 'Delete',
+      headerName: 'Delete',
+      renderCell: renderDetailsButtonDelete,
+      disableClickEventBubbling: true,
+      width: 200,
+      align: 'center',
+      headerAlign: 'center',
+  
+    },
+  ];
+
+  function renderDetailsButtonDelete(params){
+    return (
+      <strong>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          style={{ marginLeft: 16 }}
+          onClick={(e) => {
+            handleClick(e, params);
+            IdTransferToDelete(rowId);
+          }}
+        >
+          Delete
+        </Button>
+      </strong>
+    )
+  }
 
   let uid;
   var x;
@@ -162,6 +199,38 @@ export default function Members() {
     console.log("done");
   }
 
+  function IdTransferToDelete(data) {
+    fetch("/deleteLifeguard", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+      
+    }) 
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+    console.log("done");
+  }
+
+  var rowId;
+
+const handleClick = (e, cellValues) => {
+  rowId={id:cellValues.row.id,token: uid};
+  console.log('cell val', rowId);
+  
+  deleteUser(rowId).then(() => {
+    console.log("deleted from auth");
+  }).catch((error) => {
+    console.log("error deleting from auth");
+    // ...
+  });
+  
+};
+
+const { signup } = useAuth();
+const { currentUser } = useAuth();
+
   function handleSubmit(e) {
     e.preventDefault();
     const {fname,lname,email,NIC,age,phone} = e.target.elements
@@ -178,8 +247,7 @@ export default function Members() {
     //FromdataTranfer(formdata);
     addlifeguard(formdata);
   }
-  const { signup } = useAuth();
-  const { currentUser } = useAuth();
+
   const addlifeguard = (request) => {
     try {
       //   setError("");
@@ -196,7 +264,7 @@ export default function Members() {
     signup(request.email, password).then((uid) => {
       //storing the data in headlifeguard collection
       firestore
-        .collection("lifeguard")
+        .collection("lifeguards")
         .doc(uid) //creating a lifeguard document by setting the uid as its document id
         .set({
           //id: docRef.id,
@@ -239,33 +307,7 @@ export default function Members() {
       .then((data1) => setData1(data1));
 
   }, []);
-  // console.log(data1);
-  // data1.forEach(element => {
-  //   // delete element.NIC;
-  //   // delete element.accountStatus;
-  //   // delete element.birthday;
-  //   // delete element.certificationLevel;
-  //   // delete element.contactNum;
-  //   // delete element.email;
-  //   // delete element.isPilot;
-  //   // delete element.noOfOperations;
-  //   console.log(element);  
-  // });
 
-  const rows = [
-    // { id: 'EMP-LG-032', username: 'RonPerera', lastName: 'Perera', firstName: 'Ron', age: 35 },
-    // { id: 'EMP-LG-021', username: 'AmilaS', lastName: 'Silva', firstName: 'Amila', age: 45 },
-    // { id: 'EMP-LG-082', username: 'GunaKamal', lastName: 'Gunarathne', firstName: 'Kamal', age: 51 },
-    // { id: 'EMP-LG-011', username: 'Susantha84', lastName: 'Desilva', firstName: 'Susantha', age: 46 },
-    // { id: 'EMP-LG-014', username: 'kapilaWili', lastName: 'Wimalarathne', firstName: 'Kapila', age: 37 },
-    // { id: 'EMP-LG-005', username: 'ThusharaSW', lastName: 'Wickrama', firstName: 'Thushara', age: 29 },
-    // { id: 'EMP-LG-010', username: 'Haritha13', lastName: 'Peris', firstName: 'Harith', age: 43 },
-    // {data1['0']}
-    // array.forEach(element => {
-    //   { id: element.id, username: 'Haritha13'},
-    // });
-
-  ];
   return (
     <Layout>
       <div className={classes.root}>
