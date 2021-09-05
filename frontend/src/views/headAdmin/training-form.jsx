@@ -45,7 +45,6 @@ export default function Training() {
     num: '200',
   });
   let uid;
-
   useAuth()
     .currentUser.getIdToken(true)
     .then((idToken) => {
@@ -119,7 +118,7 @@ export default function Training() {
           isOpen: true,
           message: "No available Lifeguards, Create new lifeguards",
           type: "error",
-          num:830,
+          num:80,
         });
         return
     }else if( !title || !date || !time || !msg || !sea ){ 
@@ -127,7 +126,7 @@ export default function Training() {
         isOpen: true,
         message: "Input fields are empty",
         type: "error",
-        num:830,
+        num:80,
       });
       return
     }else{
@@ -136,7 +135,7 @@ export default function Training() {
           isOpen: true,
           message: "Please select diffrent lifeguards for each action",
           type: "error",
-          num:830,
+          num:80,
         });
         
         return
@@ -160,9 +159,9 @@ export default function Training() {
         if(respond){
           setNotify({
             isOpen: true,
-            message:"Training Session Created successfully",
+            message:"Training Session Scheduled successfully",
             type: "success",
-            num:830,
+            num:80,
             
           });
         }
@@ -173,7 +172,7 @@ export default function Training() {
           isOpen: true,
           message: "Error Occured, Please try again later",
           type: "error",
-          num:830,
+          num:80,
         });
       });
   }
@@ -269,9 +268,9 @@ export default function Training() {
                         style={{ width: "60%" }}      
                         onChange={handleChange}
                       >
-                        <option value={1}>Mild</option>
-                        <option value={2}>Moderate</option>
-                        <option value={3}>Rough</option>
+                        <option value={"Mild"}>Mild</option>
+                        <option value={"Moderate"}>Moderate</option>
+                        <option value={"Rough"}>Rough</option>
                       </Select>
                     </Grid>
                     <Grid item xs={4}>
@@ -354,7 +353,7 @@ export default function Training() {
                       style={{ marginLeft: 25 }}
                       onClick={() => { }}
                     >
-                      Procced To Training
+                      Schedule Training
                     </Button>
                   </div>
                 </div>

@@ -101,6 +101,7 @@ app.post("/addLifeguard", function (req, res) {  //headlifeguard support backend
 
 // ------------- HeadlifeGuard backend functions  ----------------
 app.post("/CreateTrainingSession", async function (req, res) {  //headlifeguard support data backend code 
+  console.log(req)
   var data = require("./headlifeguard/trainingDataSubmit.js");
   data.sendData(req,db,admin,res);
 });
@@ -108,6 +109,13 @@ app.post("/CreateTrainingSession", async function (req, res) {  //headlifeguard 
 app.post("/getTrainingRecords", async function (req, res) {  //get training records data backend code 
   var data = require("./headlifeguard/getTrainingRecords.js");
   data.getData(req,db,admin,res);
+});
+
+app.post("/DeleteScheduledTraining", function (req, res) {  //headlifeguard support backend code
+  console.log("works") 
+  console.log(req) 
+  // var data = require("./headlifeguard/deleteScheduledTraining.js");
+  // data.deleteData(req,db,admin,res);
 });
 
 // ------------- HeadlifeGuard backend functions  ----------------
