@@ -8,12 +8,13 @@ module.exports = {
             .then((decodedToken) => {
                 db.collection("trainingV2").where("companyID", "==" ,decodedToken.uid).get()
                     .then((querySnapshot) => {
+                     
                         querySnapshot.forEach((doc) => {
                             temp =doc.data()
                             temp.id = doc.id
                             toSend.push(temp);
                         });
-                        console.log(toSend)
+                        
                         res.json(toSend)//sending the response
                     })
                     .catch((error) => {
