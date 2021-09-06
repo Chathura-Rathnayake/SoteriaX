@@ -160,85 +160,45 @@ app.post("/getlatestDataOperation", async function (req, res) {  //get training 
 
 
 
-//---------------------Meca Allanna epa plz-------------------------//
+//-----------------------Suggestions-----------------------//
 
-app.get("/adminSuggestion", function (req, res) {
-  //doing a read from firebase
-  let toSend = [];
-  db.collection("suggestions").orderBy('date','desc')
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        var temp = [];
-        var docname = doc.id;
-        var uid = doc.data().userID;
-        if(!doc.data().name){
-        db.collection("headLifeguards").doc(uid)
-          .get()
-          .then((doc2) => {
-            var username = doc2.data().firstName + " " + doc2.data().lastName;
-            console.log(username)
-            var setdata = db.collection("suggestions").doc(docname);
-            setdata.update({
-              name: username,
-            });
-          })
-        }
-
-        temp = doc.data();
-        temp.suggestionID = docname;
-        toSend.push(temp);
-      });
-      res.json(toSend); //sending the response
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
-});
-
-//-----------------------Admin view suggestions and reply-----------------------//
-
-// app.post("/viewSuggestions", async function (req, res) {  
-//   var data = require("./Admin/viewSuggestion.js");
-//   data.getData(req,db,admin,res);
-// });
-
-app.post("/viewSuggestions", function (req, res) {
-  console.log(req.body);
-  
-  db.collection("suggestions").doc(req.body.suggestionID)
-  .update({
-    reply: req.body.reply,
-    status: 1,
-  })
-  .then(function (docRef) {
-    console.log("Document written with ID: ", docRef.id);
-    res.json(docRef.id)
-  }).catch(function (error) {
-    console.error("Error adding document: ", error);
-  });
-
-});
-
-app.post("/updateSuggestions", function (req, res) {
-  console.log(req.body);
-  
-  db.collection("suggestions").doc(req.body.suggestionID)
-  .update({
-    viewed: 1
-  })
-  .then(function (docRef) {
-    console.log("Document written with ID: ", docRef.id);
-    res.json(docRef.id)
-  }).catch(function (error) {
-    console.error("Error adding document: ", error);
-  });
-
+app.get("/adminSuggestion", async function (req, res) {  
+  var data = require("./Admin/adminSuggestions.js");
+  data.getData(req,db,admin,res);
 });
 
 
 
-//-----------------------------------------------------------------------------//
+app.post("/viewSuggestions", async function (req, res) {  
+  var data = require("./Admin/viewSuggestion.js");
+  data.sendData(req,db,admin,res);
+});
+
+
+app.post("/updateSuggestions", async function (req, res) {  
+  var data = require("./Admin/updateSuggestions.js");
+  data.sendData(req,db,admin,res);
+});
+
+//-----------------------------------Complaints--------------------------------//
+
+app.get("/adminComplaint", async function (req, res) {  
+  var data = require("./Admin/adminComplaints.js");
+  data.getData(req,db,admin,res);
+});
+
+app.post("/viewComplaints", async function (req, res) {  
+  var data = require("./Admin/viewComplaints.js");
+  data.sendData(req,db,admin,res);
+});
+
+app.post("/updateComplaints", async function (req, res) {  
+  var data = require("./Admin/updateComplaints.js");
+  data.sendData(req,db,admin,res);
+});
+
+//-----------------------------------HelpRequest--------------------------------//
+//********** Heta thamai danna wenne*************************************//
 
 //a test route (to send data to frontend) - without authentication
 app.get("/multipledocs", function (req, res) {
