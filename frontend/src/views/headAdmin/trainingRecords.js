@@ -201,7 +201,11 @@ export default function TrainingRecords() {
     }
     getList(); //executing it
   }, []);
-
+  Alldata.sort((a, b) => {
+    let da = new Date(a.date),
+      db = new Date(b.date);
+    return db - da;
+  });
   var completedData = Alldata.filter(function (sessions) {
     return sessions.completed == true;
   });

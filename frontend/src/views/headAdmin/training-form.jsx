@@ -102,6 +102,7 @@ export default function Training() {
       title:title.value,
       date:date.value,
       time:time.value,
+      completed:false,
       Summary:msg.value,
       SeaCondition:sea.value,
       Pilot:arry1[0],

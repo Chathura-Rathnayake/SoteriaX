@@ -6,13 +6,15 @@ module.exports = {
             .auth()
             .verifyIdToken(req.body.token)
             .then((decodedToken) => {
-                db.collection("trainingV2").where("companyID", "==" ,decodedToken.uid).get()
+                db.collection("operations").orderBy("startDate", 'desc').limit(1).get()
                     .then((querySnapshot) => {
-                     
                         querySnapshot.forEach((doc) => {
-                            temp =doc.data()
-                            temp.id = doc.id
-                            toSend.push(temp);
+                            if(doc.data().companyId == "VtTjOxCyvrM64l6qX64WzIp3IPJ3"  ){
+                                temp =doc.data()
+                                temp.id = doc.id
+                                toSend.push(temp);
+                            }
+
                         });
                         
                         res.json(toSend)//sending the response

@@ -6,15 +6,14 @@ module.exports = {
             .auth()
             .verifyIdToken(req.body.token)
             .then((decodedToken) => {
-                db.collection("trainingV2").where("companyID", "==" ,decodedToken.uid).get()
+                db.collection("lifeguards").where("companyID", "==" ,decodedToken.uid).get()
                     .then((querySnapshot) => {
-                     
                         querySnapshot.forEach((doc) => {
                             temp =doc.data()
                             temp.id = doc.id
                             toSend.push(temp);
                         });
-                        
+                       
                         res.json(toSend)//sending the response
                     })
                     .catch((error) => {
