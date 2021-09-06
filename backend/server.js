@@ -127,27 +127,35 @@ app.post("/getTrainingRecords", async function (req, res) {  //get training reco
 });
 
 app.post("/DeleteScheduledTraining", function (req, res) {  //headlifeguard support backend code
-  console.log("works") 
   console.log(req.body) 
   var data = require("./headlifeguard/deleteScheduledTraining.js");
   data.deleteData(req,db,admin,res);
 });
 app.post("/getOperationCount", async function (req, res) {  //get training records data backend code 
-  console.log("works")
-  res.json(
-    toSend ={
-      key: "dsadad",
-    }
-  )
+  var data = require("./headlifeguard/getOperationCount.js");
+  data.getData(req,db,admin,res);
 });
 app.post("/getTrainingCount", async function (req, res) {  //get training records data backend code 
-  console.log("works2")
-  res.json(
-    toSend2 ={
-      key2: "dsadaddsadadadada",
-    }
-  )
+  var data = require("./headlifeguard/getTrainingRecords.js");
+  data.getData(req,db,admin,res);
+  
 });
+app.post("/getLifeguardCount", async function (req, res) {  //get training records data backend code 
+  var data = require("./headlifeguard/getLifeguardCount.js");
+  data.getData(req,db,admin,res);
+  
+});
+app.post("/getCompanyName", async function (req, res) {  //get training records data backend code 
+  var data = require("./headlifeguard/getCompanyName.js");
+  data.getData(req,db,admin,res);
+  
+});
+app.post("/getlatestDataOperation", async function (req, res) {  //get training records data backend code 
+  var data = require("./headlifeguard/getlatestDataOperation.js");
+  data.getData(req,db,admin,res);
+  
+});
+
 // ------------- HeadlifeGuard backend functions  ----------------
 
 
