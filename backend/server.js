@@ -249,20 +249,27 @@ app.get("/multipledocs", function (req, res) {
     });
 });
 
-app.get("/getLifeguards", function (req, res) {
-  //doing a read from firebase
-  let toSend = [];
-  db.collection("lifeguards")
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        toSend.push(doc.data());
-      });
-      res.json(toSend); //sending the response
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
+//get all lifeguards to display in
+// app.get("/getLifeguards", function (req, res) {
+//   //doing a read from firebase
+//   let toSend = [];
+//   db.collection("lifeguards")
+//     .get()
+//     .then((querySnapshot) => {
+//       querySnapshot.forEach((doc) => {
+//         toSend.push(doc.data());
+//       });
+//       res.json(toSend); //sending the response
+//     })
+//     .catch((error) => {
+//       console.log("Error getting documents: ", error);
+//     });
+//   });
+
+  app.post("/getLifeguards", async function (req, res) {  //get training records data backend code 
+    var data = require("./headlifeguard/getLifeguards.js");
+    data.getData(req,db,admin,res);
+    console.log(data);
   });
 
 

@@ -13,6 +13,11 @@ import Grid from '@material-ui/core/Grid';
 import { useState, useEffect } from "react";
 import { firestore } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext.js";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import { deleteUser } from "../../firebase";
 
 
@@ -233,15 +238,17 @@ const { currentUser } = useAuth();
 
   function handleSubmit(e) {
     e.preventDefault();
-    const {fname,lname,email,NIC,age,phone} = e.target.elements
+    const {fname,lname,email,NIC,birthdate,phone,certificate_level,isPilot} = e.target.elements
     var formdata = {
       firstName:fname.value,
       lastName:lname.value,
       NIC:NIC.value,
       phone_no: phone.value,
       email: email.value,
-      age: age.value,
-      token: uid
+      birthdate: birthdate.value,
+      token: uid,
+      certificateLevel: certificate_level.value,
+      isPilot: isPilot.value
       
     };  
     //FromdataTranfer(formdata);
@@ -272,10 +279,12 @@ const { currentUser } = useAuth();
           lastName: request.lastName,
           companyID: currentUser.uid,
           id: uid,
-          age: request.age,
+          birthdate: request.birthdate,
           NIC: request.NIC,
           phone_number: request.phone_no,
           email: request.email,
+          isPilot: request.isPilot,
+          certificateLevel: request.certificateLevel,
         }) //saving the request to headlifeguard collection
         .then((res) => {
           alert("The Lifeguard added Successfully");
@@ -301,12 +310,46 @@ const { currentUser } = useAuth();
   };
 
   const [data1, setData1] = useState([]);
-  useEffect(() => {
-    fetch("/getLifeguards")
-      .then((res) => res.json())
-      .then((data1) => setData1(data1));
+  // useEffect(() => {
+  //   fetch("/getLifeguards")
+  //     .then((res) => res.json())
+  //     .then((data1) => setData1(data1));
 
+  // }, []);
+  useEffect(() => {
+    async function getUserList() {
+      const idToken = await currentUser.getIdToken(true); //get the token of the current user
+      const toSend = {
+        token: idToken,
+      };
+
+      try {
+        fetch("/trainingView", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(toSend),
+        })
+          .then((res) => res.json()) //retrieving the request from backend
+          .then((data1) => setData1(data1)); //printing it to the console
+      
+        } catch (err) {
+        //
+      }
+    }
+    getUserList(); //executing it
   }, []);
+  
+  // data1.filter(function(element){
+  //   var cID=element.companyID;
+  //   var hid= currentUser.uid;
+  //   if(cID == hid){
+  //     delete data1.element;
+  //   }
+  // });
+  
+  console.log(data1);
 
   return (
     <Layout>
@@ -355,14 +398,44 @@ const { currentUser } = useAuth();
                   <Grid item xs={5}>
                     <TextField name="email" id="email" label="Email" style={{ width: 300 }} />
                   </Grid>
-                  <Grid item xs={5} >
-                    <TextField name="age" id="age" label="Age" style={{ width: 300 }} />
-                  </Grid>
                   <Grid item xs={5}>
                     <TextField name="NIC" id="Id" label="NIC Number" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5} >
                     <TextField name="phone" id="phone" label="Phone Number" style={{ width: 300 }} />
+                  </Grid>
+                  <Grid item xs={5} >
+                    <TextField name="certificate_level" id="certificate_level" label="Certificate Level" style={{ width: 300 }} />
+                  </Grid>
+                  <Grid item xs={5} >
+                  <FormControl component="fieldset">
+                      <FormLabel component="legend">Is Pilot?</FormLabel>
+                      <RadioGroup row aria-label="position" name="isPilot" >
+                        <FormControlLabel
+                          value="true"
+                          control={<Radio color="primary" />}
+                          label="True"
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="false"
+                          control={<Radio color="primary" />}
+                          label="False"
+                          labelPlacement="start"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={5} >
+                  <TextField
+                    required={true}
+                    name="birthdate"
+                    label="Birthday"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
                   </Grid>
                   {/* <Grid item xs={12}>
                     <TextField id="standard-secondary" label="Username" style={{ width: 300 }} />

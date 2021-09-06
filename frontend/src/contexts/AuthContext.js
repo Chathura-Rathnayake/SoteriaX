@@ -8,6 +8,8 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
+
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
@@ -22,6 +24,17 @@ export function AuthProvider({ children }) {
         return uid;
       });
   }
+
+  // function deleteUser(){
+  //   const user = firebase.auth().currentUser;
+  //   user.delete().then(() => {
+  //     console.log("deleted from auth");
+  //   }).catch((error) => {
+  //     // An error ocurred
+  //     // ...
+  //     console.log("error auth deleting");
+  //   });
+  // }
 
   function login(email, password) {
     console.log("inside login function");
