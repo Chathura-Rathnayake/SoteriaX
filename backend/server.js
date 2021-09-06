@@ -257,6 +257,23 @@ app.get("/multipledocs", function (req, res) {
     });
 });
 
+app.get("/getLifeguards", function (req, res) {
+  //doing a read from firebase
+  let toSend = [];
+  db.collection("lifeguards")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        toSend.push(doc.data());
+      });
+      res.json(toSend); //sending the response
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+  });
+
+
 /** routes related to the user authentication module **/
 //The route to create an instance in the resetTickets collection and send a password reset email to the user
 app.post("/createResetToken", function (req, res) {

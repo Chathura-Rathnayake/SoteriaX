@@ -219,12 +219,12 @@ const handleClick = (e, cellValues) => {
   rowId={id:cellValues.row.id,token: uid};
   console.log('cell val', rowId);
   
-  deleteUser(rowId).then(() => {
-    console.log("deleted from auth");
-  }).catch((error) => {
-    console.log("error deleting from auth");
-    // ...
-  });
+  // deleteUser(rowId).then(() => {
+  //   console.log("deleted from auth");
+  // }).catch((error) => {
+  //   console.log("error deleting from auth");
+  //   // ...
+  // });
   
 };
 
