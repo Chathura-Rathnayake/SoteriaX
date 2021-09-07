@@ -9,7 +9,7 @@ module.exports = {
                 db.collection("operations").orderBy("startDate", 'desc').limit(1).get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
-                            if(doc.data().companyId == "VtTjOxCyvrM64l6qX64WzIp3IPJ3"  ){
+                            if(doc.data().companyId == decodedToken.uid  ){
                                 temp =doc.data()
                                 temp.id = doc.id
                                 toSend.push(temp);
