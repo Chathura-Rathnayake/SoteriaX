@@ -6,10 +6,12 @@ module.exports = {
         .verifyIdToken(req.body.token)
         .then((decodedToken) => {
             
-          db.collection("trainingV2")
+          db.collection("trainingOperations")
             .add({
               title:req.body.title,
               companyID: decodedToken.uid,
+              completed: false,
+              operationStatus: "Pending",
               currentStage:0,
               currentStatus:"Not Initialized",
               date:req.body.date,
@@ -27,7 +29,13 @@ module.exports = {
                 mobileHandelerName: req.body.PackageName,
                 swimmer: req.body.Rescuer,
                 swimmerName:req.body.RescuerName,
+
               },
+              lastestTimePing: {
+                stopWatch:0,
+                timePing: new Date(0)
+              },
+             
               timeline: ["","","","","",],
               // trainingTimes: ["1.23","1.50","2.45","5.43","6.24",],
               trainingTimes: ["","","","","",],
