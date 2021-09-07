@@ -57,7 +57,7 @@ const DialogActions = withStyles((theme) => ({
 
 export default function CustomizedDialogs(props) {
 
-  const {suggestionID, name, accountType, headline, date, userID, msg, companyID } = props;
+  const {complaintID, companyName, name, accountType, headline, date, userID, msg, companyID } = props;
   const [open, setOpen] = React.useState(false);
 
   const [checked, setChecked] = React.useState(true);
@@ -70,8 +70,8 @@ export default function CustomizedDialogs(props) {
 
   async function  updateView() {
     const idToken = await currentUser.getIdToken(true);
-    var id = {suggestionID: suggestionID, token: idToken,}
-    fetch("/updateSuggestions", {
+    var id = {complaintID: complaintID, token: idToken,}
+    fetch("/updateComplaints", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -91,28 +91,25 @@ export default function CustomizedDialogs(props) {
   };
 
 function FromdataTranfer(data) {
-  console.log(data);
-  fetch("/viewSuggestions", {
+  fetch("/viewComplaints", {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify(data),
   })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    .then((res) => res.json())
 }
 
 async function handleSubmit(e) {
   e.preventDefault();
-  const idToken = await currentUser.getIdToken(true); //get the token of the current user
+  const idToken = await currentUser.getIdToken(true);
   const { reply } = e.target.elements;
   var formdata = {
     reply: reply.value,
-    suggestionID: suggestionID,
+    complaintID: complaintID,
     token: idToken,
   };
-  //console.log(formdata)
   FromdataTranfer(formdata);
 }
 
@@ -123,10 +120,13 @@ async function handleSubmit(e) {
       </Button>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-        <b>Reference ID :</b> {suggestionID}
+        <b>Reference ID :</b> {complaintID}
         </DialogTitle>
         <form onSubmit={handleSubmit} autoComplete="off">
         <DialogContent dividers>
+        <Typography gutterBottom>
+            <b>Company Name :</b> {companyName} 
+          </Typography>
           <Typography gutterBottom>
             <b>Name :</b> {name} 
           </Typography>
@@ -137,7 +137,7 @@ async function handleSubmit(e) {
           <b>Subject :</b> {headline}
           </Typography>
           <Typography gutterBottom>
-          <b>Suggestion :</b> {msg}
+          <b>Complaint :</b> {msg}
           </Typography>
           <TextField 
           id="outlined-multiline-static"
@@ -155,7 +155,8 @@ async function handleSubmit(e) {
             style={{alignItems: "left"}}
             onChange={handleSelectChange}
             inputProps={{ 'aria-label': 'primary checkbox' }}
-          /> */}
+          />
+          <b>Mark as Read</b> */}
           <Button autoFocus type="submit" onClick={handleClose} color="secondary">
             Send Reply
           </Button>
