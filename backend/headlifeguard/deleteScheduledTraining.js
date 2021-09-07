@@ -5,7 +5,7 @@ module.exports = {
       .auth()
       .verifyIdToken(req.body.token)
       .then((decodedToken) => {
-        db.collection("trainingV2")
+        db.collection("trainingOperations")
           .doc(req.body.id)
           .delete()
           .then(function (docRef) {

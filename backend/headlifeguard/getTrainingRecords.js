@@ -6,7 +6,7 @@ module.exports = {
             .auth()
             .verifyIdToken(req.body.token)
             .then((decodedToken) => {
-                db.collection("trainingV2").where("companyID", "==" ,decodedToken.uid).get()
+                db.collection("trainingOperations").where("companyID", "==" ,decodedToken.uid).get()
                     .then((querySnapshot) => {
                      
                         querySnapshot.forEach((doc) => {
