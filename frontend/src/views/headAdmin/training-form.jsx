@@ -102,7 +102,6 @@ export default function Training() {
       title:title.value,
       date:date.value,
       time:time.value,
-      completed:false,
       Summary:msg.value,
       SeaCondition:sea.value,
       Pilot:arry1[0],
@@ -116,8 +115,11 @@ export default function Training() {
   };
   function invalidDate(getDate,getTime){
     var GivenDate =getDate;
+    console.log("new format",new Date(getDate))
     var CurrentDate = new Date().toISOString().split('T')[0];
-    var CurrentTime = new Date().getHours() + ":" + new Date().getMinutes() 
+    var currentHours = date.getHours();
+    currentHours = ("0" + currentHours).slice(-2);
+    var CurrentTime = currentHours  + ":" + new Date().getMinutes() 
     console.log(GivenDate)
     console.log(CurrentDate)
     GivenDate = new Date(GivenDate);
@@ -125,7 +127,17 @@ export default function Training() {
     // GivenDate > CurrentDate &&
     if( GivenDate > CurrentDate ){
       return false;
-    }else if( GivenDate.toDateString() == CurrentDate.toDateString() &&  getTime > CurrentTime){
+    }else if( GivenDate.toDateString() == CurrentDate.toDateString() ){
+      console.log("same")
+      console.log("getTime",getTime)
+      console.log("Time",CurrentTime)
+      if( getTime > CurrentTime)
+      {
+        console.log("ok")
+      }else{
+        console.log("not ok")
+      }
+
       return false;
     }else{
       return true;
@@ -167,7 +179,7 @@ export default function Training() {
         
         return
       }
-     FromdataTranfer(formdata);
+    FromdataTranfer(formdata);
      console.log(formdata);
 
     }
@@ -229,7 +241,7 @@ export default function Training() {
 
                     <Grid item xs={12}>
                     <TextField
-                        equired={true}  
+                        required={true}  
                         name="title"
                         label="Training Title"
                         style={{ width: "80%" }}
