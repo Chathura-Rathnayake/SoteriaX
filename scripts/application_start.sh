@@ -20,3 +20,4 @@ npm run dev > app.out.log 2> app.err.log < /dev/null &
 cd /home/ec2-user/express-app/frontend
 npm install
 npm start > app.out.log 2> app.err.log < /dev/null & 
+
