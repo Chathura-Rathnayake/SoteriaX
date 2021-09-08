@@ -46,7 +46,10 @@ let EnhancedTableToolbar = props => {
       })}
     >
       <div className={classes.title}>
-        {numSelected > 0 ? (
+          <Typography variant="h6" id="tableTitle">
+            <b>Suggestions</b>
+          </Typography>
+        {/* {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
             {numSelected} selected
           </Typography>
@@ -54,11 +57,11 @@ let EnhancedTableToolbar = props => {
           <Typography variant="h6" id="tableTitle">
             Suggestions
           </Typography>
-        )}
+        )} */}
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>
-        {numSelected > 0 ? (
+        {/* {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
               <DeleteIcon />
@@ -70,7 +73,7 @@ let EnhancedTableToolbar = props => {
               <FilterListIcon />
             </IconButton>
           </Tooltip>
-        )}
+        )} */}
       </div>
     </Toolbar>
   );
