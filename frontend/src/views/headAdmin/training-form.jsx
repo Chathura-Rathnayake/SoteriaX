@@ -117,7 +117,7 @@ export default function Training() {
     var GivenDate =getDate;
     console.log("new format",new Date(getDate))
     var CurrentDate = new Date().toISOString().split('T')[0];
-    var currentHours = date.getHours();
+    var currentHours = new Date().getHours();
     currentHours = ("0" + currentHours).slice(-2);
     var CurrentTime = currentHours  + ":" + new Date().getMinutes() 
     console.log(GivenDate)
@@ -133,12 +133,14 @@ export default function Training() {
       console.log("Time",CurrentTime)
       if( getTime > CurrentTime)
       {
+        return false;
         console.log("ok")
       }else{
         console.log("not ok")
+        return true;
       }
 
-      return false;
+
     }else{
       return true;
     }
@@ -179,13 +181,13 @@ export default function Training() {
         
         return
       }
-    FromdataTranfer(formdata);
+    FromdataTranfer(e,formdata);
      console.log(formdata);
 
     }
     
   }
-  function FromdataTranfer(data) {
+  function FromdataTranfer(e,data) {
     fetch("/CreateTrainingSession", {
       method: "POST",
       headers: {
@@ -196,6 +198,7 @@ export default function Training() {
       .then((res) => res.json())
       .then((respond) => {
         if(respond){
+          e.target.reset();
           setNotify({
             isOpen: true,
             message:"Training Session Scheduled successfully",

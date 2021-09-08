@@ -39,7 +39,7 @@ export default function Support() {
       uid = idToken;
     });
 
-  function FromdataTranfer(data) {
+  function FromdataTranfer(e,data) {
     fetch("/headguardSupport", {
       method: "POST",
       headers: {
@@ -50,7 +50,7 @@ export default function Support() {
       .then((res) => res.json())
 
       .then((data) => {
-
+        e.target.reset();
         setNotify({
           isOpen: true,
           message:
@@ -92,8 +92,8 @@ export default function Support() {
       msg: msg.value,
       token: uid,
     };
-
-    FromdataTranfer(formdata);
+    
+    FromdataTranfer(e,formdata);
   }
 
 
