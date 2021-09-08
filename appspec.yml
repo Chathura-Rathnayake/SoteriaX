@@ -16,3 +16,10 @@ hooks:
     - location: scripts/application_start.sh
       timeout: 300
       runas: ec2-user
+permissions:
+  - object: /home/ec2-user/express-app/scripts
+    pattern: "*.sh"
+    owner: ec2-user
+    mode: 777
+    type:
+      - file
