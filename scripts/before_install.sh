@@ -13,3 +13,4 @@ else
   echo "Creating ${DIR} directory"
   mkdir ${DIR}
 fi
+
