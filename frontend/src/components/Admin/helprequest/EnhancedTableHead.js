@@ -8,16 +8,12 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Tooltip from "@material-ui/core/Tooltip";
 
 const rows = [
-  {
-    id: "id",
-    numeric: true,
-    disablePadding: true,
-    label: "Complain ID"
-  },
+  //{ id: "companyID",numeric: false,disablePadding: true,label: "Company ID" },
   { id: "name", numeric: false, disablePadding: false, label: "Name" },
-  { id: "email", numeric: false, disablePadding: false, label: "email" },
-  { id: "subject", numeric: false, disablePadding: false, label: "Subject" },
-  { id: "date", numeric: false, disablePadding: false, label: "Date" }
+  { id: "companyName", numeric: false, disablePadding: false, label: "Company Name" },
+  { id: "accountType", numeric: false, disablePadding: false, label: "Account Type" },
+  { id: "headline", numeric: false, disablePadding: false, label: "Subject" },
+  { id: "date", numeric: false, disablePadding: false, label: "Date" },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -37,13 +33,13 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
+          {/* <TableCell padding="checkbox">
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
             />
-          </TableCell>
+          </TableCell> */}
           {rows.map(
             row => (
               <TableCell

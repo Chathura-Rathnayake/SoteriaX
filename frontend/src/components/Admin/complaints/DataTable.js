@@ -173,10 +173,11 @@ class EnhancedTable extends React.Component {
                       tabIndex={-1}
                       key={n.id}
                       selected={isSelected}
+                      style={{ background: n.viewed == 0 ? '#DCDCDC' : 'white' }}
                     >
-                      <TableCell padding="checkbox">
+                      {/* <TableCell padding="checkbox">
                         <Checkbox checked={isSelected} />
-                      </TableCell>
+                      </TableCell> */}
                       {/* <TableCell align="left">{n.companyID}</TableCell> */}
                       <TableCell align="left">{n.companyName}</TableCell>
                       <TableCell align="left">{n.name}</TableCell>

@@ -198,6 +198,25 @@ app.post("/updateComplaints", async function (req, res) {
 });
 
 //-----------------------------------HelpRequest--------------------------------//
+
+app.get("/adminHR", async function (req, res) {  
+  var data = require("./Admin/adminHR.js");
+  data.getData(req,db,admin,res);
+});
+
+app.post("/viewHR", async function (req, res) {  
+  var data = require("./Admin/viewHR.js");
+  data.sendData(req,db,admin,res);
+});
+
+app.post("/updateHR", async function (req, res) {  
+  var data = require("./Admin/updateHR.js");
+  data.sendData(req,db,admin,res);
+});
+
+
+
+
 //********** Heta thamai danna wenne*************************************//
 
 //a test route (to send data to frontend) - without authentication
