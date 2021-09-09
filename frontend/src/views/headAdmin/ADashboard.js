@@ -7,12 +7,16 @@ import SimpleCard from "../../components/headAdmin/SimpleCard";
 import Grid from "@material-ui/core/Grid";
 import Layout from "../../components/headAdmin/Layout";
 import { useAuth } from "../../contexts/AuthContext.js";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
+import "../../assets/css/waves.css"
 const useStyles = makeStyles({
   bot: {
     marginBottom: 30,
   },
   top: {
+    marginTop: 100,
+  },
+  top2: {
     marginTop: 50,
   },
 });
@@ -201,12 +205,57 @@ export default function ADashboard() {
   });
 
   return (
+    <div> 
+              <div class="header">
+    <div>
+        <svg class="waves"
+            viewBox="0 24 150 28" preserveAspectRatio="none"
+            shape-rendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18
+                    58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlinkHref="#gentle-wave" x="38" y="10"
+                        fill="rgba(16,156,188,0.7)" />
+                        <use xlinkHref="#gentle-wave" x="28" y="15"
+                            fill="rgba(16,156,188,0.7)" />
+                            <use xlinkHref="#gentle-wave" x="58" y="10"
+                                fill="rgba(16,156,188,0.7)" />
+                                <use xlinkHref="#gentle-wave" x="18" y="18"
+                                    fill= "rgba(28,169,201,0.7)" />
+                                 <use xlinkHref="#gentle-wave" x="18" y="20"
+                                    fill= "rgba(248,244,244,0.8) " />
+                                                                     <use xlinkHref="#gentle-wave" x="43" y="21"
+                                    fill= "rgb(248,244,244) " />
+                                                                     <use xlinkHref="#gentle-wave" x="8" y="20"
+                                    fill= "rgba(248,244,244,0.6) " />
+                                                                     <use xlinkHref="#gentle-wave" x="38" y="23"
+                                    fill= "rgb(248,244,244) " />
+                                </g>
+                            </svg>
+                        </div>
+                        
+
+                    </div>
+   
     <Layout>
+
       <Container size="sm">
-        <div class={classes.bot}></div>
-        <Typography variant="h3" align="center" color="textSecondary">
-          <strong> {dataC.companyName} </strong>
-        </Typography>
+       {dataC.companyName ? 
+                    <Typography variant="h3" align="center" color="secondary">
+                    <strong> {dataC.companyName} </strong>
+                  </Typography> :
+             <CircularProgress  
+             size={40}
+             style={{ marginLeft: "47%" }}
+           
+             thickness={3}
+             color="secondary" /> 
+
+      
+      } 
+
         <div class={classes.bot}></div>
 
         {/* 
@@ -240,7 +289,7 @@ export default function ADashboard() {
           </Grid>
           <Grid container spacing={10}>
             <Grid item xs={6}>
-              <div class={classes.top}></div>
+              <div class={classes.top2}></div>
               <SimpleCard
                 name="Completed Training Sessions"
                 num={completedData.length}
@@ -248,7 +297,7 @@ export default function ADashboard() {
               />
             </Grid>
             <Grid item xs={6}>
-              <div class={classes.top}></div>
+              <div class={classes.top2}></div>
               <SimpleCard
                 name="Scheduled Training Sessions"
                 num={scheduledData.length}
@@ -258,12 +307,15 @@ export default function ADashboard() {
           </Grid>
 
           <Typography variant="h6" color="textSecondary">
-            <div class={classes.top}></div>
+            <div class={classes.top2}></div>
             Last Operation commenced Date -{" "}
             {dataLO.map((data) => data.startDate)}
           </Typography>
         </Grid>
+        
       </Container>
+
     </Layout>
+    </div>
   );
 }

@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CountUp from "react-countup";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import "../../assets/css/waves.css";
+
 const useStyles = makeStyles({
   root: {
     minWidth: 200,
@@ -34,9 +36,7 @@ export default function SimpleCard(props) {
       }}>
       
       <CardContent>
-        <Typography variant="h6" color="Secondary">
-         
-        </Typography>
+
         <Typography variant="h6" align="center" color="Secondary" >{props.name}</Typography>
         <div class={classes.bot}></div>
         <Typography variant="h4"  align="center" color="textSecondary"> {props.loading ? 
@@ -48,6 +48,7 @@ export default function SimpleCard(props) {
         <CountUp end={props.num} separator="," duration={1} />
       
       }</Typography>
+
       </CardContent>
       <CardActions>
         <Button size="small"></Button>
