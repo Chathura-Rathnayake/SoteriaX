@@ -25,6 +25,7 @@ export default function ADashboard() {
   const [dataT, getDataT] = useState([]);
   const [dataL, getDataL] = useState([]);
   const [dataLO, getDataLO] = useState([]);
+  const [loading, setLoading] = React.useState(false)
   
   // //performing an API request
   // useAuth()
@@ -112,6 +113,7 @@ export default function ADashboard() {
   // }, []);
 
   useEffect(() => {
+    setLoading(true)
     async function getList() {
       const idToken = await currentUser.getIdToken(true); //get the token of the current user
       const toSend = {
@@ -170,7 +172,8 @@ export default function ADashboard() {
           body: JSON.stringify(toSend),
         })
           .then((res) => res.json()) //retrieving the request from backend
-          .then((data) =>getDataLO(data)); //printing it to the console
+          .then((data) =>getDataLO(data)); 
+          setLoading(false)//printing it to the console
       } catch (err) {}
     }
     getList(); //executing it
@@ -214,24 +217,25 @@ export default function ADashboard() {
         <Grid container spacing={1}>
           <Grid item xs={4}>
             <div class={classes.top}></div>
-            <SimpleCard name="Incidents Logged" num={dataO.length} />
+            <SimpleCard name="Incidents Logged" num={dataO.length  } loading ={loading}  />
           </Grid>
           <Grid item xs={4}>
           <div class={classes.top}></div>
-            <SimpleCard  name="Lifeguards Added" num={non_pilots.length} />
+            <SimpleCard  name="Lifeguards Added" num={non_pilots.length
+          } loading ={loading} />
           </Grid>
           <Grid item xs={4}>
           <div class={classes.top}></div>
-            <SimpleCard  name="Drone Pilots Added" num= {pilots.length} />
+            <SimpleCard  name="Drone Pilots Added" num= {pilots.length} loading ={loading}  />
           </Grid>
           <Grid container spacing={10}>
           <Grid  item xs={6}>
           <div class={classes.top}></div>
-            <SimpleCard  name="Completed Training Sessions" num={completedData.length} />
+            <SimpleCard  name="Completed Training Sessions" num={completedData.length} loading ={loading}  />
           </Grid>
           <Grid item xs={6}>
           <div class={classes.top}></div>
-            <SimpleCard  name="Scheduled Training Sessions" num={scheduledData.length} />
+            <SimpleCard  name="Scheduled Training Sessions" num={scheduledData.length} loading ={loading} />
             </Grid>
           </Grid>
           

@@ -23,7 +23,7 @@ export default function TrainingRecords() {
   const [passingDataParticipants, setPassingDataParticipants] = useState([]);
   const [passingDataTrainingTimes, setPassingTrainingTimes] = useState([]);
   const { currentUser } = useAuth();
-
+  const [loading, setLoading] = React.useState(false)
   const handleClick = (e, cellValues) => {
     console.log('cell val', cellValues.row.trainingTimes);
     setOpen(true)
@@ -181,6 +181,7 @@ export default function TrainingRecords() {
   ];
 
   useEffect(() => {
+    setLoading(true)
     async function getList() {
       const idToken = await currentUser.getIdToken(true); //get the token of the current user
       var toSend = {
@@ -196,6 +197,7 @@ export default function TrainingRecords() {
         })
           .then((res) => res.json()) //retrieving the request from backend
           .then((data) => getAllData(data));
+          setLoading(false)
         //printing it to the console
       } catch (err) { }
     }
@@ -207,9 +209,11 @@ export default function TrainingRecords() {
     return db - da;
   });
   var completedData = Alldata.filter(function (sessions) {
+    
     return sessions.completed == true;
   });
   var scheduledData = Alldata.filter(function (sessions) {
+    
     return sessions.completed != true;
   });
 
@@ -224,7 +228,8 @@ export default function TrainingRecords() {
         <div style={{ height: 300, width: '100%' }}>
           <DataGrid
             autoHeight
-            rows={scheduledData}
+            loading={loading}
+            rows={scheduledData }
             columns={pendingColumns}
             pageSize={3}
             onRowDoubleClick
@@ -238,6 +243,7 @@ export default function TrainingRecords() {
           <DataGrid
             autoHeight
             rows={completedData}
+            loading={loading}
             columns={columns}
             pageSize={8}
             onRowDoubleClick
