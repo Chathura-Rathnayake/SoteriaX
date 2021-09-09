@@ -10,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import MsgCard from "../../components/headAdmin/MsgCard";
 import Container from "@material-ui/core/Container";
 import { useAuth } from "../../contexts/AuthContext.js";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -31,7 +31,7 @@ function TabPanel(props) {
   );
 }
 function timeout(delay) {
-  return new Promise( res => setTimeout(res, delay) );
+  return new Promise((res) => setTimeout(res, delay));
 }
 
 function a11yProps(index) {
@@ -67,11 +67,11 @@ export default function RequestData() {
   const [data, getData] = useState([]);
   const [dataComplaints, getDataComplaints] = useState([]);
   const [dataSuggestions, getDataSuggestions] = useState([]);
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     async function getList() {
       const idToken = await currentUser.getIdToken(true); //get the token of the current user
       const toSend = {
@@ -87,7 +87,7 @@ export default function RequestData() {
         })
           .then((res) => res.json()) //retrieving the request from backend
           .then((data) => getData(data)); //printing it to the console
-          setLoading(false)
+        setLoading(false);
       } catch (err) {}
       try {
         fetch("/supportDataComplaints", {
@@ -110,9 +110,7 @@ export default function RequestData() {
         })
           .then((res) => res.json()) //retrieving the request from backend
           .then((data) => getDataSuggestions(data)); //printing it to the console
-          
       } catch (err) {}
-
     }
     getList(); //executing it
   }, []);
@@ -158,11 +156,12 @@ export default function RequestData() {
         <TabPanel value={value} index={0}>
           <Container size="sm">
             <Grid container spacing={4}>
-
-              { loading ? 
-                    <CircularProgress  
-                    style={{marginLeft: "45%" ,marginTop: "10%" }}
-                    color="secondary" /> :
+              {loading ? (
+                <CircularProgress
+                  style={{ marginLeft: "45%", marginTop: "10%" }}
+                  color="secondary"
+                />
+              ) : (
                 data.map((entry) => (
                   <Grid item xs={12}>
                     <MsgCard
@@ -174,7 +173,7 @@ export default function RequestData() {
                     />
                   </Grid>
                 ))
-              }
+              )}
             </Grid>
           </Container>
         </TabPanel>
@@ -227,9 +226,7 @@ export default function RequestData() {
                 ))
               ) : (
                 <Grid item xs={12}>
-                  {
-                    
-                  }
+                  {}
                   <Typography
                     style={{ marginTop: "50px", marginBottom: "50px" }}
                     size="12px"

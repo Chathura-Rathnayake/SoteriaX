@@ -63,8 +63,9 @@ const useStyles = makeStyles((theme) => {
     },
     toolbar: theme.mixins.toolbar,
     avatar: {
-      marginLeft: theme.spacing(0),
-      marginRight: theme.spacing(0)
+
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1)
     }
   }
 })
@@ -145,7 +146,7 @@ export default function Layout({ children }) {
       >
         <Toolbar>
           <Typography className={classes.date}>
-          Head-Lifeguard Dashboard{/* {format(new Date(), 'do MMMM Y')} */}
+          Head-Lifeguard Dashboard - {format(new Date(), 'do MMMM Y')}
           </Typography>
         
           <Button 
@@ -159,8 +160,8 @@ export default function Layout({ children }) {
             }}
           >
             <Avatar className={classes.avatar} src={uxceo} />
-            <ArrowDropDown  size ="large"/>
-            Log Out
+           
+           <strong> Log Out </strong>
           </Button>
         </Toolbar>
       </AppBar>

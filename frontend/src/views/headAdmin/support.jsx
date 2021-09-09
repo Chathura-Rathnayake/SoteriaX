@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -8,7 +8,7 @@ import Layout from "../../components/headAdmin/Layout";
 import { TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import { useAuth } from "../../contexts/AuthContext.js";
-import { useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 import Notification from "../../components/headAdmin/Notification";
 const useStyles = makeStyles({
   bot: {
@@ -39,7 +39,7 @@ export default function Support() {
       uid = idToken;
     });
 
-  function FromdataTranfer(e,data) {
+  function FromdataTranfer(e, data) {
     fetch("/headguardSupport", {
       method: "POST",
       headers: {
@@ -58,7 +58,7 @@ export default function Support() {
            Your Reference Number: " +
             data,
           type: "success",
-          num:80,
+          num: 80,
         });
       })
       .catch((error) => {
@@ -66,13 +66,19 @@ export default function Support() {
           isOpen: true,
           message: "Error Occured, Please try again later",
           type: "error",
-          num:80,
+          num: 80,
         });
       });
   }
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '',num:'' })
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+    num: "",
+  });
   const [state, setState] = React.useState({
-    type: "",});
+    type: "",
+  });
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (e) => {
@@ -92,10 +98,9 @@ export default function Support() {
       msg: msg.value,
       token: uid,
     };
-    
-    FromdataTranfer(e,formdata);
-  }
 
+    FromdataTranfer(e, formdata);
+  }
 
   return (
     <Layout>
@@ -170,7 +175,9 @@ export default function Support() {
                       Submit
                     </Button>
                     <Button
-                      onClick={() => { history.push('/requestInbox') }}
+                      onClick={() => {
+                        history.push("/requestInbox");
+                      }}
                       variant="contained"
                       color="secondary"
                       size="medium"
@@ -184,9 +191,7 @@ export default function Support() {
             </form>
           </Grid>
 
-          <div className={classes.root}>
-
-          </div>
+          <div className={classes.root}></div>
 
           <Notification notify={notify} setNotify={setNotify} />
         </Grid>

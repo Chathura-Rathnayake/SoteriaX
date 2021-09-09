@@ -45,7 +45,7 @@ export default function SimpleCard(props) {
         size={30}
         thickness={3}
         color="secondary" />  :
-        <CountUp end={props.num} separator="," duration={6} />
+        <CountUp end={props.num} separator="," duration={1} />
       
       }</Typography>
       </CardContent>

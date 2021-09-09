@@ -25,8 +25,8 @@ export default function ADashboard() {
   const [dataT, getDataT] = useState([]);
   const [dataL, getDataL] = useState([]);
   const [dataLO, getDataLO] = useState([]);
-  const [loading, setLoading] = React.useState(false)
-  
+  const [loading, setLoading] = React.useState(false);
+
   // //performing an API request
   // useAuth()
   //   .currentUser.getIdToken(true) //getting the currently logged in user's id token from firebase
@@ -84,7 +84,7 @@ export default function ADashboard() {
   //     const toSend = {
   //       token: idToken,
   //     };
-    
+
   //   try {
   //     const urls = [
   //       "/getOperationCount",
@@ -99,9 +99,9 @@ export default function ADashboard() {
   //                   fetch(url).then(
   //                       (response) => response.json()
   //                   )));
-  //       console.log(data)    
+  //       console.log(data)
   //       return (data)
-                  
+
   //   } catch (error) {
   //       console.log(error)
 
@@ -113,7 +113,7 @@ export default function ADashboard() {
   // }, []);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     async function getList() {
       const idToken = await currentUser.getIdToken(true); //get the token of the current user
       const toSend = {
@@ -150,7 +150,7 @@ export default function ADashboard() {
           body: JSON.stringify(toSend),
         })
           .then((res) => res.json()) //retrieving the request from backend
-          .then((data) =>getDataT(data)); //printing it to the console
+          .then((data) => getDataT(data)); //printing it to the console
       } catch (err) {}
       try {
         fetch("/getLifeguardCount", {
@@ -161,7 +161,7 @@ export default function ADashboard() {
           body: JSON.stringify(toSend),
         })
           .then((res) => res.json()) //retrieving the request from backend
-          .then((data) =>getDataL(data)); //printing it to the console
+          .then((data) => getDataL(data)); //printing it to the console
       } catch (err) {}
       try {
         fetch("/getlatestDataOperation", {
@@ -172,18 +172,18 @@ export default function ADashboard() {
           body: JSON.stringify(toSend),
         })
           .then((res) => res.json()) //retrieving the request from backend
-          .then((data) =>getDataLO(data)); 
-          setLoading(false)//printing it to the console
+          .then((data) => getDataLO(data));
+        setLoading(false); //printing it to the console
       } catch (err) {}
     }
     getList(); //executing it
   }, []);
-  console.log("latest O",dataLO)
-  var pilots = dataL.filter(function(getpilots){
+  console.log("latest O", dataLO);
+  var pilots = dataL.filter(function (getpilots) {
     return getpilots.isPilot == true;
   });
 
-  var non_pilots = dataL.filter(function(getpilots){
+  var non_pilots = dataL.filter(function (getpilots) {
     return getpilots.isPilot == false;
   });
 
@@ -199,56 +199,70 @@ export default function ADashboard() {
   var scheduledData = dataT.filter(function (sessions) {
     return sessions.completed != true;
   });
-  
 
   return (
     <Layout>
       <Container size="sm">
-      <div class={classes.bot}></div>
-        <Typography  variant="h3" align="center" color="textSecondary">
-         <strong> {dataC.companyName} </strong> 
+        <div class={classes.bot}></div>
+        <Typography variant="h3" align="center" color="textSecondary">
+          <strong> {dataC.companyName} </strong>
         </Typography>
         <div class={classes.bot}></div>
 
-{/* 
+        {/* 
         <Simplemap /> */}
         <div class={classes.bot}></div>
-       
+
         <Grid container spacing={1}>
           <Grid item xs={4}>
             <div class={classes.top}></div>
-            <SimpleCard name="Incidents Logged" num={dataO.length  } loading ={loading}  />
+            <SimpleCard
+              name="Incidents Logged"
+              num={dataO.length}
+              loading={loading}
+            />
           </Grid>
           <Grid item xs={4}>
-          <div class={classes.top}></div>
-            <SimpleCard  name="Lifeguards Added" num={non_pilots.length
-          } loading ={loading} />
+            <div class={classes.top}></div>
+            <SimpleCard
+              name="Lifeguards Added"
+              num={non_pilots.length}
+              loading={loading}
+            />
           </Grid>
           <Grid item xs={4}>
-          <div class={classes.top}></div>
-            <SimpleCard  name="Drone Pilots Added" num= {pilots.length} loading ={loading}  />
+            <div class={classes.top}></div>
+            <SimpleCard
+              name="Drone Pilots Added"
+              num={pilots.length}
+              loading={loading}
+            />
           </Grid>
           <Grid container spacing={10}>
-          <Grid  item xs={6}>
-          <div class={classes.top}></div>
-            <SimpleCard  name="Completed Training Sessions" num={completedData.length} loading ={loading}  />
-          </Grid>
-          <Grid item xs={6}>
-          <div class={classes.top}></div>
-            <SimpleCard  name="Scheduled Training Sessions" num={scheduledData.length} loading ={loading} />
+            <Grid item xs={6}>
+              <div class={classes.top}></div>
+              <SimpleCard
+                name="Completed Training Sessions"
+                num={completedData.length}
+                loading={loading}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <div class={classes.top}></div>
+              <SimpleCard
+                name="Scheduled Training Sessions"
+                num={scheduledData.length}
+                loading={loading}
+              />
             </Grid>
           </Grid>
-          
-          <Typography  variant="h6" color="textSecondary">
-          <div class={classes.top}></div>
-          Last Operation commenced Date - {dataLO.map((data)=>
-            data.startDate
-          )}
-        </Typography>
 
-       
+          <Typography variant="h6" color="textSecondary">
+            <div class={classes.top}></div>
+            Last Operation commenced Date -{" "}
+            {dataLO.map((data) => data.startDate)}
+          </Typography>
         </Grid>
-
       </Container>
     </Layout>
   );

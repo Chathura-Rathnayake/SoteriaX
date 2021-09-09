@@ -1,6 +1,6 @@
 module.exports = {
   deleteData: function (req, db, admin, res) {
-    console.log(req.body.id) 
+    
     admin
       .auth()
       .verifyIdToken(req.body.token)

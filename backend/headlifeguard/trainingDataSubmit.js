@@ -43,10 +43,9 @@ module.exports = {
               seaCondition:req.body.SeaCondition,
             })
             .then(function (docRef) {
-              console.log("Training Document written with ID: ", docRef.id);
               res.json(docRef.id)
             }).catch(function (error) {
-              console.error("Error adding document: ", error);
+              
             });
   
   
