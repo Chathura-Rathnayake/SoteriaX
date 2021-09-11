@@ -1,7 +1,8 @@
 import React from 'react';
 import { CssBaseline, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import Layout from '../../components/Admin/sideNhead';
-import CollapsibleTable from '../../components/Admin/profiles/Table';
+//import CollapsibleTable from '../../components/Admin/profiles/Table';
+import EnhancedTable from '../../components/Admin/profiles/DataTable';
 
 const theme = createMuiTheme({
     palette: {
@@ -36,7 +37,8 @@ function Profiles()
         <Layout >
          <ThemeProvider theme = {theme}>
             <div className={classes.appMain}>
-                <CollapsibleTable/>
+                {/* <CollapsibleTable/> */}
+                <EnhancedTable/>
             </div>
             <CssBaseline />
         </ThemeProvider>
