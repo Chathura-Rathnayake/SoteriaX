@@ -424,13 +424,13 @@ export default function Members() {
                       <FormLabel component="legend">Is Pilot?</FormLabel>
                       <RadioGroup row aria-label="position" name="isPilot" >
                         <FormControlLabel
-                          value="true"
+                          value={true}
                           control={<Radio color="primary" />}
                           label="True"
                           labelPlacement="start"
                         />
                         <FormControlLabel
-                          value="false"
+                          value={false}
                           control={<Radio color="primary" />}
                           label="False"
                           labelPlacement="start"
