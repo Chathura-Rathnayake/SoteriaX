@@ -275,7 +275,7 @@ export default function ADashboard() {
             <div class={classes.top}></div>
             <SimpleCard
               name="Lifeguards Added"
-              num={non_pilots.length}
+              num={dataL.length}
               loading={loading}
             />
           </Grid>

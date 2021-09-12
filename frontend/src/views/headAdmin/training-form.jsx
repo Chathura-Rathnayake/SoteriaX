@@ -70,6 +70,7 @@ export default function Training() {
           .then((res) => res.json()) //retrieving the request from backend
           .then((data) => getUsers(data)); //printing it to the console
       } catch (err) {
+        
         //
       }
     }
@@ -82,7 +83,7 @@ export default function Training() {
   var non_pilots = userlist.filter(function (getpilots) {
     return getpilots.isPilot == false;
   });
-
+  
   const handleChange = (event) => {
     const name = event.target.name;
     setState({
@@ -328,8 +329,9 @@ export default function Training() {
                         style={{ width: "60%" }}
                         onChange={handleChange}
                       >
-                        {non_pilots.length ? (
-                          non_pilots.map((user) => (
+                        {userlist.length ? (
+                         
+                          userlist.map((user) => (
                             <option
                               value={[user.id, user.firstName, user.lastName]}
                             >
@@ -353,8 +355,8 @@ export default function Training() {
                         style={{ width: "60%" }}
                         onChange={handleChange}
                       >
-                        {non_pilots.length ? (
-                          non_pilots.map((user) => (
+                        {userlist.length ? (
+                          userlist.map((user) => (
                             <option
                               value={[user.id, user.firstName, user.lastName]}
                             >
