@@ -16,12 +16,14 @@ module.exports = {
               currentStatus:"Not Initialized",
               date:req.body.date,
               startTime:req.body.time,
+              dateTime:new Date(req.body.dateTime),
               engaged:false,
               engagedLifeguard: {
                 userID: '',
                 userType: '',
               },
               operationStatus: "Pending",
+              participantIDs: [req.body.Package,req.body.Pilot,req.body.Rescuer],
               participants: {
                 dronePilot: req.body.Pilot,
                 dronePilotName:req.body.PilotName,
@@ -34,6 +36,7 @@ module.exports = {
               lastestTimePing: {
                 stopWatch:0,
                 timePing: new Date(0)
+                
               },
              
               timeline: ["","","","","",],
@@ -41,6 +44,9 @@ module.exports = {
               trainingTimes: ["","","","","",],
               summary:req.body.Summary,
               seaCondition:req.body.SeaCondition,
+              
+              
+             
             })
             .then(function (docRef) {
               res.json(docRef.id)

@@ -111,7 +111,10 @@ export default function Training() {
       Package: arry3[0],
       PackageName: arry3[1] + " " + arry3[2],
       token: uid,
+      dateTime: new Date(date.value+'T'+time.value)
+
     };
+
     function invalidDate(getDate, getTime) {
       var GivenDate = getDate;
       console.log("new format", new Date(getDate));
