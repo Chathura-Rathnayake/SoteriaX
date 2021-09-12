@@ -19,6 +19,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { deleteUser } from "../../firebase";
+import { TvRounded } from '@material-ui/icons';
 
 
 function TabPanel(props) {
@@ -412,13 +413,13 @@ const { currentUser } = useAuth();
                       <FormLabel component="legend">Is Pilot?</FormLabel>
                       <RadioGroup row aria-label="position" name="isPilot" >
                         <FormControlLabel
-                          value="true"
+                          value={true}
                           control={<Radio color="primary" />}
                           label="True"
                           labelPlacement="start"
                         />
                         <FormControlLabel
-                          value="false"
+                          value={false}
                           control={<Radio color="primary" />}
                           label="False"
                           labelPlacement="start"
