@@ -251,6 +251,10 @@ export default function Members() {
   function handleSubmit(e) {
     e.preventDefault();
     const { fname, lname, email, NIC, birthdate, phone, certificate_level, isPilot } = e.target.elements
+    // var pilot;
+    // if(isPilot.value=="true"){
+    //   pilot=0
+    // }
     var formdata = {
       firstName: fname.value,
       lastName: lname.value,
@@ -260,7 +264,7 @@ export default function Members() {
       birthdate: birthdate.value,
       token: uid,
       certificateLevel: certificate_level.value,
-      isPilot: isPilot.value
+      isPilot: Boolean(isPilot.value)
 
     };
     //FromdataTranfer(formdata);
@@ -424,13 +428,13 @@ export default function Members() {
                       <FormLabel component="legend">Is Pilot?</FormLabel>
                       <RadioGroup row aria-label="position" name="isPilot" >
                         <FormControlLabel
-                          value={true}
+                          value="true"
                           control={<Radio color="primary" />}
                           label="True"
                           labelPlacement="start"
                         />
                         <FormControlLabel
-                          value={false}
+                          value="false"
                           control={<Radio color="primary" />}
                           label="False"
                           labelPlacement="start"
