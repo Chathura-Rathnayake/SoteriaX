@@ -17,9 +17,18 @@ module.exports = {
   
         })
   
-  
+        admin
+        .auth()
+        .deleteUser(req.body.id)
+        .then(() => {
+        console.log('Successfully deleted user');
+      })
+      .catch((error) => {
+      console.log('Error deleting user:', error);
+    });
   
     }
+
   
   }
   

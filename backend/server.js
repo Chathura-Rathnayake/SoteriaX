@@ -214,8 +214,16 @@ app.post("/updateHR", async function (req, res) {
   data.sendData(req,db,admin,res);
 });
 
+//-----------------------------------Admin HeadLG--------------------------------//
+app.get("/adminHLG", async function (req, res) {  
+  var data = require("./Admin/adminHLG.js");
+  data.getData(req,db,admin,res);
+});
 
-
+app.post("/updateHLG", async function (req, res) {  
+  var data = require("./Admin/updateHLG.js");
+  data.sendData(req,db,admin,res);
+});
 
 //********** Heta thamai danna wenne*************************************//
 

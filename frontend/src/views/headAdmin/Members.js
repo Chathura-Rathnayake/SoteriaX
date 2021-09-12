@@ -131,8 +131,8 @@ export default function Members() {
       headerAlign: 'center',
     },
     {
-      field: 'age',
-      headerName: 'Age',
+      field: 'birthdate',
+      headerName: 'Birthdate',
       type: 'number',
       width: 110,
       align: 'left',

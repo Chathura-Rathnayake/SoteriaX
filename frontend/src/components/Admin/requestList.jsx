@@ -46,11 +46,11 @@ const columns = [
     label: "Company\u00a0Phone",
     minWidth: 80,
   },
-  {
-    id: "view",
-    label: "View",
-    minWidth: 80,
-  },
+  // {
+  //   id: "view",
+  //   label: "View",
+  //   minWidth: 80,
+  // },
   {
     id: "approve",
     label: "Approve",
@@ -226,13 +226,13 @@ export default function RequestList() {
                             {column.format && typeof value === "number"
                               ? column.format(value)
                               : value}
-                            {column.id === "view" && (
+                            {/* {column.id === "view" && (
                               <Link className="button" to="/adminDashboard">
                                 <Button mini={true} variant="fab" zDepth={0}>
                                   <Visibility />
                                 </Button>
                               </Link>
-                            )}
+                            )} */}
                             {column.id === "approve" && (
                               <Button
                                 mini={true}

@@ -14,6 +14,8 @@ import Visibility from '@material-ui/icons/Visibility';
 import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import CustomizedDialogs from "./popUp"
+import CustomizedUpdate from "./popUpUpdate"
+
 //import tableData from "../../data";
 
 // function createData(id, name, email, subject, date) {
@@ -80,7 +82,7 @@ class EnhancedTable extends React.Component {
   };
 
   componentDidMount() {
-    fetch('/adminSuggestion')
+    fetch('/adminHLG')
     .then((response) => response.json())
     .then(data => {
         this.setState({ rows: data });
@@ -100,7 +102,7 @@ class EnhancedTable extends React.Component {
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: state.rows.map(n => n.suggestionID) }));
+      this.setState(state => ({ selected: state.rows.map(n => n.hlgID) }));
       return;
     }
     this.setState({ selected: [] });
@@ -160,40 +162,64 @@ class EnhancedTable extends React.Component {
               {stableSort(rows, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isSelected = this.isSelected(n.suggestionID);
+                  const isSelected = this.isSelected(n.hlgID);
                   return (
                     <TableRow
                       hover
-                      onClick={event => this.handleClick(event, n.suggestionID)}
+                      onClick={event => this.handleClick(event, n.hlgID)}
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
                       key={n.id}
                       selected={isSelected}
-                      style={{ background: n.viewed == 0 ? '#ECECEC' : 'white' }}
                     >
                       {/* <TableCell padding="checkbox">
                         <Checkbox checked={isSelected} />
                       </TableCell> */}
                       {/* <TableCell align="left">{n.companyID}</TableCell> */}
                       <TableCell align="left">{n.name}</TableCell>
-                      <TableCell align="left">{n.accountType}</TableCell>
-                      <TableCell align="left">{n.headline}</TableCell>
-                      <TableCell align="left">{n.date}</TableCell>
+                      <TableCell align="left">{n.gender}</TableCell>
+                      <TableCell align="left">{n.age}</TableCell>
+                      <TableCell align="left">{n.userEmail}</TableCell>
+                      <TableCell align="left">{n.userPhone}</TableCell>
+                      {/* <TableCell align="left">{n.piModel}</TableCell> */}
                       <TableCell>
                         
-                          {/* <Button mini={true} variant="fab" zDepth={0}>
-                            <Visibility />
-                          </Button> */}
                           <CustomizedDialogs
-                           suggestionID={n.suggestionID}
+                           hlgID={n.hlgID}
+                           companyName={n.companyName}
                            name={n.name}
-                           accountType={n.accountType}
-                           headline={n.headline}
-                           date={n.date}
-                           userID={n.userID}
-                           msg={n.msg}
-                           companyID={n.companyID} 
+                           userPhone={n.userPhone}
+                           companyPhone={n.companyPhone}
+                           gender={n.gender}
+                           companyEmail={n.companyEmail}
+                           supportType={n.supportType}
+                           birthday={n.birthday}
+                           userEmail={n.userEmail}
+                           companyAddress={n.companyAddress}
+                           staticIP={n.staticIP}
+                           piModel={n.piModel}
+                           />  
+                        
+                      </TableCell>
+                      <TableCell>
+                        
+                          <CustomizedUpdate
+                           hlgID={n.hlgID}
+                           companyName={n.companyName}
+                           firstName={n.firstName}
+                           lastName={n.lastName}
+                           name={n.name}
+                           userPhone={n.userPhone}
+                           companyPhone={n.companyPhone}
+                           gender={n.gender}
+                           companyEmail={n.companyEmail}
+                           supportType={n.supportType}
+                           birthday={n.birthday}
+                           userEmail={n.userEmail}
+                           companyAddress={n.companyAddress}
+                           staticIP={n.staticIP}
+                           piModel={n.piModel}
                            />  
                         
                       </TableCell>

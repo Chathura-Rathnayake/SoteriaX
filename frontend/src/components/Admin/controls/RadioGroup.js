@@ -10,6 +10,7 @@ export default function RadioGroup(props) {
             <FormLabel>{label}</FormLabel>
             <MuiRadioGroup row
                 name={name}
+                size="small"
                 value={value}
                 onChange={onChange}>
                 {
