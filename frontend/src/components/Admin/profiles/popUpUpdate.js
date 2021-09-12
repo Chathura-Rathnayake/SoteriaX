@@ -166,6 +166,8 @@ export default function CustomizedUpdate(props) {
       {id: 'female', title: 'Female'}
     ]
 
+const [data, setData] = React.useState([]);
+    
 function FromdataTranfer(data) {
   fetch("/updateHLG", {
     method: "POST",
@@ -175,9 +177,9 @@ function FromdataTranfer(data) {
     body: JSON.stringify(data),
   })
     .then((res) => res.json())
+    .then((data) => setData(data));
 }
 
-let flag;
 
 async function handleSubmit(e) {
   e.preventDefault();
@@ -202,7 +204,6 @@ async function handleSubmit(e) {
       token: idToken,
     };
     FromdataTranfer(formdata);
-    flag = 1;
   } 
 }
 
@@ -392,17 +393,18 @@ async function handleSubmit(e) {
           <Button autoFocus type="submit" onClick={handleClick1} color="secondary">
             Update
           </Button>
-          {console.log(flag)}
-          { flag > 0 ? (
+          {console.log(data.flag)}
+          { data.flag === 1 ? (
           <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
             <Alert onClose={handleClose1} severity="success">
               Updated Successfully!
             </Alert>
+            {window.location.reload()}
           </Snackbar>
           ) : (
-            <Snackbar open={open1} autoHideDuration={6000} onClose={handleClose1}>
-            <Alert onClose={handleClose1} severity="error">
-              There was an error. Please try again!
+            <Snackbar open={open1} autoHideDuration={8000} onClose={handleClose1}>
+            <Alert onClose={handleClose1} severity="info">
+              Data Validating... If the page is not automatically refreshed, Please check the above details again.
             </Alert>
           </Snackbar>
           )}

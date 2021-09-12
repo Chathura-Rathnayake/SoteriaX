@@ -21,8 +21,9 @@ module.exports = {
                     supportType: req.body.supportType,
                 })
                 .then(function (docRef) {
-                    console.log("Document written with ID: ", docRef.id);
-                    res.json(docRef.id)
+                    var check ={flag: 1};
+                    res.json(check)
+                    console.log(check)
                 }).catch(function (error) {
                     console.error("Error adding document: ", error);
                 });

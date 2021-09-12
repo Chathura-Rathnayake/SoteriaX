@@ -16,20 +16,6 @@ import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import CustomizedDialogs from "./popUp"
 import CustomizedUpdate from "./popUpUpdate"
 
-//import tableData from "../../data";
-
-// function createData(id, name, email, subject, date) {
-//     return { id, name, email, subject, date };
-//   }
-  
-//   const rows = [
-//     createData(1, 'Pasindu Perera', 'pasindu@123.com', 'System not working', '12/07/2021'),
-//     createData(2, 'Udayanga Peiris', 'uda@123.com', 'Logging problem', '11/07/2021'),
-//     createData(3, 'Govinda Kumar', 'gok@123.com', 'Dead bodies everywhere', '30/06/2021'),
-//     createData(4, 'Pasindu Perera', 'pasindu@123.com', 'We did the best', '23/06/2021'),
-//     createData(5, 'Hasanka Rathnayake', 'kalu@123.com', 'We bleed Green', '27/06/2021'),
-//     createData(6, 'Hasanka Rathnayake', 'kalu@123.com', 'We bleed Green', '27/06/2021'),
-//   ];
 
 const desc = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
