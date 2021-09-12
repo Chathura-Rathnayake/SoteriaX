@@ -19,11 +19,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { deleteUser } from "../../firebase";
-import { TvRounded } from '@material-ui/icons';
-
+import AlertDialogSlide from "../../components/headAdmin/edit_lifeguard";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+
 
   return (
     <div
@@ -60,23 +60,7 @@ function LinkTab(props) {
   );
 }
 
-const renderDetailsButtonEdit = (params) => {
-  return (
-    <strong>
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        style={{ marginLeft: 16 }}
-        onClick={() => {
-          //Edit details
-        }}
-      >
-        Edit Details
-      </Button>
-    </strong>
-  )
-}
+
 
 
 
@@ -104,6 +88,33 @@ export default function Members() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [open, setOpen] = useState(false);
+
+  const handleClickEdit = (e, cellValues) => {
+    //console.log("cell val", cellValues);
+    setOpen(true);
+    // setPassingData(cellValues.row);
+    // setPassingDataParticipants(cellValues.row.participants);
+    // setPassingTrainingTimes(cellValues.row.trainingTimes);
+  };
+
+  const renderDetailsButtonEdit = (params) => {
+    return (
+      <strong>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          style={{ marginLeft: 16 }}
+          onClick={(e) => {
+            handleClickEdit(e,params);
+          }}
+        >
+          Edit Details
+        </Button>
+      </strong>
+    )
+  }
 
   const columns = [
 
@@ -147,7 +158,7 @@ export default function Members() {
       width: 200,
       align: 'center',
       headerAlign: 'center',
-  
+
     },
     {
       field: 'Delete',
@@ -157,11 +168,11 @@ export default function Members() {
       width: 200,
       align: 'center',
       headerAlign: 'center',
-  
+
     },
   ];
 
-  function renderDetailsButtonDelete(params){
+  function renderDetailsButtonDelete(params) {
     return (
       <strong>
         <Button
@@ -182,13 +193,13 @@ export default function Members() {
 
   let uid;
   var x;
-   useAuth()
-  .currentUser.getIdToken(true)
-  .then((idToken) => {
-   uid = idToken
-   var x= uid
-   console.log("orin 1", uid);
-  });
+  useAuth()
+    .currentUser.getIdToken(true)
+    .then((idToken) => {
+      uid = idToken
+      var x = uid
+      console.log("orin 1", uid);
+    });
   console.log("orin dsadada1", x);
 
   function FromdataTranfer(data) {
@@ -198,8 +209,8 @@ export default function Members() {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data),
-      
-    }) 
+
+    })
       .then((res) => res.json())
       .then((data) => console.log(data));
     console.log("done");
@@ -212,8 +223,8 @@ export default function Members() {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data),
-      
-    }) 
+
+    })
       .then((res) => res.json())
       .then((data) => console.log(data));
     console.log("done");
@@ -221,37 +232,41 @@ export default function Members() {
 
   var rowId;
 
-const handleClick = (e, cellValues) => {
-  rowId={id:cellValues.row.id,token: uid};
-  console.log('cell val', rowId);
-  
-  // deleteUser(rowId).then(() => {
-  //   console.log("deleted from auth");
-  // }).catch((error) => {
-  //   console.log("error deleting from auth");
-  //   // ...
-  // });
-  
-};
+  const handleClick = (e, cellValues) => {
+    rowId = { id: cellValues.row.id, token: uid };
+    console.log('cell val', rowId);
 
-const { signup } = useAuth();
-const { currentUser } = useAuth();
+    // deleteUser(rowId).then(() => {
+    //   console.log("deleted from auth");
+    // }).catch((error) => {
+    //   console.log("error deleting from auth");
+    //   // ...
+    // });
+
+  };
+
+  const { signup } = useAuth();
+  const { currentUser } = useAuth();
 
   function handleSubmit(e) {
     e.preventDefault();
-    const {fname,lname,email,NIC,birthdate,phone,certificate_level,isPilot} = e.target.elements
+    const { fname, lname, email, NIC, birthdate, phone, certificate_level, isPilot } = e.target.elements
+    // var pilot;
+    // if(isPilot.value=="true"){
+    //   pilot=0
+    // }
     var formdata = {
-      firstName:fname.value,
-      lastName:lname.value,
-      NIC:NIC.value,
+      firstName: fname.value,
+      lastName: lname.value,
+      NIC: NIC.value,
       phone_no: phone.value,
       email: email.value,
       birthdate: birthdate.value,
       token: uid,
       certificateLevel: certificate_level.value,
-      isPilot: isPilot.value
-      
-    };  
+      isPilot: Boolean(isPilot.value)
+
+    };
     //FromdataTranfer(formdata);
     addlifeguard(formdata);
   }
@@ -262,48 +277,48 @@ const { currentUser } = useAuth();
       //   setLoading(true);
 
       //removing the id from the request - cuz we don't want it to get saved in the head lifeguard document
-      
-    var requestToSave = Object.assign({}, request);
-    //delete requestToSave.id;
 
-    const password = `${request.firstName.toUpperCase()}${request.phone_no}`;
+      var requestToSave = Object.assign({}, request);
+      //delete requestToSave.id;
 
-    //after signup get the uid of the created account and..
-    signup(request.email, password).then((uid) => {
-      //storing the data in headlifeguard collection
-      firestore
-        .collection("lifeguards")
-        .doc(uid) //creating a lifeguard document by setting the uid as its document id
-        .set({
-          //id: docRef.id,
-          firstName: request.firstName,
-          lastName: request.lastName,
-          companyID: currentUser.uid,
-          id: uid,
-          birthdate: request.birthdate,
-          NIC: request.NIC,
-          phone_number: request.phone_no,
-          email: request.email,
-          isPilot: request.isPilot,
-          certificateLevel: request.certificateLevel,
-        }) //saving the request to headlifeguard collection
-        .then((res) => {
-          alert("The Lifeguard added Successfully");
-        });
+      const password = `${request.firstName.toUpperCase()}${request.phone_no}`;
 
-      //finally deleting the document from user request list
-      // firestore
-      //   .collection("userRequests")
-      //   .doc(request.id)
-      //   .delete()
-      //   .then((res) => {
-      //     console.log("Deleted!", res);
-      //   });
-    });
+      //after signup get the uid of the created account and..
+      signup(request.email, password).then((uid) => {
+        //storing the data in headlifeguard collection
+        firestore
+          .collection("lifeguards")
+          .doc(uid) //creating a lifeguard document by setting the uid as its document id
+          .set({
+            //id: docRef.id,
+            firstName: request.firstName,
+            lastName: request.lastName,
+            companyID: currentUser.uid,
+            id: uid,
+            birthdate: request.birthdate,
+            NIC: request.NIC,
+            phone_number: request.phone_no,
+            email: request.email,
+            isPilot: request.isPilot,
+            certificateLevel: request.certificateLevel,
+          }) //saving the request to headlifeguard collection
+          .then((res) => {
+            alert("The Lifeguard added Successfully");
+          });
 
-    console.log("addLifeguard");
-          
-    //if successful send an email with the password
+        //finally deleting the document from user request list
+        // firestore
+        //   .collection("userRequests")
+        //   .doc(request.id)
+        //   .delete()
+        //   .then((res) => {
+        //     console.log("Deleted!", res);
+        //   });
+      });
+
+      console.log("addLifeguard");
+
+      //if successful send an email with the password
       //call to the backend
     } catch {
       //   setError("Failed to create an account");
@@ -334,14 +349,14 @@ const { currentUser } = useAuth();
         })
           .then((res) => res.json()) //retrieving the request from backend
           .then((data1) => setData1(data1)); //printing it to the console
-      
-        } catch (err) {
+
+      } catch (err) {
         //
       }
     }
     getUserList(); //executing it
   }, []);
-  
+
   // data1.filter(function(element){
   //   var cID=element.companyID;
   //   var hid= currentUser.uid;
@@ -349,7 +364,7 @@ const { currentUser } = useAuth();
   //     delete data1.element;
   //   }
   // });
-  
+
   console.log(data1);
 
   return (
@@ -372,7 +387,7 @@ const { currentUser } = useAuth();
 
           {/* Content for first column */}
           <div style={{ height: '400px', width: '100%' }}>
-            <DataGrid 
+            <DataGrid
               autoHeight
               rows={data1}
               columns={columns}
@@ -409,17 +424,17 @@ const { currentUser } = useAuth();
                     <TextField name="certificate_level" id="certificate_level" label="Certificate Level" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5} >
-                  <FormControl component="fieldset">
+                    <FormControl component="fieldset">
                       <FormLabel component="legend">Is Pilot?</FormLabel>
                       <RadioGroup row aria-label="position" name="isPilot" >
                         <FormControlLabel
-                          value={true}
+                          value="true"
                           control={<Radio color="primary" />}
                           label="True"
                           labelPlacement="start"
                         />
                         <FormControlLabel
-                          value={false}
+                          value="false"
                           control={<Radio color="primary" />}
                           label="False"
                           labelPlacement="start"
@@ -428,15 +443,15 @@ const { currentUser } = useAuth();
                     </FormControl>
                   </Grid>
                   <Grid item xs={5} >
-                  <TextField
-                    required={true}
-                    name="birthdate"
-                    label="Birthday"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
+                    <TextField
+                      required={true}
+                      name="birthdate"
+                      label="Birthday"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
                   </Grid>
                   {/* <Grid item xs={12}>
                     <TextField id="standard-secondary" label="Username" style={{ width: 300 }} />
@@ -450,19 +465,27 @@ const { currentUser } = useAuth();
                     size="medium"
                     style={{ marginLeft: 485 }}
                     onClick={() => {
-                        
+
                     }}
                   >
                     Create Lifeguard
                   </Button>
                 </div>
               </div>
+
             </div>
 
           </form>
         </TabPanel>
 
       </div>
+      <AlertDialogSlide
+          // data={passingData}
+          // participants={passingDataParticipants}
+          // trainingTimes={passingDataTrainingTimes}
+          open={open}
+          setOpen={setOpen}
+        ></AlertDialogSlide>
     </Layout>
   );
 }
