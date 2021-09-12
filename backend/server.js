@@ -220,6 +220,11 @@ app.get("/adminHLG", async function (req, res) {
   data.getData(req,db,admin,res);
 });
 
+app.post("/updateHLG", async function (req, res) {  
+  var data = require("./Admin/updateHLG.js");
+  data.sendData(req,db,admin,res);
+});
+
 //********** Heta thamai danna wenne*************************************//
 
 //a test route (to send data to frontend) - without authentication

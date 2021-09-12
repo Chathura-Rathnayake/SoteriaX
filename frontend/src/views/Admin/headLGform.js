@@ -5,9 +5,14 @@ import { useForm, Form } from '../../components/Admin/useForm';
 
 
 
-const genderItems = [
+const subscriptions = [
     { id: 'sup', title: 'With Support' },
     { id: 'nosup', title: 'Without Support' },
+]
+
+const gender =[
+    {id: 'male', title: 'Male'},
+    {id: 'female', title: 'Female'}
 ]
 
 const initialFValues = {
@@ -15,7 +20,6 @@ const initialFValues = {
     lastName: '',
     email: '',
     contactNumber: '',
-    userName: '',
     addedDate: new Date(),
     companyName: '',
     companyAddress: '',
@@ -104,6 +108,15 @@ export default function HeadLGform(props) {
                         error={errors.lastName}
                     />
                     </Grid>
+                    <Grid item lg={12} style={{marginTop:'15px'}}>
+                    <Controls.RadioGroup 
+                        name="subscriptionType"
+                        label="Gender"
+                        value={values.subscriptionType}
+                        onChange={handleInputChange}
+                        items={gender}
+                    />
+                    </Grid>
                     <Grid item lg={12}>
                     <Controls.Input style={{marginTop:'8px'}}
                         label="Email"
@@ -123,17 +136,9 @@ export default function HeadLGform(props) {
                     />
                     </Grid>
                     <Grid item lg={12}>
-                    <Controls.Input style={{marginTop:'8px', marginBottom:'8px'}}
-                        label="Age"
-                        name="age"
-                        value={values.age}
-                        onChange={handleInputChange}
-                    />
-                    </Grid>
-                    <Grid item lg={12}>
                     <Controls.DatePicker style={{marginTop:'20px'}}
-                        name="addedDate"
-                        label="Date"
+                        name="birthday"
+                        label="Birthday"
                         value={values.addedDate}
                         onChange={handleInputChange}
                     />
@@ -180,7 +185,7 @@ export default function HeadLGform(props) {
                         label="Subscription Type"
                         value={values.subscriptionType}
                         onChange={handleInputChange}
-                        items={genderItems}
+                        items={subscriptions}
                     />
                     </Grid>
 

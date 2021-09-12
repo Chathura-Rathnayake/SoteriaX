@@ -207,7 +207,19 @@ class EnhancedTable extends React.Component {
                           <CustomizedUpdate
                            hlgID={n.hlgID}
                            companyName={n.companyName}
+                           firstName={n.firstName}
+                           lastName={n.lastName}
                            name={n.name}
+                           userPhone={n.userPhone}
+                           companyPhone={n.companyPhone}
+                           gender={n.gender}
+                           companyEmail={n.companyEmail}
+                           supportType={n.supportType}
+                           birthday={n.birthday}
+                           userEmail={n.userEmail}
+                           companyAddress={n.companyAddress}
+                           staticIP={n.staticIP}
+                           piModel={n.piModel}
                            />  
                         
                       </TableCell>
