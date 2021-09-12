@@ -20,7 +20,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { deleteUser } from "../../firebase";
 import AlertDialogSlide from "../../components/headAdmin/edit_lifeguard";
-
+import Select from "@material-ui/core/Select";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -250,7 +250,7 @@ export default function Members() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const { fname, lname, email, NIC, birthdate, phone, certificate_level, isPilot } = e.target.elements
+    const { fname, lname, email, NIC, birthdate, phone, certificate_level, isPilot,gender } = e.target.elements
     // var pilot;
     // if(isPilot.value=="true"){
     //   pilot=0
@@ -261,10 +261,11 @@ export default function Members() {
       NIC: NIC.value,
       phone_no: phone.value,
       email: email.value,
-      birthdate: birthdate.value,
+      birthDate: birthdate.value,
       token: uid,
       certificateLevel: certificate_level.value,
-      isPilot: Boolean(isPilot.value)
+      isPilot: Boolean(isPilot.value),
+      gender: gender.value,
 
     };
     //FromdataTranfer(formdata);
@@ -295,12 +296,13 @@ export default function Members() {
             lastName: request.lastName,
             companyID: currentUser.uid,
             id: uid,
-            birthdate: request.birthdate,
+            birthDate: request.birthDate,
             NIC: request.NIC,
             phone_number: request.phone_no,
             email: request.email,
             isPilot: request.isPilot,
             certificateLevel: request.certificateLevel,
+            gender: request.gender,
           }) //saving the request to headlifeguard collection
           .then((res) => {
             alert("The Lifeguard added Successfully");
@@ -421,8 +423,17 @@ export default function Members() {
                     <TextField name="phone" id="phone" label="Phone Number" style={{ width: 300 }} />
                   </Grid>
                   <Grid item xs={5} >
-                    <TextField name="certificate_level" id="certificate_level" label="Certificate Level" style={{ width: 300 }} />
+                    <TextField
+                      required={true}
+                      name="birthdate"
+                      label="Birthday"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
                   </Grid>
+
                   <Grid item xs={5} >
                     <FormControl component="fieldset">
                       <FormLabel component="legend">Is Pilot?</FormLabel>
@@ -442,16 +453,52 @@ export default function Members() {
                       </RadioGroup>
                     </FormControl>
                   </Grid>
+
                   <Grid item xs={5} >
-                    <TextField
-                      required={true}
-                      name="birthdate"
-                      label="Birthday"
-                      type="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
+                    <FormControl component="fieldset">
+                      <FormLabel component="legend">Gender</FormLabel>
+                      <RadioGroup row aria-label="position" name="gender" >
+                        <FormControlLabel
+                          value="male"
+                          control={<Radio color="primary" />}
+                          label="Male"
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="female"
+                          control={<Radio color="primary" />}
+                          label="Female"
+                          labelPlacement="start"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={5} >
+                    {/* <TextField name="certificate_level" id="certificate_level" label="Certificate Level" style={{ width: 300 }} /> */}
+
+               
+
+                      <Typography size="12px" color="textSecondary">
+                        Certificate Level:
+                      </Typography>
+
+                    <Select
+                        name="certificate_level"
+                        native
+                        label="Certificate Level"
+                        style={{ width: "60%" }}
+                        defaultValue="Select type"
+                        inputProps={{
+                          name: "certificate_level",
+                          id: "filled-age-native-simple",
+                        }}
+                      >
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Master">Master</option>
+                      </Select>
+              
                   </Grid>
                   {/* <Grid item xs={12}>
                     <TextField id="standard-secondary" label="Username" style={{ width: 300 }} />
