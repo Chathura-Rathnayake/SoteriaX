@@ -84,13 +84,26 @@ export default function Live() {
   async function handleNegotiationNeededEvent(peer) {
     const offer = await peer.createOffer(); //create my offer
     await peer.setLocalDescription(offer); //set it as the local description
+
+    /*defining the data to be send to the raspberryPi
+     sdp --> my sdp
+     missionType --> whether it is an training or an operation
+     missionId --> document id of the mission
+    */
+
+    //encoding it before send - so that it is compatible with mobile application requests
+    const sdpToSend = JSON.stringify(peer.localDescription);
+
     const payload = {
-      sdp: peer.localDescription,
+      sdp: sdpToSend,
+      missionType: "", //these values are only defined in mobile requests
+      missionId: "", //these values are only defined in mobile requests
     };
+
     console.log("hello");
     console.log(peer.localDescription);
     const { data } = await axios.post(
-      "http://192.168.1.103:5000/consumer", //ip address and port of the raspberry pi server (this is currently hardcoded)
+      "http://localhost:5000/consumer", //ip address and port of the raspberry pi server (this is currently hardcoded)
       payload
     );
     const desc = new RTCSessionDescription(data.sdp);
