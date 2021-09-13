@@ -18,7 +18,7 @@ export default function DatePicker(props) {
             <KeyboardDatePicker disableToolbar variant="inline" inputVariant="outlined"
                 label={label}
                 size="small"
-                format="yyyy-M-d"
+                format="yyyy-MM-dd"
                 name={name}
                 value={value}
                 onChange={date =>onChange(convertToDefEventPara(name,date))}

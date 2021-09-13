@@ -235,7 +235,7 @@ async function handleSubmit(e) {
         </DialogTitle>
         <Form onSubmit={handleSubmit} autoComplete="off">
         <DialogContent dividers>
-          <Typography gutterTop style={{marginBottom:'30px'}}>
+          <Typography gutterBottom style={{marginBottom:'30px'}}>
             <b>User Details </b>
           </Typography>
             <Grid container spacing={0}>
@@ -354,7 +354,7 @@ async function handleSubmit(e) {
 
         <DialogContent dividers>
           <Typography gutterBottom style={{marginBottom:'30px'}}>
-              <b>Company Details </b>
+              <b>System Details </b>
           </Typography>
           <Grid container spacing={0}>
             <Grid item xs={6}>
