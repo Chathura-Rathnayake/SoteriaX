@@ -40,6 +40,7 @@ import droneView from "../../assets/images/droneView.png";
 // import CircularProgress from "@material-ui/core/CircularProgress";
 import TimelineComponent from "./timelineComponent";
 import { firestore } from "../../firebase";
+import { useAuth } from "../../contexts/AuthContext.js";
 
 const useStyles = makeStyles((theme) => ({
   bot: {
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Live() {
+  const { currentUser } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -82,7 +84,7 @@ export default function Live() {
     //first checking the operations collection
     var docRef = firestore.collection("operations");
     const operationsQuery = docRef
-      .where("companyId", "==", "VtTjOxCyvrM64l6qX64WzIp3IPJ3") //remove this hardcoding
+      .where("companyId", "==", currentUser.uid)
       .where("operationStatus", "==", "live");
 
     operationsQuery
@@ -93,7 +95,7 @@ export default function Live() {
           //Now let's check the training collection
           var docRef = firestore.collection("trainingOperations");
           const trainingQuery = docRef
-            .where("companyID", "==", "VtTjOxCyvrM64l6qX64WzIp3IPJ3") //remove this hardcoding
+            .where("companyID", "==", currentUser.uid)
             .where("operationStatus", "==", "live");
 
           trainingQuery
@@ -106,6 +108,7 @@ export default function Live() {
                 setMissionId("none");
                 alert("There is no currently ongoing mission.");
               } else {
+                //calling the pi board
                 const peer = createPeer();
                 //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
                 peer.addTransceiver("video", { direction: "recvonly" });
@@ -122,6 +125,7 @@ export default function Live() {
               console.log("Error getting training data: ", error);
             });
         } else {
+          //calling the pi board
           const peer = createPeer();
           //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
           peer.addTransceiver("video", { direction: "recvonly" });
@@ -272,7 +276,12 @@ export default function Live() {
 
           <Grid item lg={12}>
             <Container align="left">
-              <TimelineComponent />
+              <TimelineComponent
+                isMissionPresent={isMissionPresent}
+                missionId={missionId}
+                missionType={missionType}
+                database={firestore}
+              />
             </Container>
             {/* <Typography align="right" className={classes.bold400} size="10px">
               {" "}

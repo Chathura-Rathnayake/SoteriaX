@@ -42,11 +42,56 @@ const useStyles = makeStyles((theme) => ({
 export default function TimelineComponent(props) {
   const classes = useStyles();
 
-  const [status, setStatus] = useState(3);
+  const [status, setStatus] = useState(0);
+
+  // useEffect(() => {
+  //   if (
+  //     props.missionId == "none" ||
+  //     props.missionType == "none" ||
+  //     props.isMissionPresent == false
+  //   ) {
+  //     setStatus(0); //there is no ongoing mission
+  //   } else {
+  //     setStatus(4);
+  //   }
+  // }, [props]);
+
+  useEffect(() => {
+    if (props.isMissionPresent == true) {
+      //then we have a mission
+      //if the mission is operation
+      console.log(props.missionType);
+      if (props.missionType === "operation") {
+        const unsubscribe = props.database
+          .collection("operations")
+          .doc(props.missionId)
+          .onSnapshot((doc) => {
+            console.log("inside listner");
+            setStatus(doc.data().currentStage);
+          });
+
+        return () => {
+          unsubscribe();
+        };
+      } else if (props.missionType === "training") {
+        //else it is a training operation
+        const unsubscribe = props.database
+          .collection("trainingOperations")
+          .doc(props.missionId)
+          .onSnapshot((doc) => {
+            console.log("inside listner");
+            setStatus(doc.data().currentStage);
+          });
+
+        return () => {
+          unsubscribe();
+        };
+      }
+    }
+  }, [props]);
 
   return (
     <div>
-      {" "}
       <Timeline align="alternate">
         <TimelineItem>
           <TimelineSeparator>
