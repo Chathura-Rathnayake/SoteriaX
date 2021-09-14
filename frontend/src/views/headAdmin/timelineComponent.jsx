@@ -87,6 +87,8 @@ export default function TimelineComponent(props) {
           unsubscribe();
         };
       }
+    } else {
+      setStatus(0);
     }
   }, [props]);
 

@@ -1,43 +1,14 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-// import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Layout from "../../components/headAdmin/Layout";
-// import { VideoCard } from "material-ui-player";
-// import footage from "../../assets/vid/footage.mp4";
-// import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
-// import Icon from "@material-ui/core/Icon";
-// import { green } from "@material-ui/core/colors";
-// import Timeline from "@material-ui/lab/Timeline";
-// import TimelineItem from "@material-ui/lab/TimelineItem";
-// import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
-// import TimelineConnector from "@material-ui/lab/TimelineConnector";
-// import TimelineContent from "@material-ui/lab/TimelineContent";
-// import TimelineDot from "@material-ui/lab/TimelineDot";
-// import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
-// import LinearProgress from "@material-ui/core/LinearProgress";
-
-// import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-// import BackupIcon from "@material-ui/icons/Backup";
-// import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-// import PoolIcon from "@material-ui/icons/Pool";
-// import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-// import FlightLandIcon from "@material-ui/icons/FlightLand";
-// import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
-
 import Button from "@material-ui/core/Button";
-// import Snackbar from "@material-ui/core/Snackbar";
-// import IconButton from "@material-ui/core/IconButton";
-// import CloseIcon from "@material-ui/icons/Close";
-// import { CardMedia } from "@material-ui/core";
-// import ReactPlayer from "react-player";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StopIcon from "@material-ui/icons/Stop";
 import InfoIcon from "@material-ui/icons/Info";
 import droneView from "../../assets/images/droneView.png";
-// import CircularProgress from "@material-ui/core/CircularProgress";
 import TimelineComponent from "./timelineComponent";
 import { firestore } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext.js";
@@ -60,8 +31,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Live() {
   const { currentUser } = useAuth();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
+  const [streamingFlag, setStreamingFlag] = useState(false);
   const [isMissionPresent, setIsMissionPresent] = useState(false);
   const [missionType, setMissionType] = useState("none");
   const [missionId, setMissionId] = useState("none");
@@ -108,10 +80,13 @@ export default function Live() {
                 setMissionId("none");
                 alert("There is no currently ongoing mission.");
               } else {
+                //there is a current ongoing training
+
                 //calling the pi board
                 const peer = createPeer();
                 //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
                 peer.addTransceiver("video", { direction: "recvonly" });
+                setStreamingFlag(true);
                 console.log("training results found");
                 querySnapshot.forEach((doc) => {
                   setMissionId(doc.id);
@@ -125,6 +100,8 @@ export default function Live() {
               console.log("Error getting training data: ", error);
             });
         } else {
+          //there is a current ongoing operation
+
           //calling the pi board
           const peer = createPeer();
           //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
@@ -132,6 +109,7 @@ export default function Live() {
           console.log("there is an operation");
           setIsMissionPresent(true);
           setMissionType("operation");
+          setStreamingFlag(true);
           querySnapshot.forEach((doc) => {
             setMissionId(doc.id);
             console.log(doc.id, " => ", doc.data());
@@ -200,6 +178,19 @@ export default function Live() {
     // }
     document.getElementById("video").srcObject = e.streams[0]; //sending the strem to the front end video tag
   }
+
+  function handleStopClick() {
+    //cutting the video feed
+    const stream = document.getElementById("video").srcObject;
+    const tracks = stream.getTracks();
+
+    tracks.forEach(function (track) {
+      track.stop();
+    });
+
+    document.getElementById("video").srcObject = null;
+  }
+
   //end of the realtime stream handler code
   return (
     <Layout>
@@ -224,6 +215,7 @@ export default function Live() {
             color="primary"
             onClick={handleVideoButtonClick}
             startIcon={<PlayArrowIcon />}
+            disabled={streamingFlag}
           >
             Watch Live Stream
           </Button>
@@ -233,21 +225,16 @@ export default function Live() {
             id="my-button"
             variant="contained"
             color="secondary"
-            // onClick={}
+            onClick={(e) => {
+              setIsMissionPresent(false);
+              setStreamingFlag(false);
+              handleStopClick();
+            }}
             startIcon={<StopIcon />}
+            disabled={!streamingFlag}
           >
             Stop Live Stream
           </Button>
-          {/* <VideoCard
-            src={footage}
-            autoplay="true"
-            width="700"
-            height="520"
-            thickness="thin"
-            fadeInTime="2"
-            fadeOutTime="2"
-            PlayProps
-          /> */}
         </Grid>
         <Grid
           item
