@@ -25,10 +25,11 @@ import Complaints from "./views/Admin/Complaints";
 import Suggestions from "./views/Admin/Suggestions";
 import HelpRequest from "./views/Admin/HelpRequest";
 import Profiles from "./views/Admin/Profiles";
-import test from "./views/test"; //just a testing file
 import TrainingRecords from "./views/headAdmin/trainingRecords";
 import Statistics from "./views/headAdmin/statistics";
 import SetPassword from "./views/headAdmin/setPassword";
+import test from "./views/practice material/test"; 
+import TestParent from "./views/practice material/testParent"; 
 
 const theme = createMuiTheme({
   palette: {
@@ -58,6 +59,8 @@ ReactDOM.render(
           />
           <Route exact path="/test" component={test} />
           <Route exact path="/SetPassword" component={SetPassword} />
+          <Route exact path="/testparent" component={TestParent} />
+
           {/* <Route exact path="/setPassword" component={SetPassword} /> */}
           {/* restricted routes  - admin*/}
           <PrivateRouteAdmin exact path="/admin" component={Admin} />

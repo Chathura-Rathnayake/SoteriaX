@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { storage } from "../firebase";
+import { storage, firestore } from "../../firebase";
 
 export default function Test() {
   const [link, setLink] = useState();
