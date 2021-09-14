@@ -89,11 +89,13 @@ export default function Members() {
     setValue(newValue);
   };
   const [open, setOpen] = useState(false);
+  const [passingData, setPassingData] = useState([]);
 
   const handleClickEdit = (e, cellValues) => {
-    //console.log("cell val", cellValues);
+    console.log("cell val", cellValues.row);
     setOpen(true);
-    // setPassingData(cellValues.row);
+    setPassingData(cellValues.row);
+    openPopup();
     // setPassingDataParticipants(cellValues.row.participants);
     // setPassingTrainingTimes(cellValues.row.trainingTimes);
   };
@@ -143,7 +145,7 @@ export default function Members() {
       headerAlign: 'center',
     },
     {
-      field: 'birthdate',
+      field: 'birthDate',
       headerName: 'Birthdate',
       type: 'number',
       width: 110,
@@ -328,6 +330,7 @@ export default function Members() {
   };
 
   const [data1, setData1] = useState([]);
+  
   // useEffect(() => {
   //   fetch("/getLifeguards")
   //     .then((res) => res.json())
@@ -368,6 +371,19 @@ export default function Members() {
   // });
 
   console.log(data1);
+  function openPopup(){
+    if(open){
+      return(
+      <AlertDialogSlide
+        data={passingData}
+        // participants={passingDataParticipants}
+        // trainingTimes={passingDataTrainingTimes}
+        open={open}
+        setOpen={setOpen}
+      ></AlertDialogSlide>)
+    }
+    
+  }
 
   return (
     <Layout>
@@ -526,13 +542,7 @@ export default function Members() {
         </TabPanel>
 
       </div>
-      <AlertDialogSlide
-          // data={passingData}
-          // participants={passingDataParticipants}
-          // trainingTimes={passingDataTrainingTimes}
-          open={open}
-          setOpen={setOpen}
-        ></AlertDialogSlide>
+      {openPopup()}
     </Layout>
   );
 }

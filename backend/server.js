@@ -102,14 +102,20 @@ app.post("/supportDataSuggestions", async function (req, res) {
   var data = require("./headlifeguard/supportDataSuggestions.js");
   data.getData(req, db, admin, res);
 });
-app.post("/addLifeguard", function (req, res) {  //headlifeguard support backend code 
+app.post("/addLifeguard", function (req, res) {  //lifeguard adding backend code 
   var data = require("./headlifeguard/addLifeguard.js");
   data.sendData(req,db,admin,res);
   console.log(req.body);
 });
 
-app.post("/deleteLifeguard", function (req, res) {  //headlifeguard support backend code 
+app.post("/deleteLifeguard", function (req, res) {  //lifeguard delete backend code 
   var data = require("./headlifeguard/deleteLifeguard.js");
+  data.sendData(req,db,admin,res);
+  console.log(req.body);
+});
+
+app.post("/editLifeguard", function (req, res) {  //lifeguard delete backend code 
+  var data = require("./headlifeguard/editLifeguard.js");
   data.sendData(req,db,admin,res);
   console.log(req.body);
 });
