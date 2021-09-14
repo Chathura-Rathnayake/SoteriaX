@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Layout from "../../components/headAdmin/Layout";
 // import { VideoCard } from "material-ui-player";
@@ -10,22 +10,22 @@ import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 // import Icon from "@material-ui/core/Icon";
 // import { green } from "@material-ui/core/colors";
-import Timeline from "@material-ui/lab/Timeline";
-import TimelineItem from "@material-ui/lab/TimelineItem";
-import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
-import TimelineConnector from "@material-ui/lab/TimelineConnector";
-import TimelineContent from "@material-ui/lab/TimelineContent";
-import TimelineDot from "@material-ui/lab/TimelineDot";
+// import Timeline from "@material-ui/lab/Timeline";
+// import TimelineItem from "@material-ui/lab/TimelineItem";
+// import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
+// import TimelineConnector from "@material-ui/lab/TimelineConnector";
+// import TimelineContent from "@material-ui/lab/TimelineContent";
+// import TimelineDot from "@material-ui/lab/TimelineDot";
 // import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
-import LinearProgress from "@material-ui/core/LinearProgress";
+// import LinearProgress from "@material-ui/core/LinearProgress";
 
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import BackupIcon from "@material-ui/icons/Backup";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import PoolIcon from "@material-ui/icons/Pool";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import FlightLandIcon from "@material-ui/icons/FlightLand";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
+// import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+// import BackupIcon from "@material-ui/icons/Backup";
+// import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+// import PoolIcon from "@material-ui/icons/Pool";
+// import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+// import FlightLandIcon from "@material-ui/icons/FlightLand";
+// import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 
 import Button from "@material-ui/core/Button";
 // import Snackbar from "@material-ui/core/Snackbar";
@@ -38,6 +38,8 @@ import StopIcon from "@material-ui/icons/Stop";
 import InfoIcon from "@material-ui/icons/Info";
 import droneView from "../../assets/images/droneView.png";
 // import CircularProgress from "@material-ui/core/CircularProgress";
+import TimelineComponent from "./timelineComponent";
+import { firestore } from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
   bot: {
@@ -52,19 +54,15 @@ const useStyles = makeStyles((theme) => ({
   secondaryTail: {
     backgroundColor: theme.palette.secondary.main,
   },
-  timelineIcon: {
-    fontSize: "large",
-  },
-  // timelineConnector: {
-  //   height: "30px",
-  // },
 }));
 
 export default function Live() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const [status, setStatus] = useState(5);
+  const [isMissionPresent, setIsMissionPresent] = useState(false);
+  const [missionType, setMissionType] = useState("none");
+  const [missionId, setMissionId] = useState("none");
 
   const handleClick = () => {
     setOpen(true);
@@ -80,10 +78,65 @@ export default function Live() {
 
   //Code segment to handle the real time video streaming
   async function handleVideoButtonClick(e) {
-    console.log("clicked");
-    const peer = createPeer();
-    //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
-    peer.addTransceiver("video", { direction: "recvonly" });
+    //checking the database to find whether there are current ongoing missions
+    //first checking the operations collection
+    var docRef = firestore.collection("operations");
+    const operationsQuery = docRef
+      .where("companyId", "==", "VtTjOxCyvrM64l6qX64WzIp3IPJ3") //remove this hardcoding
+      .where("operationStatus", "==", "live");
+
+    operationsQuery
+      .get()
+      .then((querySnapshot) => {
+        if (querySnapshot.empty) {
+          console.log("no operation results found");
+          //Now let's check the training collection
+          var docRef = firestore.collection("trainingOperations");
+          const trainingQuery = docRef
+            .where("companyID", "==", "VtTjOxCyvrM64l6qX64WzIp3IPJ3") //remove this hardcoding
+            .where("operationStatus", "==", "live");
+
+          trainingQuery
+            .get()
+            .then((querySnapshot) => {
+              if (querySnapshot.empty) {
+                console.log("no training results found");
+                setIsMissionPresent(false);
+                setMissionType("none");
+                setMissionId("none");
+                alert("There is no currently ongoing mission.");
+              } else {
+                const peer = createPeer();
+                //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
+                peer.addTransceiver("video", { direction: "recvonly" });
+                console.log("training results found");
+                querySnapshot.forEach((doc) => {
+                  setMissionId(doc.id);
+                  setIsMissionPresent(true);
+                  setMissionType("training");
+                  console.log(doc.id, " => ", doc.data());
+                });
+              }
+            })
+            .catch((error) => {
+              console.log("Error getting training data: ", error);
+            });
+        } else {
+          const peer = createPeer();
+          //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
+          peer.addTransceiver("video", { direction: "recvonly" });
+          console.log("there is an operation");
+          setIsMissionPresent(true);
+          setMissionType("operation");
+          querySnapshot.forEach((doc) => {
+            setMissionId(doc.id);
+            console.log(doc.id, " => ", doc.data());
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting operation data: ", error);
+      });
   }
 
   function createPeer() {
@@ -219,149 +272,7 @@ export default function Live() {
 
           <Grid item lg={12}>
             <Container align="left">
-              <Timeline align="alternate">
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot color={status >= 1 ? "primary" : "grey"}>
-                      <FlightTakeoffIcon className={classes.timelineIcon} />
-                    </TimelineDot>
-                    <TimelineConnector
-                      // className={classes.timelineConnector}
-                      style={{
-                        backgroundColor: `${
-                          status >= 1 ? "#039BE5" : "#BDBDBD"
-                        }`, //blue - #039BE5 , gray - #BDBDBD
-                        height: "30px",
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Mission Initiated</Typography>
-                    {/* {status == 1 && (
-                      <LinearProgress style={{ marginRight: "56px" }} />
-                    )} */}
-                  </TimelineContent>
-                </TimelineItem>
-
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot color={status >= 1 ? "primary" : "grey"}>
-                      <FlightLandIcon className={classes.timelineIcon} />
-                    </TimelineDot>
-                    <TimelineConnector
-                      style={{
-                        backgroundColor: `${
-                          status >= 2 ? "#039BE5" : "#BDBDBD"
-                        }`, //blue - #039BE5 , gray - #BDBDBD
-                        height: "30px",
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Reaching the Victim</Typography>
-                    {status == 1 && (
-                      <LinearProgress style={{ marginLeft: "24px" }} />
-                    )}
-                  </TimelineContent>
-                </TimelineItem>
-
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot color={status >= 2 ? "primary" : "grey"}>
-                      <ArrowDownwardIcon className={classes.timelineIcon} />
-                    </TimelineDot>
-                    <TimelineConnector
-                      style={{
-                        backgroundColor: `${
-                          status >= 3 ? "#039BE5" : "#BDBDBD"
-                        }`, //blue - #039BE5 , gray - #BDBDBD
-                        height: "30px",
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Dropping the Restube</Typography>
-                    {status == 2 && (
-                      <LinearProgress style={{ marginRight: "26px" }} />
-                    )}
-                  </TimelineContent>
-                </TimelineItem>
-
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot color={status >= 3 ? "primary" : "grey"}>
-                      <PoolIcon className={classes.timelineIcon} />
-                    </TimelineDot>
-                    <TimelineConnector
-                      style={{
-                        backgroundColor: `${
-                          status >= 4 ? "#039BE5" : "#BDBDBD"
-                        }`, //blue - #039BE5 , gray - #BDBDBD
-                        height: "30px",
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Lifeguard Reaching</Typography>
-                    {status == 3 && (
-                      <LinearProgress style={{ marginLeft: "48px" }} />
-                    )}
-                  </TimelineContent>
-                </TimelineItem>
-
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot color={status >= 4 ? "primary" : "grey"}>
-                      <ThumbUpIcon className={classes.timelineIcon} />
-                    </TimelineDot>
-                    <TimelineConnector
-                      style={{
-                        backgroundColor: `${
-                          status >= 5 ? "#039BE5" : "#BDBDBD"
-                        }`, //blue - #039BE5 , gray - #BDBDBD
-                        height: "30px",
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Completing Rescue Misson</Typography>
-                    {status == 4 && <LinearProgress />}
-                  </TimelineContent>
-                </TimelineItem>
-
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot color={status >= 5 ? "primary" : "grey"}>
-                      <BackupIcon className={classes.timelineIcon} />
-                    </TimelineDot>
-                    <TimelineConnector
-                      style={{
-                        backgroundColor: `${
-                          status >= 7 ? "#039BE5" : "#BDBDBD"
-                        }`, //blue - #039BE5 , gray - #BDBDBD
-                        height: "30px",
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Uploading the Recording</Typography>
-                    {(status == 6 || status == 5) && (
-                      <LinearProgress style={{ marginLeft: "18px" }} />
-                    )}
-                  </TimelineContent>
-                </TimelineItem>
-
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot color={status >= 7 ? "primary" : "grey"}>
-                      <CheckCircleIcon className={classes.timelineIcon} />
-                    </TimelineDot>
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Mission Completed</Typography>
-                  </TimelineContent>
-                </TimelineItem>
-              </Timeline>
+              <TimelineComponent />
             </Container>
             {/* <Typography align="right" className={classes.bold400} size="10px">
               {" "}
