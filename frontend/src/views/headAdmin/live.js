@@ -5,16 +5,27 @@ import Container from "@material-ui/core/Container";
 import Layout from "../../components/headAdmin/Layout";
 // import { VideoCard } from "material-ui-player";
 // import footage from "../../assets/vid/footage.mp4";
+// import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 // import Icon from "@material-ui/core/Icon";
-
+// import { green } from "@material-ui/core/colors";
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineItem from "@material-ui/lab/TimelineItem";
 import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
+// import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import BackupIcon from "@material-ui/icons/Backup";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import PoolIcon from "@material-ui/icons/Pool";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import FlightLandIcon from "@material-ui/icons/FlightLand";
+import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 
 import Button from "@material-ui/core/Button";
 // import Snackbar from "@material-ui/core/Snackbar";
@@ -26,8 +37,7 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StopIcon from "@material-ui/icons/Stop";
 import InfoIcon from "@material-ui/icons/Info";
 import droneView from "../../assets/images/droneView.png";
-
-import CircularProgress from "@material-ui/core/CircularProgress";
+// import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   bot: {
@@ -42,11 +52,19 @@ const useStyles = makeStyles((theme) => ({
   secondaryTail: {
     backgroundColor: theme.palette.secondary.main,
   },
+  timelineIcon: {
+    fontSize: "large",
+  },
+  // timelineConnector: {
+  //   height: "30px",
+  // },
 }));
 
 export default function Live() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+
+  const [status, setStatus] = useState(5);
 
   const handleClick = () => {
     setOpen(true);
@@ -204,58 +222,143 @@ export default function Live() {
               <Timeline align="alternate">
                 <TimelineItem>
                   <TimelineSeparator>
-                    <TimelineDot color="primary" />
+                    <TimelineDot color={status >= 1 ? "primary" : "grey"}>
+                      <FlightTakeoffIcon className={classes.timelineIcon} />
+                    </TimelineDot>
+                    <TimelineConnector
+                      // className={classes.timelineConnector}
+                      style={{
+                        backgroundColor: `${
+                          status >= 1 ? "#039BE5" : "#BDBDBD"
+                        }`, //blue - #039BE5 , gray - #BDBDBD
+                        height: "30px",
+                      }}
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Typography>Mission Initiated</Typography>
+                    {/* {status == 1 && (
+                      <LinearProgress style={{ marginRight: "56px" }} />
+                    )} */}
+                  </TimelineContent>
+                </TimelineItem>
 
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Mission Initiated </Typography>
-                  </TimelineContent>
-                </TimelineItem>
                 <TimelineItem>
                   <TimelineSeparator>
-                    <TimelineDot color="primary" />
-                    <TimelineConnector />
+                    <TimelineDot color={status >= 1 ? "primary" : "grey"}>
+                      <FlightLandIcon className={classes.timelineIcon} />
+                    </TimelineDot>
+                    <TimelineConnector
+                      style={{
+                        backgroundColor: `${
+                          status >= 2 ? "#039BE5" : "#BDBDBD"
+                        }`, //blue - #039BE5 , gray - #BDBDBD
+                        height: "30px",
+                      }}
+                    />
                   </TimelineSeparator>
                   <TimelineContent>
-                    <Typography>Drone Takeoff </Typography>
+                    <Typography>Reaching the Victim</Typography>
+                    {status == 1 && (
+                      <LinearProgress style={{ marginLeft: "24px" }} />
+                    )}
                   </TimelineContent>
                 </TimelineItem>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot variant="outlined" color="secondary" />
 
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    <Typography>Reached Victim </Typography>{" "}
-                    {/* <CircularProgress /> */}
-                  </TimelineContent>
-                </TimelineItem>
                 <TimelineItem>
                   <TimelineSeparator>
-                    <TimelineDot variant="outlined" />
-                    <TimelineConnector />
+                    <TimelineDot color={status >= 2 ? "primary" : "grey"}>
+                      <ArrowDownwardIcon className={classes.timelineIcon} />
+                    </TimelineDot>
+                    <TimelineConnector
+                      style={{
+                        backgroundColor: `${
+                          status >= 3 ? "#039BE5" : "#BDBDBD"
+                        }`, //blue - #039BE5 , gray - #BDBDBD
+                        height: "30px",
+                      }}
+                    />
                   </TimelineSeparator>
                   <TimelineContent>
-                    <Typography>Restube Dropped </Typography>
+                    <Typography>Dropping the Restube</Typography>
+                    {status == 2 && (
+                      <LinearProgress style={{ marginRight: "26px" }} />
+                    )}
                   </TimelineContent>
                 </TimelineItem>
+
                 <TimelineItem>
                   <TimelineSeparator>
-                    <TimelineDot variant="outlined" />
-                    <TimelineConnector />
+                    <TimelineDot color={status >= 3 ? "primary" : "grey"}>
+                      <PoolIcon className={classes.timelineIcon} />
+                    </TimelineDot>
+                    <TimelineConnector
+                      style={{
+                        backgroundColor: `${
+                          status >= 4 ? "#039BE5" : "#BDBDBD"
+                        }`, //blue - #039BE5 , gray - #BDBDBD
+                        height: "30px",
+                      }}
+                    />
                   </TimelineSeparator>
                   <TimelineContent>
-                    <Typography>Lifeguard Reached </Typography>
+                    <Typography>Lifeguard Reaching</Typography>
+                    {status == 3 && (
+                      <LinearProgress style={{ marginLeft: "48px" }} />
+                    )}
                   </TimelineContent>
                 </TimelineItem>
+
                 <TimelineItem>
                   <TimelineSeparator>
-                    <TimelineDot variant="outlined" />
+                    <TimelineDot color={status >= 4 ? "primary" : "grey"}>
+                      <ThumbUpIcon className={classes.timelineIcon} />
+                    </TimelineDot>
+                    <TimelineConnector
+                      style={{
+                        backgroundColor: `${
+                          status >= 5 ? "#039BE5" : "#BDBDBD"
+                        }`, //blue - #039BE5 , gray - #BDBDBD
+                        height: "30px",
+                      }}
+                    />
                   </TimelineSeparator>
                   <TimelineContent>
-                    <Typography>Mission Completed </Typography>
+                    <Typography>Completing Rescue Misson</Typography>
+                    {status == 4 && <LinearProgress />}
+                  </TimelineContent>
+                </TimelineItem>
+
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot color={status >= 5 ? "primary" : "grey"}>
+                      <BackupIcon className={classes.timelineIcon} />
+                    </TimelineDot>
+                    <TimelineConnector
+                      style={{
+                        backgroundColor: `${
+                          status >= 7 ? "#039BE5" : "#BDBDBD"
+                        }`, //blue - #039BE5 , gray - #BDBDBD
+                        height: "30px",
+                      }}
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Typography>Uploading the Recording</Typography>
+                    {(status == 6 || status == 5) && (
+                      <LinearProgress style={{ marginLeft: "18px" }} />
+                    )}
+                  </TimelineContent>
+                </TimelineItem>
+
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot color={status >= 7 ? "primary" : "grey"}>
+                      <CheckCircleIcon className={classes.timelineIcon} />
+                    </TimelineDot>
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Typography>Mission Completed</Typography>
                   </TimelineContent>
                 </TimelineItem>
               </Timeline>
