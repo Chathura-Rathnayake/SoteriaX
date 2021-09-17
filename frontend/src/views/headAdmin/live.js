@@ -12,6 +12,7 @@ import droneView from "../../assets/images/droneView.png";
 import TimelineComponent from "./timelineComponent";
 import { firestore } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext.js";
+import EmergencyComponent from "./emgCode";
 
 const useStyles = makeStyles((theme) => ({
   bot: {
@@ -32,11 +33,17 @@ export default function Live() {
   const { currentUser } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-
   const [streamingFlag, setStreamingFlag] = useState(false);
   const [isMissionPresent, setIsMissionPresent] = useState(false);
   const [missionType, setMissionType] = useState("none");
   const [missionId, setMissionId] = useState("none");
+
+  // const [notify, setNotify] = useState({
+  //   isOpen: false,
+  //   message: "",
+  //   type: "",
+  //   num: "",
+  // });
 
   const handleClick = () => {
     setOpen(true);
@@ -83,9 +90,9 @@ export default function Live() {
                 //there is a current ongoing training
 
                 //calling the pi board
-                const peer = createPeer();
+                 const peer = createPeer();
                 //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
-                peer.addTransceiver("video", { direction: "recvonly" });
+                 peer.addTransceiver("video", { direction: "recvonly" });
                 setStreamingFlag(true);
                 console.log("training results found");
                 querySnapshot.forEach((doc) => {
@@ -103,9 +110,9 @@ export default function Live() {
           //there is a current ongoing operation
 
           //calling the pi board
-          const peer = createPeer();
+           const peer = createPeer();
           //creates a pipe between consumer and server - a two way channel but here the direction is set as one way
-          peer.addTransceiver("video", { direction: "recvonly" });
+           peer.addTransceiver("video", { direction: "recvonly" });
           console.log("there is an operation");
           setIsMissionPresent(true);
           setMissionType("operation");
@@ -119,6 +126,7 @@ export default function Live() {
       .catch((error) => {
         console.log("Error getting operation data: ", error);
       });
+      setOpen(true);
   }
 
   function createPeer() {
@@ -270,12 +278,14 @@ export default function Live() {
                 database={firestore}
               />
             </Container>
+
             {/* <Typography align="right" className={classes.bold400} size="10px">
               {" "}
             
               Emergency Code : 200 Lock Malfunction{" "}
             </Typography> */}
           </Grid>
+
         </Grid>
         {/*<Grid item lg={12}>
     
@@ -306,6 +316,13 @@ export default function Live() {
             />
           </div>
         </Grid> */}
+        <EmergencyComponent 
+           isMissionPresent={isMissionPresent}
+           missionId={missionId}
+           missionType={missionType}
+           database={firestore}
+           open={open}
+        />
       </Grid>
     </Layout>
   );
