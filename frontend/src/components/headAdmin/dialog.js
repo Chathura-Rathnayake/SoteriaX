@@ -10,6 +10,8 @@ import { TextField } from "@material-ui/core";
 import { Paper, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { DataGrid } from "@material-ui/data-grid";
+
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -17,6 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function AlertDialogSlide(props) {
   const { data, participants, trainingTimes, open, setOpen } = props;
   const num = [0, 1, 2, 3, 4];
+  var status;
   const stage = [
     "Mission Initiated",
     "Reached Victim",
@@ -39,6 +42,17 @@ export default function AlertDialogSlide(props) {
       headerAlign: "left",
     },
   ];
+  if (data.currentStage == 0) {
+    status = "Not Initialized";
+  } else if (data.currentStage >= 1 && data.currentStage <= 5) {
+    status = "Training Session is ongoing ....";
+  } else if (data.currentStage == 6) {
+    status =
+      "Training Completed , Uploading in progress : Do NOT turn off the drone";
+  } else {
+    status = "Training Completed  ";
+  }
+
   num.map((num) => times.push({ id: stage[num], time: trainingTimes[num] }));
   console.log(times);
   return (
@@ -99,6 +113,34 @@ export default function AlertDialogSlide(props) {
                         variant="outlined"
                         style={{ width: "100%" }}
                       />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Typography
+                        style={{ marginTop: "15px" }}
+                        size="12px"
+                        color="textSecondary"
+                      >
+                        <strong>Current Stage :</strong>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <TextField
+                        value={status}
+                        name="cstatus"
+                        variant="outlined"
+                        style={{ width: "100%" }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography
+                        style={{ marginLeft: "220px" }}
+                        size="12px"
+                        color="textPrimary"
+                      >
+                        <strong>
+                          To view the updated status Please refresh your browser
+                        </strong>
+                      </Typography>
                     </Grid>
                     <Grid item xs={3}>
                       <Typography
@@ -213,6 +255,32 @@ export default function AlertDialogSlide(props) {
                         style={{ width: "50%" }}
                       />
                     </Grid>
+                    <Grid item xs={3}>
+                      <Typography
+                        hidden={data.currentStage < 7}
+                        size="12px"
+                        variant="h6"
+                        color="textSecondary"
+                      >
+                        <strong>Video Footage :</strong>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                      <Typography
+                        hidden={data.currentStage < 7}
+                        align="left"
+                        size="12px"
+                        style={{ marginTop: "5px" }}
+                        color="blue"
+                      >
+                        <Button variant="outlined"  onClick={()=> window.open(data.footageLink, "_blank")}
+                          color="secondary">
+                        Click here to access video footage
+</Button>
+                        
+                      </Typography>
+                    </Grid>
+
                     <Grid item xs={12}>
                       <Typography
                         size="12px"

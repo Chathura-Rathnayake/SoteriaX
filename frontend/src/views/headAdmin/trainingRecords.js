@@ -201,10 +201,10 @@ export default function TrainingRecords() {
     return db - da;
   });
   var completedData = Alldata.filter(function (sessions) {
-    return sessions.completed == true;
+    return sessions.completed == true && sessions.currentStage == 7 ;
   });
   var scheduledData = Alldata.filter(function (sessions) {
-    return sessions.completed != true;
+    return sessions.completed != true && sessions.currentStage < 7  ;
   });
 
   console.log(Alldata);
