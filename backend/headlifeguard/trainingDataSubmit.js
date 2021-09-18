@@ -39,7 +39,7 @@ module.exports = {
                 
               },
               emergencyCode: [],
-              footageLink:"",
+           
               timeline: ["","","","","",],
               // trainingTimes: ["1.23","1.50","2.45","5.43","6.24",],
               trainingTimes: ["","","","","",],

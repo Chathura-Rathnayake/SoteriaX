@@ -10,14 +10,32 @@ import { TextField } from "@material-ui/core";
 import { Paper, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { DataGrid } from "@material-ui/data-grid";
-
+import { storage, firestore } from "../../firebase";
+import { useState, } from "react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 export default function AlertDialogSlide(props) {
+  const [link, setLink] = useState();
+  var storageRef = storage.ref();
+
+  
+
   const { data, participants, trainingTimes, open, setOpen } = props;
+  var starsRef = storageRef.child("training/"+data.companyID+"/"+data.id+".webm");
+  async function getVideoLink() {
+    try {
+      const response = await starsRef.getDownloadURL();
+      console.log(response);
+      setLink(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  getVideoLink();
+  console.log(link)
   const num = [0, 1, 2, 3, 4];
   var status;
   const stage = [
@@ -273,8 +291,8 @@ export default function AlertDialogSlide(props) {
                         style={{ marginTop: "5px" }}
                         color="blue"
                       >
-                        <Button variant="outlined"  onClick={()=> window.open(data.footageLink, "_blank")}
-                          color="secondary">
+                        <Button variant="contained"  onClick={()=> window.open(link, "_blank")}
+                          color="primary">
                         Click here to access video footage
 </Button>
                         
