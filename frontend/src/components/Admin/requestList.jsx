@@ -13,10 +13,10 @@ import TableRow from "@material-ui/core/TableRow";
 import { Button } from "@material-ui/core";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import Visibility from "@material-ui/icons/Visibility";
+// import Visibility from "@material-ui/icons/Visibility";
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import Delete from "@material-ui/icons/Delete";
-import red from "@material-ui/core/colors/red";
+// import red from "@material-ui/core/colors/red";
 
 const columns = [
   { id: "firstName", label: "First\u00a0Name", minWidth: 80 },
@@ -112,6 +112,7 @@ export default function RequestList() {
             birthday: doc.data().birthday,
             gender: doc.data().gender,
             companyAddress: doc.data().companyAddress,
+            piLastOnlineTime: doc.data().piLastOnlineTime,
           };
         })
       );

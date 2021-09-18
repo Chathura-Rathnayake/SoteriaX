@@ -540,8 +540,23 @@ export default function Members() {
 
           </form>
         </TabPanel>
-
+        <div style={{ marginLeft:100 ,align:"center", paddingBottom:30 , paddingLeft: 40 }}>
+        <Grid item md={9}>
+        <Typography
+          align="center"
+           
+          size="12px"
+          color="blue"
+        >
+          <Button variant="contained" onClick={() => window.open("dwd", "_blank")}
+            color="primary">
+            Download SoteriaX Mobile application
+          </Button>
+        </Typography>
+      </Grid>
       </div>
+      </div>
+
       {openPopup()}
     </Layout>
   );

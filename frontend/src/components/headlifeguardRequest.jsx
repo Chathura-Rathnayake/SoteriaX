@@ -82,6 +82,7 @@ export default function HeadlifeguardRequest() {
         companyAddress: companyAddressRef.current.value,
         companyPhone: companyPhoneRef.current.value,
         supportType: supportType, //the RHS one is state variable gender
+        piLastOnlineTime: 0, //setting the pi last online time to 0
       })
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);

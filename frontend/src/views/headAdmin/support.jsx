@@ -116,17 +116,18 @@ export default function Support() {
         </div>
         <div class={classes.top70}></div>
         <Grid>
+
           <Grid item xs={10}>
             <form onSubmit={handleSubmit} autoComplete="off">
               <div>
                 <div style={{ marginTop: "10px", marginLeft: "50px" }}>
                   <Grid container spacing={5} autoComplete="off">
-                    <Grid item xs={4}>
+                    <Grid item xs={2}>
                       <Typography size="12px" color="textSecondary">
                         Service Type:
                       </Typography>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                       <Select
                         name="type"
                         native
@@ -189,12 +190,14 @@ export default function Support() {
                 </div>
               </div>
             </form>
+
           </Grid>
 
+  
           <div className={classes.root}></div>
 
           <Notification notify={notify} setNotify={setNotify} />
-        </Grid>
+        </Grid>     
       </Container>
     </Layout>
   );
