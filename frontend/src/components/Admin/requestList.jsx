@@ -139,51 +139,57 @@ export default function RequestList() {
       const password = `${request.firstName.toUpperCase()}${request.userPhone}`;
 
       //after signup get the uid of the created account and..
-      signup(request.userEmail, password).then((uid) => {
-        //storing the data in headlifeguard collection
-        firestore
-          .collection("headLifeguards")
-          .doc(uid) //creating a lifeguard document by setting the uid as its document id
-          .set(requestToSave) //saving the request to headlifeguard collection
-          .then((res) => {
-            alert("The Account Approved Successfully");
-          });
-
-        //finally deleting the document from user request list
-        firestore
-          .collection("userRequests")
-          .doc(request.id)
-          .delete()
-          .then((res) => {
-            console.log("Deleted!", res);
-          });
-        //send an email to reset the password
-        currentUser
-          .getIdToken(true) //getting the currently logged in user's id token from firebase (the admin actually)
-          .then((idToken) => {
-            //the complete object that is needed to sent to the backend
-            const toSend = {
-              headlifeguardUID: uid, //the uid of the headlifeguard we want to register
-              token: idToken, //the token
-            };
-
-            // Send the data to the backend
-            fetch("/createResetToken", {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
-              },
-              body: JSON.stringify(toSend),
+      signup(request.userEmail, password)
+        .then((uid) => {
+          //storing the data in headlifeguard collection
+          firestore
+            .collection("headLifeguards")
+            .doc(uid) //creating a lifeguard document by setting the uid as its document id
+            .set(requestToSave) //saving the request to headlifeguard collection
+            .then((res) => {
+              alert("The Account Approved Successfully");
             });
-            //.then((res) => res.json()) //retrieving the request from backend
-            //.then((data) => console.log(data)); //printing it to the console
-          })
-          .catch(function (error) {
-            // Handle the error
-            console.log(error);
-          });
-      });
-    } catch {
+
+          //finally deleting the document from user request list
+          firestore
+            .collection("userRequests")
+            .doc(request.id)
+            .delete()
+            .then((res) => {
+              console.log("Deleted!", res);
+            });
+          //send an email to reset the password
+          currentUser
+            .getIdToken(true) //getting the currently logged in user's id token from firebase (the admin actually)
+            .then((idToken) => {
+              //the complete object that is needed to sent to the backend
+              const toSend = {
+                headlifeguardUID: uid, //the uid of the headlifeguard we want to register
+                token: idToken, //the token
+              };
+
+              // Send the data to the backend
+              fetch("/createResetToken", {
+                method: "POST",
+                headers: {
+                  "Content-type": "application/json",
+                },
+                body: JSON.stringify(toSend),
+              });
+              //.then((res) => res.json()) //retrieving the request from backend
+              //.then((data) => console.log(data)); //printing it to the console
+            })
+            .catch(function (error) {
+              // Handle the error
+              console.log(error);
+            });
+        })
+        .catch(function (err) {
+          console.log("error: ", err.message);
+          alert("Account Approval Failed: " + err.message);
+        });
+    } catch (err) {
+      console.log(err);
       //   setError("Failed to create an account");
     }
   };
