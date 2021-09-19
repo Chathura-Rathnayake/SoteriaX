@@ -72,6 +72,22 @@ export default function EmergencyComponent(props) {
   var num = 0;
   console.log("state", open);
 
+  function deleteCodes() {
+    if (props.isMissionPresent == true) {
+      if (props.missionType === "operation") {
+        props.database
+          .collection("operations")
+          .doc(props.missionId)
+          .update({ emergencyCode: [] });
+      } else if (props.missionType === "training") {
+        //else it is a training operation
+        props.database
+          .collection("trainingOperations")
+          .doc(props.missionId)
+          .update({ emergencyCode: [] });
+      }
+    }
+  }
   return (
     <div>
       {code.map((emergency) => (
@@ -89,11 +105,12 @@ export default function EmergencyComponent(props) {
       ))}
       <Snackbar
         style={{ marginTop: num }}
-        open={props.open && code && open}
+        open={code.length ? true : false}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         TransitionComponent={TransitionUp}
       >
         <Alert
+          
           variant="filled"
           severity="info"
           action={
@@ -102,6 +119,7 @@ export default function EmergencyComponent(props) {
               color="inherit"
               size="small"
               onClick={() => {
+                deleteCodes();
                 setOpen(false);
               }}
             >
