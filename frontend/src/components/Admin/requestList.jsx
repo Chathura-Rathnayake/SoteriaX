@@ -118,6 +118,7 @@ export default function RequestList() {
       );
     });
   }, []);
+  
   const deleteUserRequest = (id) => {
     firestore
       .collection("userRequests")
