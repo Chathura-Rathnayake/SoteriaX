@@ -18,6 +18,15 @@ import ThumbUp from "@material-ui/icons/ThumbUp";
 import Delete from "@material-ui/icons/Delete";
 // import red from "@material-ui/core/colors/red";
 
+//Shanuka
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import Slide from '@material-ui/core/Slide';
+//------------------------
+
 const columns = [
   { id: "firstName", label: "First\u00a0Name", minWidth: 80 },
   { id: "lastName", label: "Last\u00a0Name", minWidth: 80 },
@@ -71,6 +80,12 @@ const useStyles = makeStyles({
     maxHeight: 440,
   },
 });
+
+//Shanuka
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+//-----------------------
 
 export default function RequestList() {
   //front end page rendering related data
@@ -188,6 +203,18 @@ export default function RequestList() {
     }
   };
 
+  //Shanuka
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  //----------------------------
+
   return (
     <div>
       <Typography variant="h5" color="initial">
@@ -227,31 +254,64 @@ export default function RequestList() {
                             {column.format && typeof value === "number"
                               ? column.format(value)
                               : value}
-                            {/* {column.id === "view" && (
-                              <Link className="button" to="/adminDashboard">
-                                <Button mini={true} variant="fab" zDepth={0}>
-                                  <Visibility />
-                                </Button>
-                              </Link>
-                            )} */}
                             {column.id === "approve" && (
+                              <>
                               <Button
                                 mini={true}
                                 variant="fab"
                                 zDepth={0}
-                                onClick={() => approveUserRequest(request)}
+                                onClick={handleClickOpen}
                               >
                                 <ThumbUp />
                               </Button>
+                              <Dialog
+                              open={open}
+                              TransitionComponent={Transition}
+                              keepMounted
+                              onClose={handleClose}
+                              aria-describedby="alert-dialog-slide-description"
+                            >
+                              <DialogTitle>{"Approve Confirmation!"}</DialogTitle>
+                              <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description">
+                                  Are you sure you want to approve this registration record?
+                                </DialogContentText>
+                              </DialogContent>
+                              <DialogActions>
+                                <Button onClick={() => approveUserRequest(request)} color="secondary">Yes</Button>
+                                <Button onClick={handleClose} color="secondary">No</Button>
+                              </DialogActions>
+                            </Dialog>
+                            </>
                             )}
                             {column.id === "remove" && (
+                            <>  
                               <Button
                                 mini={true}
                                 variant="fab"
-                                onClick={() => deleteUserRequest(request["id"])}
+                                onClick={handleClickOpen}
                               >
                                 <Delete style={{ color: "red" }} />
                               </Button>
+                              <Dialog
+                                open={open}
+                                TransitionComponent={Transition}
+                                keepMounted
+                                onClose={handleClose}
+                                aria-describedby="alert-dialog-slide-description"
+                              >
+                                <DialogTitle>{"Delete Confirmation!"}</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText id="alert-dialog-slide-description">
+                                    Are you sure you want to delete this registration record?
+                                  </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={() => deleteUserRequest(request["id"])} color="secondary">Yes</Button>
+                                  <Button onClick={handleClose} color="secondary">No</Button>
+                                </DialogActions>
+                              </Dialog>
+                              </>
                             )}
                           </TableCell>
                         );
