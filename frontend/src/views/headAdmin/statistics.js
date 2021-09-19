@@ -14,8 +14,11 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { Button } from "@material-ui/core";
 import { useAuth } from "../../contexts/AuthContext";
-import ThumbUp from "@material-ui/icons/ThumbUp";
-import Delete from "@material-ui/icons/Delete";
+import PollIcon from "@material-ui/icons/Poll";
+import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
+
+//dialog box
+import StatDialog from "../../components/headAdmin/statDialog";
 
 const useStyles = makeStyles({
   root: {
@@ -51,8 +54,15 @@ const columns = [
 export default function Statistics() {
   const classes = useStyles();
   const [requests, setRequests] = useState([]);
+  const [toDialogBox, setToDialogBox] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  //session data
+  const { currentUser } = useAuth();
+
+  //dialog box
+  const [open, setOpen] = useState(false);
 
   //handling the table pagination
   const handleChangePage = (event, newPage) => {
@@ -64,10 +74,16 @@ export default function Statistics() {
     setPage(0);
   };
 
+  const handleStatBoxClick = (data) => {
+    setToDialogBox(data); //set the data to be send to the dialog box
+    setOpen(true);
+  };
+
   useEffect(() => {
+    //get all the mission data of my company, where the status is "ended"
     firestore
       .collection("operations")
-      .where("companyId", "==", "VtTjOxCyvrM64l6qX64WzIp3IPJ3") //remove this hardcoding
+      .where("companyId", "==", currentUser.uid)
       .where("operationStatus", "==", "ended")
       .get()
       .then((querySnapshot) => {
@@ -82,7 +98,7 @@ export default function Statistics() {
           };
           tempMissionDataArray.push(tempMissionDataObject); //pushing each mission data to the array one by one
         });
-        //set the request state
+        //set the request state - this is used to display the table
         setRequests(tempMissionDataArray);
       })
       .catch((error) => {
@@ -139,21 +155,37 @@ export default function Statistics() {
                                     mini={true}
                                     variant="fab"
                                     zDepth={0}
+
                                     // onClick={() => approveUserRequest(request)}
                                   >
-                                    <ThumbUp />
+                                    <PlayCircleFilledWhiteIcon
+                                      style={{ color: "#039BE5" }}
+                                    />
                                   </Button>
                                 )}
                                 {column.id === "stats" && (
-                                  <Button
-                                    mini={true}
-                                    variant="fab"
-                                    // onClick={() =>
-                                    //   deleteUserRequest(request["id"])
-                                    // }
-                                  >
-                                    <Delete style={{ color: "red" }} />
-                                  </Button>
+                                  <div>
+                                    <Button
+                                      mini={true}
+                                      variant="fab"
+                                      onClick={() =>
+                                        handleStatBoxClick(request)
+                                      }
+                                      // onClick={() =>
+                                      //   deleteUserRequest(request["id"])
+                                      // }
+                                    >
+                                      <PollIcon style={{ color: "orange" }} />
+                                    </Button>
+
+                                    {/* the mission data dialog box */}
+
+                                    <StatDialog
+                                      open={open}
+                                      setOpen={setOpen}
+                                      data={toDialogBox}
+                                    />
+                                  </div>
                                 )}
                               </TableCell>
                             );
@@ -165,7 +197,7 @@ export default function Statistics() {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
+              rowsPerPageOptions={[5, 10, 25, 100]}
               component="div"
               count={requests.length}
               rowsPerPage={rowsPerPage}

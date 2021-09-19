@@ -23,6 +23,7 @@ export default function TrainingRecords() {
   const [passingDataTrainingTimes, setPassingTrainingTimes] = useState([]);
   const { currentUser } = useAuth();
   const [loading, setLoading] = React.useState(false);
+  
   const handleClick = (e, cellValues) => {
     console.log("cell val", cellValues.row.trainingTimes);
     setOpen(true);
