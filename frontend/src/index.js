@@ -28,7 +28,7 @@ import Profiles from "./views/Admin/Profiles";
 import TrainingRecords from "./views/headAdmin/trainingRecords";
 import Statistics from "./views/headAdmin/statistics";
 import SetPassword from "./views/headAdmin/setPassword";
-import test from "./views/practice material/test"; 
+//import test from "./views/practice material/test"; 
 import TestParent from "./views/practice material/testParent"; 
 
 const theme = createMuiTheme({
@@ -57,7 +57,7 @@ ReactDOM.render(
             path="/headlifeguardRequest"
             component={HeadlifeguardRequest}
           />
-          <Route exact path="/test" component={test} />
+          {/* <Route exact path="/test" component={test} /> */}
           <Route exact path="/SetPassword" component={SetPassword} />
           <Route exact path="/testparent" component={TestParent} />
 
