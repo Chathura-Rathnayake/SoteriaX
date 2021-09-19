@@ -45,6 +45,7 @@ export default function AlertDialogSlide(props) {
     "Lifeguard Reached",
     "Mission Completed",
   ];
+  var trainingT = [msToTime(trainingTimes[0]),msToTime(trainingTimes[1]),msToTime(trainingTimes[2]),msToTime(trainingTimes[3]),msToTime(trainingTimes[4])];
   var times = [];
   const columns = [
     {
@@ -55,8 +56,8 @@ export default function AlertDialogSlide(props) {
     },
     {
       field: "time",
-      headerName: "Timeline",
-      width: 180,
+      headerName: "Timeline (H:M:S.ms)",
+      width: 300,
       headerAlign: "left",
     },
   ];
@@ -70,8 +71,19 @@ export default function AlertDialogSlide(props) {
   } else {
     status = "Training Completed  ";
   }
-
-  num.map((num) => times.push({ id: stage[num], time: trainingTimes[num] }));
+  function msToTime(duration) {
+    var milliseconds = parseInt((duration % 1000) / 100),
+      seconds = Math.floor((duration / 1000) % 60),
+      minutes = Math.floor((duration / (1000 * 60)) % 60),
+      hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+  
+    return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+  }
+  num.map((num) => times.push({ id: stage[num], time: trainingT[num] }));
   console.log(times);
   return (
     <Dialog
