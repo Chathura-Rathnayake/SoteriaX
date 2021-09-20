@@ -56,7 +56,7 @@ export default function Statistics() {
   const [requests, setRequests] = useState([]);
   const [toDialogBox, setToDialogBox] = useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   //session data
   const { currentUser } = useAuth();
@@ -76,6 +76,7 @@ export default function Statistics() {
 
   const handleStatBoxClick = (data) => {
     setToDialogBox(data); //set the data to be send to the dialog box
+    console.log(data.timeline);
     setOpen(true);
   };
 
@@ -90,12 +91,14 @@ export default function Statistics() {
         let tempMissionDataArray = [];
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
           let tempMissionDataObject = {
             missionId: doc.id,
             date: doc.data().startDate,
             startedTime: doc.data().startTime,
+            timeline: doc.data().timeline,
           };
+          const propertyValues = Object.values(tempMissionDataObject.timeline);
+          console.log("timeline type", propertyValues[0]);
           tempMissionDataArray.push(tempMissionDataObject); //pushing each mission data to the array one by one
         });
         //set the request state - this is used to display the table
