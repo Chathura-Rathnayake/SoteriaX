@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import { Button, Typography } from "@material-ui/core";
 import { Pie } from "react-chartjs-2";
 
@@ -95,14 +93,12 @@ export default function StatDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        {/* <DialogTitle id="alert-dialog-title">Mission Analytics</DialogTitle> */}
         <Button
           variant="contained"
           fullWidth
           color="primary"
           size="large"
           style={{
-            // fontWeight: "bold",
             fontSize: "23px",
             color: "white",
             textTransform: "none",
@@ -111,12 +107,6 @@ export default function StatDialog(props) {
           Time spent on each mission phase in minutes
         </Button>
         <DialogContent>
-          {/* <DialogContentText align="center">
-            Time spent on each mission phase in minutes
-          </DialogContentText> */}
-          {/* <Typography variant="h5" align="center" color="initial">
-            Time spent on each mission phase in minutes
-          </Typography> */}
           <div>
             <Pie
               data={testData}

@@ -16,6 +16,7 @@ import { Button } from "@material-ui/core";
 import { useAuth } from "../../contexts/AuthContext";
 import PollIcon from "@material-ui/icons/Poll";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
+import { storage } from "../../firebase";
 
 //dialog box
 import StatDialog from "../../components/headAdmin/statDialog";
@@ -78,6 +79,27 @@ export default function Statistics() {
     setToDialogBox(data); //set the data to be send to the dialog box
     console.log(data.timeline);
     setOpen(true);
+  };
+
+  const handleLinkClick = (data) => {
+
+    // Create a reference to the file we want to download
+    var storageRef = storage.ref();
+    var videosRef = storageRef.child(
+      `operation/${currentUser.uid}/${data.missionId}.webm`
+    );
+
+    async function getVideoLink() {
+      try {
+        const response = await videosRef.getDownloadURL();
+        console.log(response);
+        // setVideoLink(response);
+        window.open(response);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getVideoLink();
   };
 
   useEffect(() => {
@@ -160,7 +182,7 @@ export default function Statistics() {
                                     mini={true}
                                     variant="fab"
                                     zDepth={0}
-
+                                    onClick={() => handleLinkClick(request)}
                                     // onClick={() => approveUserRequest(request)}
                                   >
                                     <PlayCircleFilledWhiteIcon
@@ -168,6 +190,7 @@ export default function Statistics() {
                                     />
                                   </Button>
                                 )}
+
                                 {column.id === "stats" && (
                                   <div>
                                     <Button
