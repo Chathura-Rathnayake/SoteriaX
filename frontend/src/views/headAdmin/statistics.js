@@ -96,9 +96,11 @@ export default function Statistics() {
             date: doc.data().startDate,
             startedTime: doc.data().startTime,
             timeline: doc.data().timeline,
+            endTime: doc.data().endTime,
           };
-          const propertyValues = Object.values(tempMissionDataObject.timeline);
-          console.log("timeline type", propertyValues[0]);
+          // const propertyValues = Object.values(tempMissionDataObject.timeline);
+          // console.log("timeline type", propertyValues[0]);
+          console.log(tempMissionDataObject.endTime.seconds);
           tempMissionDataArray.push(tempMissionDataObject); //pushing each mission data to the array one by one
         });
         //set the request state - this is used to display the table

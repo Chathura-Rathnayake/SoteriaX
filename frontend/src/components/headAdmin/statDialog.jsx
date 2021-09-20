@@ -4,11 +4,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { Pie } from "react-chartjs-2";
 
 export default function StatDialog(props) {
   const [times, setTimes] = useState([]);
+  const [endTime, setEndTime] = useState();
 
   useEffect(() => {
     //only if timeline data is defined
@@ -27,6 +28,27 @@ export default function StatDialog(props) {
         timesArray.push(Math.round(tempDifference * 100) / 100); //pushing it to the array by rounding it to two decimals at the same time
       }
       setTimes(timesArray);
+    }
+  }, [props]);
+
+  useEffect(() => {
+    //only if endtime data is defined
+    if (props.data.endTime) {
+      let unix_timestamp = props.data.endTime;
+      // Create a new JavaScript Date object based on the timestamp
+      // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+      var date = new Date(unix_timestamp * 1000);
+      // Hours part from the timestamp
+      var hours = date.getHours();
+      // Minutes part from the timestamp
+      var minutes = "0" + date.getMinutes();
+      // Seconds part from the timestamp
+      var seconds = "0" + date.getSeconds();
+
+      // Will display time in 10:30:23 format
+      var formattedTime =
+        hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
+      setEndTime(formattedTime);
     }
   }, [props]);
 
@@ -63,6 +85,7 @@ export default function StatDialog(props) {
   return (
     <div>
       <Dialog
+        fullWidth="true"
         maxWidth="md"
         open={props.open}
         onClose={() => {
@@ -72,19 +95,35 @@ export default function StatDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Mission Analytics</DialogTitle>
+        {/* <DialogTitle id="alert-dialog-title">Mission Analytics</DialogTitle> */}
+        <Button
+          variant="contained"
+          fullWidth
+          color="primary"
+          size="large"
+          style={{
+            // fontWeight: "bold",
+            fontSize: "23px",
+            color: "white",
+            textTransform: "none",
+          }}
+        >
+          Time spent on each mission phase in minutes
+        </Button>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Please note that if a particular step is skipped during the mission,
-            the duration will be zero for that step.
-          </DialogContentText>
+          {/* <DialogContentText align="center">
+            Time spent on each mission phase in minutes
+          </DialogContentText> */}
+          {/* <Typography variant="h5" align="center" color="initial">
+            Time spent on each mission phase in minutes
+          </Typography> */}
           <div>
             <Pie
               data={testData}
               options={{
                 title: {
                   display: true,
-                  text: "Time spent on each mission phase",
+                  text: "",
                   fontSize: 20,
                 },
                 legend: {
@@ -94,6 +133,17 @@ export default function StatDialog(props) {
               }}
             />
           </div>
+          <br />
+          <div>
+            <Typography variant="h6" align="center" color="initial">
+              The rescue operation was carried out from {props.data.startedTime}{" "}
+              to {endTime} at {props.data.date}
+            </Typography>
+          </div>
+          <Typography variant="subtitle2" align="center" color="initial">
+            Please note that if a particular step is skipped during the mission,
+            the duration will be zero for that step.
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button
@@ -102,7 +152,7 @@ export default function StatDialog(props) {
             }}
             autoFocus
             color="primary"
-            variant="outlined"
+            variant="contained"
           >
             Close
           </Button>
