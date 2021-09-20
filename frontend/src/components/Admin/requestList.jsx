@@ -162,7 +162,7 @@ export default function RequestList() {
             .doc(uid) //creating a lifeguard document by setting the uid as its document id
             .set(requestToSave) //saving the request to headlifeguard collection
             .then((res) => {
-              alert("The Account Approved Successfully! Please Enter the system details for this account.");
+              alert("The Account Approved Successfully! Please Enter the System Details for This Account.");
             });
 
           //finally deleting the document from user request list

@@ -99,6 +99,7 @@ function FromdataTranfer(data) {
     body: JSON.stringify(data),
   })
     .then((res) => res.json())
+    {window.location.reload()}
 }
 
 async function handleSubmit(e) {

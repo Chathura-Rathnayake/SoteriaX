@@ -137,7 +137,9 @@ export default function CustomizedUpdate(props) {
               if (fieldValues.birthday)
                 temp.birthday =
                   age >= 18 ? "" : "Age must be greater than or equal to 18";
-            }                  
+            }
+          if ('staticIP' in fieldValues)
+            temp.staticIP = fieldValues.staticIP ? "" : "This field is required."                    
         setErrors({
             ...temp
         })
@@ -371,6 +373,7 @@ async function handleSubmit(e) {
                     name="staticIP"
                     value={values.staticIP}
                     onChange={handleInputChange}
+                    error={errors.staticIP}
                 />
               </Grid>
             </Grid>

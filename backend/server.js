@@ -231,7 +231,34 @@ app.post("/updateHLG", async function (req, res) {
   data.sendData(req,db,admin,res);
 });
 
-//********** Heta thamai danna wenne*************************************//
+//--------------------------------Admin Dashboard---------------------------------//
+
+app.get("/DboardSuggestion", async function (req, res) {  
+  var data = require("./Admin/DboardSuggestion.js");
+  data.getData(req,db,admin,res);
+});
+
+app.get("/DboardComplaint", async function (req, res) {  
+  var data = require("./Admin/DboardComplaint.js");
+  data.getData(req,db,admin,res);
+});
+
+app.get("/DboardHR", async function (req, res) {  
+  var data = require("./Admin/DboardHR.js");
+  data.getData(req,db,admin,res);
+});
+
+app.get("/DboardHLG", async function (req, res) {  
+  var data = require("./Admin/DboardHLG.js");
+  data.getData(req,db,admin,res);
+});
+
+app.get("/DboardUR", async function (req, res) {  
+  var data = require("./Admin/DboardUR.js");
+  data.getData(req,db,admin,res);
+});
+
+//---------------------------------------------------------------------------------
 
 //a test route (to send data to frontend) - without authentication
 app.get("/multipledocs", function (req, res) {
