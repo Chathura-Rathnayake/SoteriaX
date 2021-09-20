@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     marginBottom: 30,
   },
   top: {
-    marginTop: 100,
+    marginTop: 140,
   },
   top2: {
     marginTop: 50,
@@ -182,7 +182,7 @@ export default function ADashboard() {
     }
     getList(); //executing it
   }, []);
-  console.log("latest O", dataLO);
+
   var pilots = dataL.filter(function (getpilots) {
     return getpilots.isPilot == true;
   });
@@ -203,7 +203,7 @@ export default function ADashboard() {
   var scheduledData = dataT.filter(function (sessions) {
     return sessions.completed != true;
   });
-
+  
   return (
     <div> 
               <div class="header">
@@ -308,8 +308,9 @@ export default function ADashboard() {
 
           <Typography variant="h6" color="textSecondary">
             <div class={classes.top2}></div>
-            Last Operation commenced Date -{" "}
-            {dataLO.map((data) => data.startDate)}
+            Last Operation commenced Date - {  dataLO.startDate
+            }
+            {/* {dataLO.map((data) => data.startDate)} */}
           </Typography>
         </Grid>
         

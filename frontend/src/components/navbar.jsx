@@ -59,7 +59,7 @@ export default function NavBar() {
             >
               SoteriaX
             </Typography>
-            <Button
+            {/* <Button
               startIcon={<CallIcon />}
               size="large"
               variant="text"
@@ -87,7 +87,7 @@ export default function NavBar() {
               size="large"
             >
               About Us
-            </Button>
+            </Button> */}
             <Button
               startIcon={<ExitToAppIcon />}
               color="primary"

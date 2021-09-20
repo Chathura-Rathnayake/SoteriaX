@@ -257,6 +257,10 @@ export default function Members() {
     // if(isPilot.value=="true"){
     //   pilot=0
     // }
+    var pilotVal=1;
+    if(isPilot.value==0){
+      pilotVal=0;
+    }
     var formdata = {
       firstName: fname.value,
       lastName: lname.value,
@@ -266,10 +270,11 @@ export default function Members() {
       birthDate: birthdate.value,
       token: uid,
       certificateLevel: certificate_level.value,
-      isPilot: Boolean(isPilot.value),
+      isPilot: Boolean(pilotVal),
       gender: gender.value,
 
     };
+    //console.log(formdata.isPilot);
     //FromdataTranfer(formdata);
     addlifeguard(formdata);
   }
@@ -455,13 +460,13 @@ export default function Members() {
                       <FormLabel component="legend">Is Pilot?</FormLabel>
                       <RadioGroup row aria-label="position" name="isPilot" >
                         <FormControlLabel
-                          value="true"
+                          value= "1"
                           control={<Radio color="primary" />}
                           label="True"
                           labelPlacement="start"
                         />
                         <FormControlLabel
-                          value="false"
+                          value="0"
                           control={<Radio color="primary" />}
                           label="False"
                           labelPlacement="start"

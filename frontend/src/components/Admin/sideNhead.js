@@ -13,10 +13,11 @@ import {
   Email,
   DashboardOutlined,
   ArrowDropDown,
-  TrackChangesOutlined,
+  EmojiEmotions,
   LiveHelp,
   GroupRounded,
   Timeline,
+  HowToVote,
 } from "@material-ui/icons";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -94,12 +95,12 @@ export default function Layout({ children }) {
 
     {
       text: "Suggestions",
-      icon: <TrackChangesOutlined color="secondary" />,
+      icon: <HowToVote color="secondary" />,
       path: "/adminSuggestion",
     },
     {
       text: "Complaints",
-      icon: <Timeline color="secondary" />,
+      icon: <EmojiEmotions color="secondary" />,
       path: "/adminComplaint",
     },
     {

@@ -10,26 +10,28 @@ class InfoBox extends React.Component {
     const styles = {
       content: {
         padding: "10px 10px",
-        marginLeft: 30,
+        marginLeft: 50,
         height: 80
       },
       number: {
         display: "block",
         fontWeight: 400,
         fontSize: 40,
-        paddingLeft: '35%',
-        paddingTop: 30,
+        paddingLeft: '38%',
+        paddingTop: 8,
         color: red[800]
       },
       text: {
-        fontSize: 32,
+        fontSize: 30,
         fontWeight: 300,
         paddingTop: 500,
-        color: grey[800]
+        paddingLeft: '5%',
+        color: grey[800],
+        textAlign: "right",
       },
       iconSpan: {
         float: "left",
-        height: '40%',
+        height: '25%',
         width: '100%',
         textAlign: "center",
         backgroundColor: color
@@ -37,13 +39,13 @@ class InfoBox extends React.Component {
       icon: {
         height: 48,
         width: 48,
-        marginTop: 20,
+        marginTop: 0,
         maxWidth: "100%"
       }
     };
 
     return (
-      <Paper style={{height:'400px'}}>
+      <Paper style={{height:'200px'}}>
         <span style={styles.iconSpan}>
           <div style={{ color: "white" }}>
             <Icon style={styles.icon} />
@@ -52,7 +54,7 @@ class InfoBox extends React.Component {
         <div style={styles.content}>
           <span style={styles.text}>{title}</span>
           <div style={styles.number}>
-            <CountUp end={value} separator="," duration={6} />
+            <CountUp end={value} separator="," duration={3} />
           </div>
         </div>
       </Paper>

@@ -8,18 +8,20 @@ module.exports = {
       .then((decodedToken) => {
         db.collection("operations")
           .orderBy("startDate", "desc")
-          .limit(1)
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
+              console.log(doc.data().companyId) 
+              console.log(decodedToken.uid) 
               if (doc.data().companyId == decodedToken.uid) {
                 temp = doc.data();
                 temp.id = doc.id;
                 toSend.push(temp);
               }
             });
-
-            res.json(toSend); //sending the response
+            
+            const firstElement = toSend.shift();
+            res.json(firstElement); //sending the response
           })
           .catch((error) => {
             console.log("Error getting documents: ", error);
