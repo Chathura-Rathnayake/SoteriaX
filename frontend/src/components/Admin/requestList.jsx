@@ -162,7 +162,7 @@ export default function RequestList() {
             .doc(uid) //creating a lifeguard document by setting the uid as its document id
             .set(requestToSave) //saving the request to headlifeguard collection
             .then((res) => {
-              alert("The Account Approved Successfully");
+              alert("The Account Approved Successfully! Please Enter the system details for this account.");
             });
 
           //finally deleting the document from user request list
@@ -218,6 +218,16 @@ export default function RequestList() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const [open1, setOpen1] = React.useState(false);
+
+  const handleClickOpen1 = () => {
+    setOpen1(true);
+  };
+
+  const handleClose1 = () => {
+    setOpen1(false);
   };
   //----------------------------
 
@@ -295,15 +305,15 @@ export default function RequestList() {
                               <Button
                                 mini={true}
                                 variant="fab"
-                                onClick={handleClickOpen}
+                                onClick={handleClickOpen1}
                               >
                                 <Delete style={{ color: "red" }} />
                               </Button>
                               <Dialog
-                                open={open}
+                                open={open1}
                                 TransitionComponent={Transition}
                                 keepMounted
-                                onClose={handleClose}
+                                onClose={handleClose1}
                                 aria-describedby="alert-dialog-slide-description"
                               >
                                 <DialogTitle>{"Delete Confirmation!"}</DialogTitle>
@@ -314,7 +324,7 @@ export default function RequestList() {
                                 </DialogContent>
                                 <DialogActions>
                                   <Button onClick={() => deleteUserRequest(request["id"])} color="secondary">Yes</Button>
-                                  <Button onClick={handleClose} color="secondary">No</Button>
+                                  <Button onClick={handleClose1} color="secondary">No</Button>
                                 </DialogActions>
                               </Dialog>
                               </>
