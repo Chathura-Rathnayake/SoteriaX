@@ -334,7 +334,11 @@ export default function Statistics() {
         </Grid>
         <Grid item xs={4}>
           <Container size="sm">
-            <Paper>test</Paper>
+            <Paper>
+              <Typography variant="subtitle1" align="center" color="initial">
+                Some Statistics
+              </Typography>
+            </Paper>
           </Container>
         </Grid>
       </Grid>
