@@ -18,7 +18,6 @@ import PollIcon from "@material-ui/icons/Poll";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 import { storage } from "../../firebase";
 import { Line } from "react-chartjs-2";
-import Moment from "react-moment";
 import moment from "moment";
 
 //dialog box
@@ -59,7 +58,6 @@ export default function Statistics() {
   const classes = useStyles();
   const [requests, setRequests] = useState([]);
   const [toDialogBox, setToDialogBox] = useState([]);
-  // const [cases, setCases] = useState([]);
   const [casesCount, setCasesCount] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(4);
@@ -176,9 +174,6 @@ export default function Statistics() {
           var formattedTime =
             hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
 
-          // console.log(formattedTime); //this is the endtime
-          // console.log(tempMissionDataArray[i].startedTime); //this is the started time
-
           //the time difference
           var t1 = moment(tempMissionDataArray[i].startedTime, "HH:mm:ss");
           var t2 = moment(formattedTime, "HH:mm:ss");
@@ -196,7 +191,6 @@ export default function Statistics() {
           totDurationArray.push(t3);
         }
 
-        // console.log(totDurationArray);
         function getAverageTime(array) {
           var times = [3600, 60, 1],
             parts = array.map((s) =>
@@ -210,17 +204,12 @@ export default function Statistics() {
             .join(":");
         }
 
-        // console.log(getAverageTime(totDurationArray));
         setAvgMissionTime(getAverageTime(totDurationArray)); //the average duration
 
         //Calculating the average response time
         //getting all response durations to an array
-
-        //preparing the dataset for plotting (getting time differences between each milestone)
         let tempDifference; //to store the difference between two values temporary
         let timesArray = []; //time differences will be stored in this array
-        // console.log(tempMissionDataArray[0].timeline[0]);
-
         //function to convert miliseconds to HH:MM:SS format
         function parseMillisecondsIntoReadableTime(milliseconds) {
           //Get hours from milliseconds
@@ -242,7 +231,6 @@ export default function Statistics() {
         }
 
         for (let i = 0; i < arrayLength; i++) {
-          // console.log(myStringArray[i]);
           tempDifference = Math.abs(
             tempMissionDataArray[i].timeline[2] -
               tempMissionDataArray[i].timeline[0]
