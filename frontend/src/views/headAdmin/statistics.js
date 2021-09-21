@@ -18,6 +18,8 @@ import PollIcon from "@material-ui/icons/Poll";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 import { storage } from "../../firebase";
 import { Line } from "react-chartjs-2";
+import Moment from "react-moment";
+import moment from "moment";
 
 //dialog box
 import StatDialog from "../../components/headAdmin/statDialog";
@@ -136,6 +138,9 @@ export default function Statistics() {
         //counting cases reported in each month to plot the graph
         let monthsArray = [];
         let arrayLength = tempCasesArray.length;
+        //this arrayLength also represents the total completed mission amount, so lets set it
+        setTotalMissions(arrayLength);
+
         //putting month from all the date values read to a new array called monthsArray
         for (let i = 0; i < arrayLength; i++) {
           let dateParts = tempCasesArray[i].split("/");
@@ -158,6 +163,96 @@ export default function Statistics() {
           }
         }
         setCasesCount(tempCasesCount); //set the cases count
+
+        let totDurationArray = [];
+        //calculate the average mission duration
+        for (let i = 0; i < arrayLength; i++) {
+          //get the endtime
+          let unix_timestamp = tempMissionDataArray[i].endTime;
+          var date = new Date(unix_timestamp * 1000);
+          var hours = date.getHours();
+          var minutes = "0" + date.getMinutes();
+          var seconds = "0" + date.getSeconds();
+          var formattedTime =
+            hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
+
+          // console.log(formattedTime); //this is the endtime
+          // console.log(tempMissionDataArray[i].startedTime); //this is the started time
+
+          //the time difference
+          var t1 = moment(tempMissionDataArray[i].startedTime, "HH:mm:ss");
+          var t2 = moment(formattedTime, "HH:mm:ss");
+          var start_date = moment(t1, "YYYY-MM-DD HH:mm:ss");
+          var end_date = moment(t2, "YYYY-MM-DD HH:mm:ss");
+          var duration = moment.duration(end_date.diff(t1));
+
+          var t3 =
+            duration.hours() +
+            ":" +
+            duration.minutes() +
+            ":" +
+            duration.seconds();
+
+          totDurationArray.push(t3);
+        }
+
+        // console.log(totDurationArray);
+        function getAverageTime(array) {
+          var times = [3600, 60, 1],
+            parts = array.map((s) =>
+              s.split(":").reduce((s, v, i) => s + times[i] * v, 0)
+            ),
+            avg = Math.round(parts.reduce((a, b) => a + b, 0) / parts.length);
+
+          return times
+            .map((t) => [Math.floor(avg / t), (avg %= t)][0])
+            .map((v) => v.toString().padStart(2, 0))
+            .join(":");
+        }
+
+        // console.log(getAverageTime(totDurationArray));
+        setAvgMissionTime(getAverageTime(totDurationArray)); //the average duration
+
+        //Calculating the average response time
+        //getting all response durations to an array
+
+        //preparing the dataset for plotting (getting time differences between each milestone)
+        let tempDifference; //to store the difference between two values temporary
+        let timesArray = []; //time differences will be stored in this array
+        // console.log(tempMissionDataArray[0].timeline[0]);
+
+        //function to convert miliseconds to HH:MM:SS format
+        function parseMillisecondsIntoReadableTime(milliseconds) {
+          //Get hours from milliseconds
+          var hours = milliseconds / (1000 * 60 * 60);
+          var absoluteHours = Math.floor(hours);
+          var h = absoluteHours > 9 ? absoluteHours : "0" + absoluteHours;
+
+          //Get remainder from hours and convert to minutes
+          var minutes = (hours - absoluteHours) * 60;
+          var absoluteMinutes = Math.floor(minutes);
+          var m = absoluteMinutes > 9 ? absoluteMinutes : "0" + absoluteMinutes;
+
+          //Get remainder from minutes and convert to seconds
+          var seconds = (minutes - absoluteMinutes) * 60;
+          var absoluteSeconds = Math.floor(seconds);
+          var s = absoluteSeconds > 9 ? absoluteSeconds : "0" + absoluteSeconds;
+
+          return h + ":" + m + ":" + s;
+        }
+
+        for (let i = 0; i < arrayLength; i++) {
+          // console.log(myStringArray[i]);
+          tempDifference = Math.abs(
+            tempMissionDataArray[i].timeline[2] -
+              tempMissionDataArray[i].timeline[0]
+          ); //calculating the difference
+
+          timesArray.push(parseMillisecondsIntoReadableTime(tempDifference)); //pushing it to the array by rounding it to two decimals at the same time
+        }
+
+        console.log(timesArray);
+        setAvgReponse(getAverageTime(timesArray)); //getting the average response time and setting it to the state
       })
       .catch((error) => {
         console.log("Error getting mission data: ", error);
@@ -352,7 +447,7 @@ export default function Statistics() {
                   color="primary"
                   style={{ fontWeight: "bold" }}
                 >
-                  Total Completed Missions ~ 56
+                  Total Completed Missions ~ {totalMissions}
                 </Typography>
                 <Typography align="center" variant="caption" color="initial">
                   The total amount of completed missions
@@ -368,10 +463,11 @@ export default function Statistics() {
                   color="primary"
                   style={{ fontWeight: "bold" }}
                 >
-                  Average Response Time ~ 56
+                  Average Response Time ~ {avgResponse}
                 </Typography>
                 <Typography variant="caption" color="initial">
-                  Average time to reach the victim and drop the restube
+                  Average time to reach the victim and drop the restube (in
+                  hh:mm:ss format)
                 </Typography>
               </Paper>
               <br />
@@ -384,10 +480,11 @@ export default function Statistics() {
                   color="primary"
                   style={{ fontWeight: "bold" }}
                 >
-                  Average Mission Duration ~ 56
+                  Average Mission Duration ~ {avgMissionTime}
                 </Typography>
                 <Typography variant="caption" color="initial">
-                  The average time to complete a resuce mission
+                  The average time to complete a resuce mission (in hh:mm:ss
+                  format)
                 </Typography>
               </Paper>
             </Paper>
