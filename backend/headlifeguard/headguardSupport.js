@@ -12,12 +12,21 @@ module.exports = {
           collectionName = "suggestions";
         }
         var today = new Date(),
-          date =
-            today.getFullYear() +
-            "-" +
-            (today.getMonth() + 1) +
-            "-" +
-            today.getDate();
+        month = '' + (today.getMonth() + 1),
+        day = '' + today.getDate(),
+        year = today.getFullYear();
+
+        if (month.length < 2)
+        { 
+          month = '0' + month;
+          console.log(month);
+        }
+        if (day.length < 2)
+        { 
+          day = '0' + day;
+        } 
+        date = year+"-"+month+"-"+day;
+        console.log(date);
 
         db.collection(collectionName)
           .add({
