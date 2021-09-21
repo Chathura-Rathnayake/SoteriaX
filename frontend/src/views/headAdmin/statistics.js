@@ -57,10 +57,13 @@ export default function Statistics() {
   const classes = useStyles();
   const [requests, setRequests] = useState([]);
   const [toDialogBox, setToDialogBox] = useState([]);
-  const [cases, setCases] = useState([]);
+  // const [cases, setCases] = useState([]);
   const [casesCount, setCasesCount] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(4);
+  const [totalMissions, setTotalMissions] = useState();
+  const [avgResponse, setAvgReponse] = useState();
+  const [avgMissionTime, setAvgMissionTime] = useState();
 
   //session data
   const { currentUser } = useAuth();
@@ -332,12 +335,61 @@ export default function Statistics() {
             </Paper>
           </Container>
         </Grid>
+
         <Grid item xs={4}>
           <Container size="sm">
-            <Paper>
-              <Typography variant="subtitle1" align="center" color="initial">
-                Some Statistics
-              </Typography>
+            <Paper style={{ padding: "10px" }}>
+              <Paper
+                style={{
+                  padding: "10px",
+                  backgroundColor: "#efefef",
+                  align: "center",
+                }}
+                elevation={0}
+              >
+                <Typography
+                  variant="subtitle1"
+                  color="primary"
+                  style={{ fontWeight: "bold" }}
+                >
+                  Total Completed Missions ~ 56
+                </Typography>
+                <Typography align="center" variant="caption" color="initial">
+                  The total amount of completed missions
+                </Typography>
+              </Paper>
+              <br />
+              <Paper
+                style={{ padding: "10px", backgroundColor: "#efefef" }}
+                elevation={0}
+              >
+                <Typography
+                  variant="subtitle1"
+                  color="primary"
+                  style={{ fontWeight: "bold" }}
+                >
+                  Average Response Time ~ 56
+                </Typography>
+                <Typography variant="caption" color="initial">
+                  Average time to reach the victim and drop the restube
+                </Typography>
+              </Paper>
+              <br />
+              <Paper
+                style={{ padding: "10px", backgroundColor: "#efefef" }}
+                elevation={0}
+              >
+                <Typography
+                  variant="subtitle1"
+                  color="primary"
+                  style={{ fontWeight: "bold" }}
+                >
+                  Average Mission Duration ~ 56
+                </Typography>
+                <Typography variant="caption" color="initial">
+                  The average time to complete a resuce mission
+                </Typography>
+              </Paper>
             </Paper>
           </Container>
         </Grid>
