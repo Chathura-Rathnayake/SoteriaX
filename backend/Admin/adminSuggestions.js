@@ -11,6 +11,7 @@ module.exports = {
               var docname = doc.id;
               var uid = doc.data().userID;
               
+              if(doc.data().accountType == "headLifeGuard" && !doc.data().name){
               db.collection("headLifeguards").doc(uid)
                 .get()
                 .then((doc2) => {
@@ -21,6 +22,7 @@ module.exports = {
                     name: username,
                   });
                 })
+              }  
       
               temp = doc.data();
               temp.suggestionID = docname;
