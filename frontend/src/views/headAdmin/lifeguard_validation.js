@@ -27,18 +27,18 @@ export const usePasswordValidation = () => {
     if ("fname" in fieldValues) {
       temp.fname = fieldValues.fname ? "" : "This field is required.";
 
-    //   if (fieldValues.password) {
-    //     temp.password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(
-    //       fieldValues.password
-    //     )
-    //       ? ""
-    //       : "The password must contain at least 1 number, 1 uppercase letter , 1 lowercase letter and length of the password must be at least 8 characters";
-    //   }
+      //   if (fieldValues.password) {
+      //     temp.password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(
+      //       fieldValues.password
+      //     )
+      //       ? ""
+      //       : "The password must contain at least 1 number, 1 uppercase letter , 1 lowercase letter and length of the password must be at least 8 characters";
+      //   }
     }
 
     if ("lname" in fieldValues) {
-        temp.lname = fieldValues.lname ? "" : "This field is required.";
-  
+      temp.lname = fieldValues.lname ? "" : "This field is required.";
+
       //   if (fieldValues.password) {
       //     temp.password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(
       //       fieldValues.password
@@ -46,11 +46,11 @@ export const usePasswordValidation = () => {
       //       ? ""
       //       : "The password must contain at least 1 number, 1 uppercase letter , 1 lowercase letter and length of the password must be at least 8 characters";
       //   }
-      }
+    }
 
-      if ("isPilot" in fieldValues) {
-        temp.isPilot = fieldValues.isPilot ? "" : "This field is required.";
-  
+    if ("isPilot" in fieldValues) {
+      temp.isPilot = fieldValues.isPilot ? "" : "This field is required.";
+
       //   if (fieldValues.password) {
       //     temp.password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(
       //       fieldValues.password
@@ -58,11 +58,11 @@ export const usePasswordValidation = () => {
       //       ? ""
       //       : "The password must contain at least 1 number, 1 uppercase letter , 1 lowercase letter and length of the password must be at least 8 characters";
       //   }
-      }
+    }
 
-      if ("gender" in fieldValues) {
-        temp.gender = fieldValues.gender ? "" : "This field is required.";
-  
+    if ("gender" in fieldValues) {
+      temp.gender = fieldValues.gender ? "" : "This field is required.";
+
       //   if (fieldValues.password) {
       //     temp.password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/.test(
       //       fieldValues.password
@@ -70,58 +70,58 @@ export const usePasswordValidation = () => {
       //       ? ""
       //       : "The password must contain at least 1 number, 1 uppercase letter , 1 lowercase letter and length of the password must be at least 8 characters";
       //   }
-      }
+    }
 
-      if ("email" in fieldValues) {
-        temp.email = fieldValues.email ? "" : "This field is required.";
-  
-        if (fieldValues.email) {
-          temp.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(
-            fieldValues.email
-          )
-            ? ""
-            : "Email must be a valid email";
-        }
-      }
+    if ("email" in fieldValues) {
+      temp.email = fieldValues.email ? "" : "This field is required.";
 
-      if ("NIC" in fieldValues) {
-        temp.NIC = fieldValues.NIC ? "" : "This field is required.";
-  
-        // if (fieldValues.email) {
-        //   temp.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(
-        //     fieldValues.email
-        //   )
-        //     ? ""
-        //     : "Email must be a valid email";
-        // }
+      if (fieldValues.email) {
+        temp.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(
+          fieldValues.email
+        )
+          ? ""
+          : "Email must be a valid email";
       }
+    }
 
-      if ("phone" in fieldValues) {
-        temp.phone = fieldValues.phone ? "" : "This field is required.";
-  
-        if (fieldValues.phone) {
-          temp.phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
-            fieldValues.phone
-          )
-            ? ""
-            : "Phone number must be a valid number";
-        }
-      }
+    if ("NIC" in fieldValues) {
+      temp.NIC = fieldValues.NIC ? "" : "This field is required.";
 
-      if ("birthdate" in fieldValues) {
-        //checking the age > 18
-        let today = new Date();
-        let birthDate = new Date(fieldValues.birthdate);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        let m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-          age--;
-        }
-        //   console.log(age);
-        if (fieldValues.birthdate)
-          temp.birthdate =
-            age >= 18 ? "" : "Age must be greater than or equal to 18";
+      // if (fieldValues.email) {
+      //   temp.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(
+      //     fieldValues.email
+      //   )
+      //     ? ""
+      //     : "Email must be a valid email";
+      // }
+    }
+
+    if ("phone" in fieldValues) {
+      temp.phone = fieldValues.phone ? "" : "This field is required.";
+
+      if (fieldValues.phone) {
+        temp.phone = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+          fieldValues.phone
+        )
+          ? ""
+          : "Phone number must be a valid number";
       }
+    }
+
+    if ("birthdate" in fieldValues) {
+      //checking the age > 18
+      let today = new Date();
+      let birthDate = new Date(fieldValues.birthdate);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      let m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      //   console.log(age);
+      if (fieldValues.birthdate)
+        temp.birthdate =
+          age >= 18 ? "" : "Age must be greater than or equal to 18";
+    }
 
     // if ("passwordConfirm" in fieldValues) {
     //   temp.passwordConfirm = fieldValues.passwordConfirm
@@ -154,7 +154,7 @@ export const usePasswordValidation = () => {
       fieldValues.phone &&
       fieldValues.birthdate &&
       fieldValues.gender &&
-    //   fieldValues.passwordConfirm &&
+      //   fieldValues.passwordConfirm &&
       Object.values(errors).every((x) => x === "");
     return isValid;
   };
