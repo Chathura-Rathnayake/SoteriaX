@@ -252,6 +252,7 @@ async function handleSubmit(e) {
                 </Grid>
                 <Grid item lg={12}>
                 <Controls.Input style={{marginTop:'15px', marginBottom:'15px'}}
+                    disabled
                     label="Email"
                     name="userEmail"
                     value={values.userEmail}
