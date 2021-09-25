@@ -306,20 +306,29 @@ export default function Members() {
             alert("The Lifeguard added Successfully");
           })
           .then((x) => {
-
             //perform an API call to send an app link email
-            const payload = {
-              email: request.email,
-            };
-            fetch("/sendApkEmail", {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
-              },
-              body: JSON.stringify(payload),
-            })
-              .then((res) => res.json())
-              .then((data) => console.log(data));
+
+            //get the current user token
+            async function sendEmailAddrToBackend() {
+              const idToken = await currentUser.getIdToken(true); //get the token of the current user
+
+              const payload = {
+                email: request.email,
+                token: idToken,
+              };
+
+              //send the api request
+              fetch("/sendApkEmail", {
+                method: "POST",
+                headers: {
+                  "Content-type": "application/json",
+                },
+                body: JSON.stringify(payload),
+              })
+                .then((res) => res.json())
+                .then((data) => console.log(data));
+            }
+            sendEmailAddrToBackend();
           });
       });
 
