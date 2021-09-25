@@ -122,9 +122,12 @@ export default function Training() {
       var CurrentDate = new Date().toISOString().split("T")[0];
       var currentHours = new Date().getHours();
       currentHours = ("0" + currentHours).slice(-2);
-      var CurrentTime = currentHours + ":" + new Date().getMinutes();
-      console.log(GivenDate);
-      console.log(CurrentDate);
+      var CurrentMin = new Date().getMinutes();
+      
+      CurrentMin  = ("0" + CurrentMin).slice(-2);
+      
+      var CurrentTime = currentHours + ":" + CurrentMin;
+      
       GivenDate = new Date(GivenDate);
       CurrentDate = new Date(CurrentDate);
       // GivenDate > CurrentDate &&
@@ -133,7 +136,7 @@ export default function Training() {
       } else if (GivenDate.toDateString() == CurrentDate.toDateString()) {
         console.log("same");
         console.log("getTime", getTime);
-        console.log("Time", CurrentTime);
+        console.log("nowTime", CurrentTime);
         if (getTime > CurrentTime) {
           return false;
           console.log("ok");
@@ -186,7 +189,7 @@ export default function Training() {
 
         return;
       }
-      FromdataTranfer(e, formdata);
+     FromdataTranfer(e, formdata);
       console.log(formdata);
     }
   }

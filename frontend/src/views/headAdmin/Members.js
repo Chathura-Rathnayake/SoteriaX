@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import Layout from "../../components/headAdmin/Layout";
 import { TextField } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { firestore } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext.js";
 import Radio from "@material-ui/core/Radio";
@@ -18,8 +18,10 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import { useHistory } from "react-router-dom";
 import { deleteUser } from "../../firebase";
 import AlertDialogSlide from "../../components/headAdmin/edit_lifeguard";
+import { usePasswordValidation } from "./lifeguard_validation.js";
 import Select from "@material-ui/core/Select";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,6 +81,20 @@ export default function Members() {
   const [open, setOpen] = useState(false);
   const [passingData, setPassingData] = useState([]);
 
+  const { handleInputValue, formIsValid, errors } = usePasswordValidation();
+  const fnameRef = useRef();
+  const lnameRef = useRef();
+  const isPilotRef = useRef();
+  const emailRef = useRef();
+  const NICRef = useRef();
+  const phoneRef = useRef();
+  const birthdayRef = useRef();
+  const genderRef = useRef();
+  const history = useHistory();
+  const passwordConfirmRef = useRef();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleClickEdit = (e, cellValues) => {
     console.log("cell val", cellValues.row);
     setOpen(true);
@@ -104,6 +120,10 @@ export default function Members() {
         </Button>
       </strong>
     );
+  };
+
+  const refreshPage = () => {
+    window.location.reload();
   };
 
   const columns = [
@@ -232,7 +252,7 @@ export default function Members() {
   const { signup } = useAuth();
   const { currentUser } = useAuth();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const {
       fname,
@@ -245,6 +265,7 @@ export default function Members() {
       isPilot,
       gender,
     } = e.target.elements;
+    console.log(e.target.elements);
     // var pilot;
     // if(isPilot.value=="true"){
     //   pilot=0
@@ -267,7 +288,9 @@ export default function Members() {
     };
     //console.log(formdata.isPilot);
     //FromdataTranfer(formdata);
-    addlifeguard(formdata);
+    //setLoading(false);
+    await addlifeguard(formdata);
+    //refreshPage();
   }
 
   const addlifeguard = (request) => {
@@ -284,7 +307,7 @@ export default function Members() {
 
       //after signup get the uid of the created account and..
       signup(request.email, password).then((uid) => {
-        //storing the data in headlifeguard collection
+        //storing the data in lifeguard collection
         firestore
           .collection("lifeguards")
           .doc(uid) //creating a lifeguard document by setting the uid as its document id
@@ -301,7 +324,7 @@ export default function Members() {
             isPilot: request.isPilot,
             certificateLevel: request.certificateLevel,
             gender: request.gender,
-          }) //saving the request to headlifeguard collection
+          }) //saving the request to ifeguard collection
           .then((res) => {
             alert("The Lifeguard added Successfully");
           })
@@ -324,10 +347,23 @@ export default function Members() {
                   "Content-type": "application/json",
                 },
                 body: JSON.stringify(payload),
-              });
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  console.log(data);
+                  refreshPage();
+                });
             }
             sendEmailAddrToBackend();
           });
+
+        // firestore
+        //   .collection("userRequests")
+        //   .doc(request.id)
+        //   .delete()
+        //   .then((res) => {
+        //     console.log("Deleted!", res);
+        //   });
       });
 
       console.log("addLifeguard");
@@ -429,58 +465,135 @@ export default function Members() {
                 <Grid container spacing={5} autoComplete="off">
                   <Grid item xs={5}>
                     <TextField
+                      inputRef={fnameRef}
                       name="fname"
+                      id="fname"
                       label="First name"
                       style={{ width: 300 }}
+                      required
+                      onChange={handleInputValue}
+                      onBlur={handleInputValue}
+                      error={errors["fname"]}
+                      autoFocus
+                      {...(errors["fname"] && {
+                        error: true,
+                        helperText: errors["fname"],
+                      })}
                     />
                   </Grid>
                   <Grid item xs={5}>
                     <TextField
+                      inputRef={lnameRef}
+                      id="lname"
                       name="lname"
                       label="Last name"
                       style={{ width: 300 }}
+                      required
+                      onChange={handleInputValue}
+                      onBlur={handleInputValue}
+                      error={errors["lname"]}
+                      autoFocus
+                      {...(errors["lname"] && {
+                        error: true,
+                        helperText: errors["lname"],
+                      })}
                     />
                   </Grid>
                   <Grid item xs={5}>
                     <TextField
+                      inputRef={emailRef}
                       name="email"
                       id="email"
                       label="Email"
                       style={{ width: 300 }}
+                      type="email"
+                      required
+                      onChange={handleInputValue}
+                      onBlur={handleInputValue}
+                      error={errors["email"]}
+                      autoFocus
+                      {...(errors["email"] && {
+                        error: true,
+                        helperText: errors["email"],
+                      })}
                     />
                   </Grid>
                   <Grid item xs={5}>
                     <TextField
+                      inputRef={NICRef}
                       name="NIC"
                       id="Id"
                       label="NIC Number"
                       style={{ width: 300 }}
+                      required
+                      onChange={handleInputValue}
+                      onBlur={handleInputValue}
+                      error={errors["NIC"]}
+                      autoFocus
+                      {...(errors["NIC"] && {
+                        error: true,
+                        helperText: errors["NIC"],
+                      })}
                     />
                   </Grid>
                   <Grid item xs={5}>
                     <TextField
+                      inputRef={phoneRef}
                       name="phone"
                       id="phone"
                       label="Phone Number"
                       style={{ width: 300 }}
+                      required
+                      onChange={handleInputValue}
+                      onBlur={handleInputValue}
+                      error={errors["phone"]}
+                      autoFocus
+                      {...(errors["phone"] && {
+                        error: true,
+                        helperText: errors["phone"],
+                      })}
                     />
                   </Grid>
                   <Grid item xs={5}>
                     <TextField
+                      inputRef={birthdayRef}
                       required={true}
                       name="birthdate"
+                      id="birthdate"
                       label="Birthday"
                       type="date"
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      onChange={handleInputValue}
+                      onBlur={handleInputValue}
+                      error={errors["birthdate"]}
+                      autoFocus
+                      {...(errors["birthdate"] && {
+                        error: true,
+                        helperText: errors["birthdate"],
+                      })}
                     />
                   </Grid>
 
                   <Grid item xs={5}>
                     <FormControl component="fieldset">
                       <FormLabel component="legend">Is Pilot?</FormLabel>
-                      <RadioGroup row aria-label="position" name="isPilot">
+                      <RadioGroup
+                        row
+                        aria-label="position"
+                        name="isPilot"
+                        id="isPilot"
+                        inputRef={isPilotRef}
+                        onChange={handleInputValue}
+                        onBlur={handleInputValue}
+                        error={errors["isPilot"]}
+                        autoFocus
+                        {...(errors["isPilot"] && {
+                          error: true,
+                          helperText: errors["isPilot"],
+                        })}
+                      >
                         <FormControlLabel
                           value="1"
                           control={<Radio color="primary" />}
@@ -500,7 +613,21 @@ export default function Members() {
                   <Grid item xs={5}>
                     <FormControl component="fieldset">
                       <FormLabel component="legend">Gender</FormLabel>
-                      <RadioGroup row aria-label="position" name="gender">
+                      <RadioGroup
+                        row
+                        aria-label="position"
+                        name="gender"
+                        id="gender"
+                        inputRef={genderRef}
+                        onChange={handleInputValue}
+                        onBlur={handleInputValue}
+                        error={errors["gender"]}
+                        autoFocus
+                        {...(errors["gender"] && {
+                          error: true,
+                          helperText: errors["gender"],
+                        })}
+                      >
                         <FormControlLabel
                           value="male"
                           control={<Radio color="primary" />}
@@ -552,7 +679,8 @@ export default function Members() {
                     color="primary"
                     size="medium"
                     style={{ marginLeft: 485 }}
-                    onClick={() => {}}
+                    //onClick={refreshPage}
+                    disabled={!formIsValid()}
                   >
                     Create Lifeguard
                   </Button>

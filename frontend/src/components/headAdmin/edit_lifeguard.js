@@ -152,7 +152,7 @@ function handleSubmit(e) {
     <div> {typeof data !== "undefined" && (    <Dialog
         style={{ marginBottom: "10px", marginTop: "30px" }}
         open={open}
-        maxWidth={"xl"}
+        maxWidth={"md"}
         //TransitionComponent={Transition}
         keepMounted
         onClose={() => {
@@ -162,7 +162,7 @@ function handleSubmit(e) {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          <strong>Edit User</strong>
+          <strong>Edit User ID: {data.id}</strong>
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
@@ -296,7 +296,7 @@ function handleSubmit(e) {
                             console.log("popupclicked");
                       }}
                     >
-                      Create Lifeguard
+                      Edit Lifeguard
                     </Button>
                   </div>
   

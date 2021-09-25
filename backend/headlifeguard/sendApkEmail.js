@@ -4,6 +4,7 @@ module.exports = {
       .auth()
       .verifyIdToken(req.body.token)
       .then(() => {
+        console.log("aaaaaaa");
         //sending the email via nodemailer
         var nodemailer = require("nodemailer");
         var transporter = nodemailer.createTransport({
@@ -34,6 +35,7 @@ module.exports = {
             console.log(error);
           } else {
             console.log("Email sent: " + info.response);
+            res.json("Email sent: " + info.response); //sending the response
           }
         });
       })
