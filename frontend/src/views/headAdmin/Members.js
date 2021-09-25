@@ -324,9 +324,7 @@ export default function Members() {
                   "Content-type": "application/json",
                 },
                 body: JSON.stringify(payload),
-              })
-                .then((res) => res.json())
-                .then((data) => console.log(data));
+              });
             }
             sendEmailAddrToBackend();
           });
