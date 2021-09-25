@@ -102,160 +102,162 @@ app.post("/supportDataSuggestions", async function (req, res) {
   var data = require("./headlifeguard/supportDataSuggestions.js");
   data.getData(req, db, admin, res);
 });
-app.post("/addLifeguard", function (req, res) {  //lifeguard adding backend code 
+app.post("/addLifeguard", function (req, res) {
+  //lifeguard adding backend code
   var data = require("./headlifeguard/addLifeguard.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
   console.log(req.body);
 });
 
-app.post("/deleteLifeguard", function (req, res) {  //lifeguard delete backend code 
+app.post("/deleteLifeguard", function (req, res) {
+  //lifeguard delete backend code
   var data = require("./headlifeguard/deleteLifeguard.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
   console.log(req.body);
 });
 
-app.post("/editLifeguard", function (req, res) {  //lifeguard delete backend code 
+app.post("/editLifeguard", function (req, res) {
+  //lifeguard delete backend code
   var data = require("./headlifeguard/editLifeguard.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
   console.log(req.body);
 });
 
 // ------------- HeadlifeGuard backend functions  ----------------
-app.post("/CreateTrainingSession", async function (req, res) {  //headlifeguard support data backend code 
-  console.log(req)
+app.post("/CreateTrainingSession", async function (req, res) {
+  //headlifeguard support data backend code
+  console.log(req);
   var data = require("./headlifeguard/trainingDataSubmit.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
-app.post("/getTrainingRecords", async function (req, res) {  //get training records data backend code 
+app.post("/getTrainingRecords", async function (req, res) {
+  //get training records data backend code
   var data = require("./headlifeguard/getTrainingRecords.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.post("/DeleteScheduledTraining", function (req, res) {  //headlifeguard support backend code
-  console.log(req.body) 
+app.post("/DeleteScheduledTraining", function (req, res) {
+  //headlifeguard support backend code
+  console.log(req.body);
   var data = require("./headlifeguard/deleteScheduledTraining.js");
-  data.deleteData(req,db,admin,res);
+  data.deleteData(req, db, admin, res);
 });
-app.post("/getOperationCount", async function (req, res) {  //get training records data backend code 
+app.post("/getOperationCount", async function (req, res) {
+  //get training records data backend code
   var data = require("./headlifeguard/getOperationCount.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
-app.post("/getTrainingCount", async function (req, res) {  //get training records data backend code 
+app.post("/getTrainingCount", async function (req, res) {
+  //get training records data backend code
   var data = require("./headlifeguard/getTrainingRecords.js");
-  data.getData(req,db,admin,res);
-  
+  data.getData(req, db, admin, res);
 });
-app.post("/getLifeguardCount", async function (req, res) {  //get training records data backend code 
+app.post("/getLifeguardCount", async function (req, res) {
+  //get training records data backend code
   var data = require("./headlifeguard/getLifeguardCount.js");
-  data.getData(req,db,admin,res);
-  
+  data.getData(req, db, admin, res);
 });
-app.post("/getCompanyName", async function (req, res) {  //get training records data backend code 
+app.post("/getCompanyName", async function (req, res) {
+  //get training records data backend code
   var data = require("./headlifeguard/getCompanyName.js");
-  data.getData(req,db,admin,res);
-  
+  data.getData(req, db, admin, res);
 });
-app.post("/getlatestDataOperation", async function (req, res) {  //get training records data backend code 
+app.post("/getlatestDataOperation", async function (req, res) {
+  //get training records data backend code
   var data = require("./headlifeguard/getlatestDataOperation.js");
-  data.getData(req,db,admin,res);
-  
+  data.getData(req, db, admin, res);
 });
 
 // ------------- HeadlifeGuard backend functions  ----------------
-
-
 
 //-----------------------Suggestions-----------------------//
 
-app.get("/adminSuggestion", async function (req, res) {  
+app.get("/adminSuggestion", async function (req, res) {
   var data = require("./Admin/adminSuggestions.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-
-
-app.post("/viewSuggestions", async function (req, res) {  
+app.post("/viewSuggestions", async function (req, res) {
   var data = require("./Admin/viewSuggestion.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
-
-app.post("/updateSuggestions", async function (req, res) {  
+app.post("/updateSuggestions", async function (req, res) {
   var data = require("./Admin/updateSuggestions.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
 //-----------------------------------Complaints--------------------------------//
 
-app.get("/adminComplaint", async function (req, res) {  
+app.get("/adminComplaint", async function (req, res) {
   var data = require("./Admin/adminComplaints.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.post("/viewComplaints", async function (req, res) {  
+app.post("/viewComplaints", async function (req, res) {
   var data = require("./Admin/viewComplaints.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
-app.post("/updateComplaints", async function (req, res) {  
+app.post("/updateComplaints", async function (req, res) {
   var data = require("./Admin/updateComplaints.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
 //-----------------------------------HelpRequest--------------------------------//
 
-app.get("/adminHR", async function (req, res) {  
+app.get("/adminHR", async function (req, res) {
   var data = require("./Admin/adminHR.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.post("/viewHR", async function (req, res) {  
+app.post("/viewHR", async function (req, res) {
   var data = require("./Admin/viewHR.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
-app.post("/updateHR", async function (req, res) {  
+app.post("/updateHR", async function (req, res) {
   var data = require("./Admin/updateHR.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
 //-----------------------------------Admin HeadLG--------------------------------//
-app.get("/adminHLG", async function (req, res) {  
+app.get("/adminHLG", async function (req, res) {
   var data = require("./Admin/adminHLG.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.post("/updateHLG", async function (req, res) {  
+app.post("/updateHLG", async function (req, res) {
   var data = require("./Admin/updateHLG.js");
-  data.sendData(req,db,admin,res);
+  data.sendData(req, db, admin, res);
 });
 
 //--------------------------------Admin Dashboard---------------------------------//
 
-app.get("/DboardSuggestion", async function (req, res) {  
+app.get("/DboardSuggestion", async function (req, res) {
   var data = require("./Admin/DboardSuggestion.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.get("/DboardComplaint", async function (req, res) {  
+app.get("/DboardComplaint", async function (req, res) {
   var data = require("./Admin/DboardComplaint.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.get("/DboardHR", async function (req, res) {  
+app.get("/DboardHR", async function (req, res) {
   var data = require("./Admin/DboardHR.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.get("/DboardHLG", async function (req, res) {  
+app.get("/DboardHLG", async function (req, res) {
   var data = require("./Admin/DboardHLG.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
-app.get("/DboardUR", async function (req, res) {  
+app.get("/DboardUR", async function (req, res) {
   var data = require("./Admin/DboardUR.js");
-  data.getData(req,db,admin,res);
+  data.getData(req, db, admin, res);
 });
 
 //---------------------------------------------------------------------------------
@@ -294,12 +296,18 @@ app.get("/multipledocs", function (req, res) {
 //     });
 //   });
 
-  app.post("/getLifeguards", async function (req, res) {  //get training records data backend code 
-    var data = require("./headlifeguard/getLifeguards.js");
-    data.getData(req,db,admin,res);
-    console.log(data);
-  });
+app.post("/getLifeguards", async function (req, res) {
+  //get training records data backend code
+  var data = require("./headlifeguard/getLifeguards.js");
+  data.getData(req, db, admin, res);
+  console.log(data);
+});
 
+//send an email with the apk link to the lifeguard
+app.post("/sendApkEmail", function (req, res) {
+  var data = require("./headlifeguard/sendApkEmail.js");
+  data.sendData(req, db, admin, res);
+});
 
 /** routes related to the user authentication module **/
 //The route to create an instance in the resetTickets collection and send a password reset email to the user
