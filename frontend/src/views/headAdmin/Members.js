@@ -1,29 +1,28 @@
-import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import { DataGrid } from '@material-ui/data-grid';
-import Button from '@material-ui/core/Button'
-import Layout from '../../components/headAdmin/Layout';
-import { TextField } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import * as React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import { DataGrid } from "@material-ui/data-grid";
+import Button from "@material-ui/core/Button";
+import Layout from "../../components/headAdmin/Layout";
+import { TextField } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import { useState, useEffect } from "react";
 import { firestore } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext.js";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 import { deleteUser } from "../../firebase";
 import AlertDialogSlide from "../../components/headAdmin/edit_lifeguard";
 import Select from "@material-ui/core/Select";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
 
   return (
     <div
@@ -45,7 +44,7 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `nav-tab-${index}`,
-    'aria-controls': `nav-tabpanel-${index}`,
+    "aria-controls": `nav-tabpanel-${index}`,
   };
 }
 function LinkTab(props) {
@@ -59,17 +58,6 @@ function LinkTab(props) {
     />
   );
 }
-
-
-
-
-
-
-
-
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -109,22 +97,21 @@ export default function Members() {
           size="small"
           style={{ marginLeft: 16 }}
           onClick={(e) => {
-            handleClickEdit(e,params);
+            handleClickEdit(e, params);
           }}
         >
           Edit Details
         </Button>
       </strong>
-    )
-  }
+    );
+  };
 
   const columns = [
-
     {
-      field: 'id',
-      headerName: 'Employee-ID',
+      field: "id",
+      headerName: "Employee-ID",
       width: 170,
-      headerAlign: 'center',
+      headerAlign: "center",
     },
     // {
     //   field: 'username',
@@ -133,44 +120,42 @@ export default function Members() {
     //   headerAlign: 'center',
     // },
     {
-      field: 'firstName',
-      headerName: 'First name',
+      field: "firstName",
+      headerName: "First name",
       width: 150,
-      headerAlign: 'center',
+      headerAlign: "center",
     },
     {
-      field: 'lastName',
-      headerName: 'Last name',
+      field: "lastName",
+      headerName: "Last name",
       width: 150,
-      headerAlign: 'center',
+      headerAlign: "center",
     },
     {
-      field: 'birthDate',
-      headerName: 'Birthdate',
-      type: 'number',
+      field: "birthDate",
+      headerName: "Birthdate",
+      type: "number",
       width: 110,
-      align: 'left',
-      headerAlign: 'center',
+      align: "left",
+      headerAlign: "center",
     },
     {
-      field: 'Edit',
-      headerName: 'Edit',
+      field: "Edit",
+      headerName: "Edit",
       renderCell: renderDetailsButtonEdit,
       disableClickEventBubbling: true,
       width: 200,
-      align: 'center',
-      headerAlign: 'center',
-
+      align: "center",
+      headerAlign: "center",
     },
     {
-      field: 'Delete',
-      headerName: 'Delete',
+      field: "Delete",
+      headerName: "Delete",
       renderCell: renderDetailsButtonDelete,
       disableClickEventBubbling: true,
       width: 200,
-      align: 'center',
-      headerAlign: 'center',
-
+      align: "center",
+      headerAlign: "center",
     },
   ];
 
@@ -190,7 +175,7 @@ export default function Members() {
           Delete
         </Button>
       </strong>
-    )
+    );
   }
 
   let uid;
@@ -198,8 +183,8 @@ export default function Members() {
   useAuth()
     .currentUser.getIdToken(true)
     .then((idToken) => {
-      uid = idToken
-      var x = uid
+      uid = idToken;
+      var x = uid;
       console.log("orin 1", uid);
     });
   console.log("orin dsadada1", x);
@@ -211,7 +196,6 @@ export default function Members() {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data),
-
     })
       .then((res) => res.json())
       .then((data) => console.log(data));
@@ -225,7 +209,6 @@ export default function Members() {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data),
-
     })
       .then((res) => res.json())
       .then((data) => console.log(data));
@@ -236,7 +219,7 @@ export default function Members() {
 
   const handleClick = (e, cellValues) => {
     rowId = { id: cellValues.row.id, token: uid };
-    console.log('cell val', rowId);
+    console.log("cell val", rowId);
 
     // deleteUser(rowId).then(() => {
     //   console.log("deleted from auth");
@@ -244,7 +227,6 @@ export default function Members() {
     //   console.log("error deleting from auth");
     //   // ...
     // });
-
   };
 
   const { signup } = useAuth();
@@ -252,14 +234,24 @@ export default function Members() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const { fname, lname, email, NIC, birthdate, phone, certificate_level, isPilot,gender } = e.target.elements
+    const {
+      fname,
+      lname,
+      email,
+      NIC,
+      birthdate,
+      phone,
+      certificate_level,
+      isPilot,
+      gender,
+    } = e.target.elements;
     // var pilot;
     // if(isPilot.value=="true"){
     //   pilot=0
     // }
-    var pilotVal=1;
-    if(isPilot.value==0){
-      pilotVal=0;
+    var pilotVal = 1;
+    if (isPilot.value == 0) {
+      pilotVal = 0;
     }
     var formdata = {
       firstName: fname.value,
@@ -272,7 +264,6 @@ export default function Members() {
       certificateLevel: certificate_level.value,
       isPilot: Boolean(pilotVal),
       gender: gender.value,
-
     };
     //console.log(formdata.isPilot);
     //FromdataTranfer(formdata);
@@ -313,29 +304,33 @@ export default function Members() {
           }) //saving the request to headlifeguard collection
           .then((res) => {
             alert("The Lifeguard added Successfully");
-          });
+          })
+          .then((x) => {
 
-        //finally deleting the document from user request list
-        // firestore
-        //   .collection("userRequests")
-        //   .doc(request.id)
-        //   .delete()
-        //   .then((res) => {
-        //     console.log("Deleted!", res);
-        //   });
+            //perform an API call to send an app link email
+            const payload = {
+              email: request.email,
+            };
+            fetch("/sendApkEmail", {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            })
+              .then((res) => res.json())
+              .then((data) => console.log(data));
+          });
       });
 
       console.log("addLifeguard");
-
-      //if successful send an email with the password
-      //call to the backend
     } catch {
       //   setError("Failed to create an account");
     }
   };
 
   const [data1, setData1] = useState([]);
-  
+
   // useEffect(() => {
   //   fetch("/getLifeguards")
   //     .then((res) => res.json())
@@ -359,7 +354,6 @@ export default function Members() {
         })
           .then((res) => res.json()) //retrieving the request from backend
           .then((data1) => setData1(data1)); //printing it to the console
-
       } catch (err) {
         //
       }
@@ -376,18 +370,18 @@ export default function Members() {
   // });
 
   console.log(data1);
-  function openPopup(){
-    if(open){
-      return(
-      <AlertDialogSlide
-        data={passingData}
-        // participants={passingDataParticipants}
-        // trainingTimes={passingDataTrainingTimes}
-        open={open}
-        setOpen={setOpen}
-      ></AlertDialogSlide>)
+  function openPopup() {
+    if (open) {
+      return (
+        <AlertDialogSlide
+          data={passingData}
+          // participants={passingDataParticipants}
+          // trainingTimes={passingDataTrainingTimes}
+          open={open}
+          setOpen={setOpen}
+        ></AlertDialogSlide>
+      );
     }
-    
   }
 
   return (
@@ -407,9 +401,8 @@ export default function Members() {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-
           {/* Content for first column */}
-          <div style={{ height: '400px', width: '100%' }}>
+          <div style={{ height: "400px", width: "100%" }}>
             <DataGrid
               autoHeight
               rows={data1}
@@ -419,31 +412,53 @@ export default function Members() {
               disableSelectionOnClick
             />
           </div>
-
         </TabPanel>
         <TabPanel value={value} index={1}>
           <form onSubmit={handleSubmit} noValidate autoComplete="off">
-            <div style={{ marginTop: '50px', marginLeft: '50px' }}>
-
-              Please note that the default password will be allocated as the first time password.
-              <div style={{ marginTop: '50px', marginLeft: '50px' }}>
+            <div style={{ marginTop: "50px", marginLeft: "50px" }}>
+              Please note that the default password will be allocated as the
+              first time password.
+              <div style={{ marginTop: "50px", marginLeft: "50px" }}>
                 <Grid container spacing={5} autoComplete="off">
-                  <Grid item xs={5} >
-                    <TextField name="fname" label="First name" style={{ width: 300 }} />
+                  <Grid item xs={5}>
+                    <TextField
+                      name="fname"
+                      label="First name"
+                      style={{ width: 300 }}
+                    />
                   </Grid>
                   <Grid item xs={5}>
-                    <TextField name="lname" label="Last name" style={{ width: 300 }} />
+                    <TextField
+                      name="lname"
+                      label="Last name"
+                      style={{ width: 300 }}
+                    />
                   </Grid>
                   <Grid item xs={5}>
-                    <TextField name="email" id="email" label="Email" style={{ width: 300 }} />
+                    <TextField
+                      name="email"
+                      id="email"
+                      label="Email"
+                      style={{ width: 300 }}
+                    />
                   </Grid>
                   <Grid item xs={5}>
-                    <TextField name="NIC" id="Id" label="NIC Number" style={{ width: 300 }} />
+                    <TextField
+                      name="NIC"
+                      id="Id"
+                      label="NIC Number"
+                      style={{ width: 300 }}
+                    />
                   </Grid>
-                  <Grid item xs={5} >
-                    <TextField name="phone" id="phone" label="Phone Number" style={{ width: 300 }} />
+                  <Grid item xs={5}>
+                    <TextField
+                      name="phone"
+                      id="phone"
+                      label="Phone Number"
+                      style={{ width: 300 }}
+                    />
                   </Grid>
-                  <Grid item xs={5} >
+                  <Grid item xs={5}>
                     <TextField
                       required={true}
                       name="birthdate"
@@ -455,12 +470,12 @@ export default function Members() {
                     />
                   </Grid>
 
-                  <Grid item xs={5} >
+                  <Grid item xs={5}>
                     <FormControl component="fieldset">
                       <FormLabel component="legend">Is Pilot?</FormLabel>
-                      <RadioGroup row aria-label="position" name="isPilot" >
+                      <RadioGroup row aria-label="position" name="isPilot">
                         <FormControlLabel
-                          value= "1"
+                          value="1"
                           control={<Radio color="primary" />}
                           label="True"
                           labelPlacement="start"
@@ -475,10 +490,10 @@ export default function Members() {
                     </FormControl>
                   </Grid>
 
-                  <Grid item xs={5} >
+                  <Grid item xs={5}>
                     <FormControl component="fieldset">
                       <FormLabel component="legend">Gender</FormLabel>
-                      <RadioGroup row aria-label="position" name="gender" >
+                      <RadioGroup row aria-label="position" name="gender">
                         <FormControlLabel
                           value="male"
                           control={<Radio color="primary" />}
@@ -495,71 +510,70 @@ export default function Members() {
                     </FormControl>
                   </Grid>
 
-                  <Grid item xs={5} >
+                  <Grid item xs={5}>
                     {/* <TextField name="certificate_level" id="certificate_level" label="Certificate Level" style={{ width: 300 }} /> */}
 
-               
-
-                      <Typography size="12px" color="textSecondary">
-                        Certificate Level:
-                      </Typography>
+                    <Typography size="12px" color="textSecondary">
+                      Certificate Level:
+                    </Typography>
 
                     <Select
-                        name="certificate_level"
-                        native
-                        label="Certificate Level"
-                        style={{ width: "60%" }}
-                        defaultValue="Select type"
-                        inputProps={{
-                          name: "certificate_level",
-                          id: "filled-age-native-simple",
-                        }}
-                      >
-                        <option value="Beginner">Beginner</option>
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="Master">Master</option>
-                      </Select>
-              
+                      name="certificate_level"
+                      native
+                      label="Certificate Level"
+                      style={{ width: "60%" }}
+                      defaultValue="Select type"
+                      inputProps={{
+                        name: "certificate_level",
+                        id: "filled-age-native-simple",
+                      }}
+                    >
+                      <option value="Beginner">Beginner</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Master">Master</option>
+                    </Select>
                   </Grid>
                   {/* <Grid item xs={12}>
                     <TextField id="standard-secondary" label="Username" style={{ width: 300 }} />
                   </Grid> */}
                 </Grid>
-                <div style={{ marginTop: '50px', marginLeft: '50px' }}>
+                <div style={{ marginTop: "50px", marginLeft: "50px" }}>
                   <Button
-                    type="submit" value="Submit"
+                    type="submit"
+                    value="Submit"
                     variant="contained"
                     color="primary"
                     size="medium"
                     style={{ marginLeft: 485 }}
-                    onClick={() => {
-
-                    }}
+                    onClick={() => {}}
                   >
                     Create Lifeguard
                   </Button>
                 </div>
               </div>
-
             </div>
-
           </form>
         </TabPanel>
-        <div style={{ marginLeft:100 ,align:"center", paddingBottom:30 , paddingLeft: 40 }}>
-        <Grid item md={9}>
-        <Typography
-          align="center"
-           
-          size="12px"
-          color="blue"
+        <div
+          style={{
+            marginLeft: 100,
+            align: "center",
+            paddingBottom: 30,
+            paddingLeft: 40,
+          }}
         >
-          <Button variant="contained" onClick={() => window.open("dwd", "_blank")}
-            color="primary">
-            Download SoteriaX Mobile application
-          </Button>
-        </Typography>
-      </Grid>
-      </div>
+          <Grid item md={9}>
+            <Typography align="center" size="12px" color="blue">
+              <Button
+                variant="contained"
+                onClick={() => window.open("dwd", "_blank")}
+                color="primary"
+              >
+                Download SoteriaX Mobile application
+              </Button>
+            </Typography>
+          </Grid>
+        </div>
       </div>
 
       {openPopup()}
