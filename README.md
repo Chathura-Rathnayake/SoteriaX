@@ -32,7 +32,7 @@ This repository contains the source code of the Web Application. Other repositor
 ## The Project Contributors
 
  - [Shanuka Fernando](https://github.com/ShanukaNF)
- - [Harshana Edirisinghe](https://github.com/husseyhh)
+ - [Harshana Edirisinghe](https://github.com/harshanae)
  - [Iranga Mudalige](https://github.com/iranga97)
  - [Chathura Rathnayake](https://github.com/Chathura-Rathnayake)
  - [Thenuka Lawrence](https://github.com/nukezzzz)
